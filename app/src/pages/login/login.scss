@@ -1,0 +1,42 @@
+page-login {
+    ion-menu.menu-enabled.show-menu {
+        display: none;
+    }
+    p.titulo_app {
+        text-align: center;
+        font-size: 30px;
+        margin: 0;
+    }
+    ion-col.formulario.col {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+    }
+    ion-input.email.input,
+    ion-input.password.input {
+        border: 0.55px solid #ccc;
+        border-radius: 20px;
+    }
+    ion-input.email.input {
+        margin-bottom: 10px;
+    }
+    .esqueci_senha {
+        margin: 0;
+        text-align: right;
+    }
+    .button_login {
+        text-align: center;
+        align-items: center;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    .text-input-ios {
+        margin: 13px 8px;
+        padding: 0;
+        width: calc(100% - 8px - 8px);
+    }
+}

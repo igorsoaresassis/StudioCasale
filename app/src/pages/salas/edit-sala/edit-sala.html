@@ -1,0 +1,20 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>EditSala</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-grid>
+        <ion-row>
+            <ion-col col-12 class="formulario">
+                <ion-input [(ngModel)]="nome" class="nome" type="text" placeholder="Nome">{{nome}}</ion-input>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-12>
+                <button class="button_salvar" ion-button round (click)="updateSala()">Salvar</button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
