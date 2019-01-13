@@ -115,15 +115,13 @@ class UserController extends BaseController
 		$user = new User();
 		$user->FillByObject($obj);
 
-		$authData = base64_encode($user->userEmail . ':' . $user->userPassword);
-
 		$repository = new UserRepository();
-		$repository->Login($user);
+		$result = $repository->Login($user);
 
-		$_SESSION['userId'] = $user->userId;
-		$_SESSION['userName'] = $user->userName;
-		$_SESSION['authData'] = $authData;
+		$user->FillByDB($result);
 
-		ToWrappedJson(null, 'Usuário autenticado com sucesso');
+		$user->userPassword = null;
+
+		ToWrappedJson($user, 'Usuário autenticado com sucesso');
 	}
 }

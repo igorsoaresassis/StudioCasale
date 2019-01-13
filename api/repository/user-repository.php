@@ -19,8 +19,7 @@ class UserRepository extends BaseRepository
 		$stm->execute();
 		$result = $stm->fetch(PDO::FETCH_ASSOC);
 
-		$userRoomRepository = new UserRoomRepository();
-		$result['user_rooms'] = $userRoomRepository->GetByUser($userId);
+		$result['user_rooms'] = $this->GetUserRooms($userId);
 
 		return $result;
 	}
@@ -98,7 +97,12 @@ class UserRepository extends BaseRepository
 	{
 		$conn = $this->db->getConnection();
 
-		$sql = 'SELECT user_id, user_name FROM user WHERE user_email = :user_email && user_password = SHA1(:user_password)';
+		$sql = 'SELECT 
+					user_id, user_name, user_email, user_admin 
+				FROM 
+					user 
+				WHERE 
+					user_email = :user_email && user_password = SHA1(:user_password)';
 
 		$stm = $conn->prepare($sql);
 		$stm->bindParam(':user_email', $user->userEmail);
@@ -111,7 +115,9 @@ class UserRepository extends BaseRepository
 			throw new Warning('Usuário ou senha inválidos');
 		}
 
-		$user->FillByDB($result);
+		$result['user_rooms'] = $this->GetUserRooms($result['user_id']);
+
+		return $result;
 	}
 
 	private function IsAvailableUser($email, $userId = null)
@@ -132,5 +138,10 @@ class UserRepository extends BaseRepository
 		$stm->execute();
 
 		return $stm->rowCount() == 0;
+	}
+
+	private function GetUserRooms($userId) {
+		$userRoomRepository = new UserRoomRepository();
+		return $userRoomRepository->GetByUser($userId);
 	}
 }
