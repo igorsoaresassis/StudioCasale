@@ -9,6 +9,7 @@ class User
 	var $userRooms;
 	var $userAdmin = false;
 	var $userStatus;
+	var $jwtToken;
 
 	function FillByObject($obj)
 	{

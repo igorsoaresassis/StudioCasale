@@ -65,6 +65,10 @@ class EventRepository extends BaseRepository
 
 	function Update(Event &$event)
 	{
+		if (!GetLoggedUser()->userAdmin && GetLoggedUser()->userId != $event->userId) {
+			throw new Warning('Não é possível atualizar um evento cadastrado por outro usuário');
+		}
+
 		$conn = $this->db->getConnection();
 
 		if (!$this->IsAvailableSchedule($event))
@@ -92,6 +96,17 @@ class EventRepository extends BaseRepository
 
 	function Delete($eventId)
 	{
+		$event = new Event();
+		$event->FillByDB($this->GetThis($eventId));
+
+		if ($event->eventId == null) {
+			throw new Warning('Falha ao excluir. Evento inválido');
+		}
+
+		if (!GetLoggedUser()->userAdmin && GetLoggedUser()->userId != $event->userId) {
+			throw new Warning('Não é possível atualizar um evento cadastrado por outro usuário');
+		}
+
 		$conn = $this->db->getConnection();
 
 		$sql = 'DELETE FROM event WHERE event_id = :event_id';

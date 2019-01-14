@@ -10,4 +10,9 @@ define('USERNAME', 'root');
 define('PASSWORD', '');
 define('DBNAME', 'fisio_db');
 
-define('ENV', 'Dev');
+define('ENV', 'Test');
+
+define('JWT_SECRET', 'H@C$zEW%c?-Y8[[Hge634BYED');
+define('JWT_ISSUER', 'vitoriabari.com.br');
+define('JWT_AUDIENCE', 'vitoriabari.com.br');
+define('JWT_TTL', 28800);

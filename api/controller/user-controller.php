@@ -114,7 +114,7 @@ class UserController extends BaseController
 
 	function ActionUpdateStatus($userId, $userStatus) {
 		$repository = new UserRepository();
-		$result = $repository->UpdateStaus($userId, $userStatus);
+		$result = $repository->UpdateStatus($userId, $userStatus);
 
 		if (!$result)
 			throw new Warning("Falha ao inativar usuário");
@@ -144,6 +144,7 @@ class UserController extends BaseController
 		$user->FillByDB($result);
 
 		$user->userPassword = null;
+		$user->jwtToken = createJwtToken($user);
 
 		ToWrappedJson($user, 'Usuário autenticado com sucesso');
 	}

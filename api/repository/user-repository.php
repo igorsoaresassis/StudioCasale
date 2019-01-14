@@ -5,6 +5,10 @@ class UserRepository extends BaseRepository
 
 	function GetThis($userId)
 	{
+		if (!GetLoggedUser()->userAdmin && GetLoggedUser()->userId != $userId) {
+			throw new Warning('Falha ao executar ação. Nível de acesso inválido');
+		}
+
 		$conn = $this->db->getConnection();
 
 		$sql = 'SELECT 
@@ -26,6 +30,10 @@ class UserRepository extends BaseRepository
 
 	function GetList()
 	{
+		if (!GetLoggedUser()->userAdmin) {
+			throw new Warning('Falha ao executar ação. Nível de acesso inválido');
+		}
+
 		$conn = $this->db->getConnection();
 
 		$sql = 'SELECT 
@@ -42,6 +50,10 @@ class UserRepository extends BaseRepository
 
 	function Insert(User &$user)
 	{
+		if (!GetLoggedUser()->userAdmin) {
+			throw new Warning('Falha ao executar ação. Nível de acesso inválido');
+		}
+
 		if (!$this->IsAvailableUser($user->userEmail))
 			throw new Warning('E-mail já cadastrado');
 
@@ -67,6 +79,10 @@ class UserRepository extends BaseRepository
 
 	function Update(User &$user)
 	{
+		if (!GetLoggedUser()->userAdmin && GetLoggedUser()->userId != $user->userId) {
+			throw new Warning('Falha ao executar ação. Nível de acesso inválido');
+		}
+
 		if (!$this->IsAvailableUser($user->userEmail, $user->userId))
 			throw new Warning('E-mail já cadastrado');
 
@@ -93,8 +109,12 @@ class UserRepository extends BaseRepository
 		return $stm->rowCount() > 0;
 	}
 
-	function UpdateStaus($userId, $userStatus)
+	function UpdateStatus($userId, $userStatus)
 	{
+		if (!GetLoggedUser()->userAdmin) {
+			throw new Warning('Falha ao executar ação. Nível de acesso inválido');
+		}
+
 		$conn = $this->db->getConnection();
 
 		$sql = 'UPDATE user SET user_status = :user_status WHERE user_id = :user_id';

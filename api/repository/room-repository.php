@@ -40,6 +40,10 @@ class RoomRepository extends BaseRepository
 
 	function Insert(Room &$room)
 	{
+		if (!GetLoggedUser()->userAdmin) {
+			throw new Warning('Falha ao executar ação. Nível de acesso inválido');
+		}
+
 		$conn = $this->db->getConnection();
 
 		$sql = 'INSERT INTO room (room_name) VALUES (:room_name)';
@@ -55,6 +59,10 @@ class RoomRepository extends BaseRepository
 
 	function Update(Room &$room)
 	{
+		if (!GetLoggedUser()->userAdmin) {
+			throw new Warning('Falha ao executar ação. Nível de acesso inválido');
+		}
+
 		$conn = $this->db->getConnection();
 
 		$sql = 'UPDATE room SET 
@@ -71,6 +79,10 @@ class RoomRepository extends BaseRepository
 
 	function Delete($roomId)
 	{
+		if (!GetLoggedUser()->userAdmin) {
+			throw new Warning('Falha ao executar ação. Nível de acesso inválido');
+		}
+
 		$conn = $this->db->getConnection();
 
 		$sql = 'DELETE FROM room WHERE room_id = :room_id';
