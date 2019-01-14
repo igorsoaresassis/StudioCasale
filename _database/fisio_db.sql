@@ -49,7 +49,7 @@ CREATE TABLE `user` (
   `user_name` varchar(100) NOT NULL,
   `user_email` varchar(100) NOT NULL,
   `user_password` varchar(250) NOT NULL,
-  `user_admin` bit(1) NOT NULL DEFAULT b'0',
+  `user_admin` tinyint(1) NOT NULL DEFAULT '0',
   `user_register_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;

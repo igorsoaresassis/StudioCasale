@@ -21,6 +21,14 @@ class UserController extends BaseController
 					$data = file_get_contents('php://input');
 					$this->ActionUpdate($data);
 					break;
+				case 'inactivate':
+					$key = isset($_GET['key']) ? $_GET['key'] : null;
+					$this->ActionUpdateStatus($key, 0);
+					break;
+				case 'activate':
+					$key = isset($_GET['key']) ? $_GET['key'] : null;
+					$this->ActionUpdateStatus($key, 1);
+					break;
 				case 'login':
 					$data = file_get_contents('php://input');
 					$this->ActionLogin($data);
@@ -102,6 +110,21 @@ class UserController extends BaseController
 		$repository->Update($user);
 
 		ToWrappedJson($user, 'Dados atualizados com sucesso');
+	}
+
+	function ActionUpdateStatus($userId, $userStatus) {
+		$repository = new UserRepository();
+		$result = $repository->UpdateStaus($userId, $userStatus);
+
+		if (!$result)
+			throw new Warning("Falha ao inativar usuário");
+
+		$msg = "Usuário inativado com sucesso";
+
+		if ($userStatus == 1)
+			$msg = "Usuário ativado com sucesso";
+
+		ToWrappedJson("{}", $msg);
 	}
 
 	function ActionLogin($data)

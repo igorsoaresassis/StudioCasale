@@ -8,6 +8,7 @@ class User
 	var $userPassword;
 	var $userRooms;
 	var $userAdmin = false;
+	var $userStatus;
 
 	function FillByObject($obj)
 	{
@@ -26,6 +27,9 @@ class User
 		if (property_exists($obj, 'userAdmin'))
 			$this->userAdmin = $obj->userAdmin;
 
+		if (property_exists($obj, 'userStatus'))
+			$this->userStatus = $obj->userStatus;
+
 		if (property_exists($obj, 'userRooms'))
 			$this->userRooms = $obj->userRooms;
 	}
@@ -43,6 +47,9 @@ class User
 
 		if (array_key_exists('user_admin', $dbArray))
 			$this->userAdmin = $dbArray['user_admin'] == '1' ? true : false;
+
+		if (array_key_exists('user_status', $dbArray))
+			$this->userStatus = $dbArray['user_status'];
 
 		if (array_key_exists('user_rooms', $dbArray)) {
 			$this->userRooms = array();
