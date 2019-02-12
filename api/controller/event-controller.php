@@ -52,7 +52,6 @@ class EventController extends BaseController
 
 	function ActionGetList($key)
 	{
-		//key=startDate:2019-01-01|endDate:2019-01-31
 		$filter = new EventFilter();
 		$filter->Fill($key);
 
