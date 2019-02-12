@@ -11,7 +11,8 @@ class EventController extends BaseController
 					$this->ActionGetThis($key);
 					break;
 				case 'list':
-					$this->ActionGetList();
+					$key = isset($_GET['key']) ? $_GET['key'] : null;
+					$this->ActionGetList($key);
 					break;
 				case 'insert':
 					$data = file_get_contents('php://input');
@@ -49,10 +50,14 @@ class EventController extends BaseController
 		ToWrappedJson($event);
 	}
 
-	function ActionGetList()
+	function ActionGetList($key)
 	{
+		//key=startDate:2019-01-01|endDate:2019-01-31
+		$filter = new EventFilter();
+		$filter->Fill($key);
+
 		$repository = new EventRepository();
-		$result = $repository->GetList();
+		$result = $repository->GetList($filter);
 
 		$listEvent = array();
 

@@ -22,16 +22,26 @@ class EventRepository extends BaseRepository
 		return $result;
 	}
 
-	function GetList()
+	function GetList(EventFilter &$filter)
 	{
 		$conn = $this->db->getConnection();
 
 		$sql = 'SELECT 
 			   event_id, event_start_date, event_end_date, event_description, room_id, user_id
             FROM 
-                event';
+                event
+            WHERE
+            	(:ft_start_date IS NULL OR event_start_date >= :ft_start_date) AND
+            	(:ft_end_date IS NULL OR event_end_date <= :ft_end_date) AND
+            	(:ft_room_id IS NULL OR room_id = :ft_room_id) AND
+            	(:ft_user_id IS NULL OR user_id = :ft_user_id)
+            ORDER BY event_start_date';
 
 		$stm = $conn->prepare($sql);
+		$stm->bindParam(':ft_start_date', $filter->startDate);
+		$stm->bindParam(':ft_end_date', $filter->endDate);
+		$stm->bindParam(':ft_room_id', $filter->roomId);
+		$stm->bindParam(':ft_user_id', $filter->userId);
 		$stm->execute();
 		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 
