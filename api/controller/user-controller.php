@@ -33,6 +33,11 @@ class UserController extends BaseController
 					$data = file_get_contents('php://input');
 					$this->ActionLogin($data);
 					break;
+				case 'changePassword':
+					$key = isset($_GET['key']) ? $_GET['key'] : null;
+					$data = file_get_contents('php://input');
+					$this->ActionChangePassword($key, $data);
+					break;
 				default:
 					ToErrorJson('Action not found');
 			}
@@ -75,9 +80,8 @@ class UserController extends BaseController
 
 	function ActionInsert($data)
 	{
-		if (!$data) {
+		if (!$data)
 			throw new Warning('Os dados enviados são inválidos');
-		}
 
 		$obj = json_decode($data);
 
@@ -97,9 +101,8 @@ class UserController extends BaseController
 
 	function ActionUpdate($data)
 	{
-		if (!$data) {
+		if (!$data)
 			throw new Warning('Os dados enviados são inválidos');
-		}
 
 		$obj = json_decode($data);
 
@@ -125,6 +128,34 @@ class UserController extends BaseController
 			$msg = "Usuário ativado com sucesso";
 
 		ToWrappedJson("{}", $msg);
+	}
+
+	function ActionChangePassword($key, $data) {
+		if (!$data)
+			throw new Warning('Os dados enviados são inválidos');
+
+		$userId = $key ? $key : GetLoggedUser()->userId;
+		$obj = json_decode($data);
+
+		$repository = new UserRepository();
+
+		if (!GetLoggedUser()->userAdmin) {
+			if (GetLoggedUser()->userId != $userId)
+				throw new Warning('Falha ao executar ação. Nível de acesso inválido');
+
+			if (!$repository->Authenticate($userId, $obj->currentPassword))
+				throw new Warning('Falha ao alterar senha. Senha atual incorreta');
+
+			if ($obj->currentPassword == $obj->newPassword)
+				throw new Warning('Falha ao alterar senha. A nova senha deve ser diferente da senha atual');
+		}
+
+		$result = $repository->ChangePassword($userId, $obj->newPassword);
+
+		if (!$result)
+			throw new Warning("Falha ao alterar senha");
+
+		ToWrappedJson("{}", "Senha alterada com sucesso");
 	}
 
 	function ActionLogin($data)

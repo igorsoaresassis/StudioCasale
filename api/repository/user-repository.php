@@ -127,6 +127,20 @@ class UserRepository extends BaseRepository
 		return $stm->rowCount() > 0;
 	}
 
+	function ChangePassword($userId, $newPassword)
+	{
+		$conn = $this->db->getConnection();
+
+		$sql = 'UPDATE user SET user_password = SHA1(:new_password) WHERE user_id = :user_id';
+
+		$stm = $conn->prepare($sql);
+		$stm->bindParam(':user_id', $userId);
+		$stm->bindParam(':new_password', $newPassword);
+		$stm->execute();
+
+		return $stm->rowCount() > 0;
+	}
+
 	function Login(User &$user)
 	{
 		$conn = $this->db->getConnection();
@@ -157,6 +171,24 @@ class UserRepository extends BaseRepository
 		$result['user_rooms'] = $this->GetUserRooms($result['user_id']);
 
 		return $result;
+	}
+
+	function Authenticate($userId, $userPassword) {
+		$conn = $this->db->getConnection();
+
+		$sql = 'SELECT user_id FROM user 
+				WHERE 
+					user_id = :user_id AND 
+					user_password = SHA1(:user_password)';
+
+		$stm = $conn->prepare($sql);
+		$stm->bindParam(':user_id', $userId);
+		$stm->bindParam(':user_password', $userPassword);
+		$stm->execute();
+
+		$result = $stm->fetch(PDO::FETCH_ASSOC);
+
+		return $result['user_id'] != null;
 	}
 
 	private function IsAvailableUser($email, $userId = null)
