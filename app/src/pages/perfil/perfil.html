@@ -1,0 +1,35 @@
+<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+    <ion-icon name="menu"></ion-icon>
+  </button>
+        <div class="perfilsair">
+            <ion-title>Perfil</ion-title>
+            <p class="button_sair">
+                <ion-icon name="exit" (click)="sair()"></ion-icon>
+            </p>
+        </div>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+    <div class="nome-perfil">
+        <div class="letra-nome">
+            <h2 class="first">{{nome}}</h2>
+        </div>
+        <h1>{{nome}}</h1>
+    </div>
+    <ion-row>
+        <ion-col col-12 class="campos">
+            <ion-input [(ngModel)]="senhaAntiga" class="senhaAntiga" placeholder="Senha Antiga" type="password"></ion-input>
+            <ion-input [(ngModel)]="novaSenha" class="novaSenha" placeholder="Nova Senha" type="password"></ion-input>
+            <ion-input [(ngModel)]="confirmarSenha" class="confirmarSenha" placeholder="Confirmar Senha" type="password"></ion-input>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col col-12>
+            <button class="button_salvar" full ion-button round (click)="atualizarSenha()">Alterar Senha</button>
+        </ion-col>
+    </ion-row>
+</ion-content>

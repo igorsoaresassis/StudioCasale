@@ -1,17 +1,17 @@
-import { Events } from 'ionic-angular';
 import { Injectable } from '@angular/core';
 import { ServerProvider } from '../../providers/server/server';
+import { Events } from 'ionic-angular';
 import { HTTP } from '@ionic-native/http';
 
 @Injectable()
 export class SalaService {
 
-    public versao: any
+    public token;
 
     constructor(
-      public events: Events,
       private _http: HTTP,
       private _service: ServerProvider) {
+        this.token = localStorage.getItem('token');
     }
 
     listarSalas(){
@@ -21,7 +21,8 @@ export class SalaService {
         }
 
         let header = {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Authorization": this.token
         }
 
         return this._http
@@ -44,9 +45,11 @@ export class SalaService {
       }
 
       let header = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": this.token
       }
 
+      this._http.setDataSerializer('json');
       return this._http
         .post(api, data, header)
         .then(dado =>{
@@ -66,7 +69,8 @@ export class SalaService {
       }
 
       let header = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": this.token
       }
 
       return this._http
@@ -90,9 +94,11 @@ export class SalaService {
       }
 
       let header = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": this.token
       }
 
+      this._http.setDataSerializer('json');
       return this._http
         .put(api, data, header)
         .then(dado =>{
@@ -112,9 +118,11 @@ export class SalaService {
       }
 
       let header = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": this.token
       }
 
+      this._http.setDataSerializer('json');
       return this._http
         .delete(api, data, header)
         .then(dado =>{

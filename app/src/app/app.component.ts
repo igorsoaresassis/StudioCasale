@@ -1,11 +1,9 @@
-import { HomePage } from './../pages/home/home';
-import { SalasPage } from './../pages/salas/salas';
-import { AtendentesPage } from './../pages/atendentes/atendentes';
 import { LoginPage } from './../pages/login/login';
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { TabsPage } from '../pages/tabs/tabs';
 
 @Component({
   templateUrl: 'app.html'
@@ -13,21 +11,26 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = LoginPage;
+  rootPage: any = '';
+  public token;
+  public status;
+  public statusMenu;
+  showSplash = true;
 
   pages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
-    this.initializeApp();
+  constructor(public platform: Platform, public events: Events, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+    platform.ready().then(() => {
+      statusBar.overlaysWebView(false);
+      statusBar.backgroundColorByHexString('#ccc');
+      this.token = localStorage.getItem('token');
 
-    // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'Agenda', component: HomePage },
-      { title: 'Atendentes', component: AtendentesPage },
-      { title: 'Salas', component: SalasPage },
-      { title: 'Sair', component: LoginPage }
-    ];
-
+      if(this.token) {
+        this.rootPage = TabsPage
+      } else{
+        this.rootPage = LoginPage
+      }
+    });
   }
 
   initializeApp() {
@@ -37,11 +40,5 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
-  }
-
-  openPage(page) {
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
   }
 }

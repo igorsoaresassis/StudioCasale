@@ -1,0 +1,129 @@
+page-perfil {
+    .perfilsair {
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        align-items: center;
+        justify-content: space-between;
+    }
+    ion-title {
+        width: 80%;
+        flex: none !important;
+    }
+    p.button_sair {
+        width: 4%;
+        text-align: right;
+        font-size: 20px;
+        margin-right: 20px;
+        color: #195456 !important;
+    }
+    .toolbar-title {
+        text-align: center;
+    }
+    .toolbar-ios ion-title {
+        padding: 0;
+        position: relative;
+        width: 80%
+    }
+    .first {
+        margin: 0px;
+        text-align: center;
+        height: 30px;
+    }
+    h2.first::first-letter {
+        color: #fff !important;
+        font-size: 30px !important;
+    }
+    h2.first {
+        color: transparent;
+        font-size: 0;
+    }
+    .letra-nome {
+        display: flex;
+        flex-direction: row;
+        width: 70px !important;
+        height: 70px !important;
+        border-radius: 100%;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        border: 2px solid #fff;
+        background: #9F8EB9 !important;
+    }
+    .nome-perfil {
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: left;
+    }
+    .nome-perfil h1 {
+        margin-left: 10px;
+        font-weight: 100;
+        margin-top: 10px;
+    }
+    .formularioNovaSenha {
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+    }
+    .item-md {
+        padding: 0 !important;
+    }
+    ion-col.campos.col {
+        width: 100% !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+    }
+    ion-input.novaSenha.input,
+    ion-input.senhaAntiga.input,
+    ion-input.confirmarSenha.input {
+        width: 100% !important;
+        border: 0.55px solid #ccc;
+        border-radius: 30px;
+        height: 60px;
+        line-height: 35px;
+    }
+    .text-input::-moz-placeholder {
+        font-size: 15px;
+    }
+    .text-input:-ms-input-placeholder {
+        font-size: 15px;
+    }
+    .text-input::-webkit-input-placeholder {
+        font-size: 15px;
+    }
+    .text-input-md,
+    .text-input-ios {
+        margin: 15px 8px;
+        padding: 0;
+        width: calc(100% - 8px - 8px);
+    }
+    ion-input.senhaAntiga.input,
+    ion-input.novaSenha.input {
+        margin-bottom: 10px;
+    }
+    .button_salvar {
+        text-align: center;
+        align-items: center;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        margin: 0 auto;
+        border-radius: 0px;
+        -webkit-border-radius: 30px;
+        -moz-border-radius: 30px;
+        -ms-border-radius: 30px;
+        -o-border-radius: 30px;
+        height: 50px;
+        text-transform: capitalize;
+        border-radius: 30px;
+        background: #9F8EB9;
+        text-transform: uppercase;
+    }
+}

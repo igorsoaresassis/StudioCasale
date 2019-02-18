@@ -1,75 +1,87 @@
-import { EditAtendentePage } from './../pages/atendentes/edit-atendente/edit-atendente';
-import { AddSalaPage } from './../pages/salas/add-sala/add-sala';
-import { AddAtendentePage } from './../pages/atendentes/add-atendente/add-atendente';
-import { EsqueciSenhaPage } from './../pages/esqueci-senha/esqueci-senha';
-import { SalasPage } from './../pages/salas/salas';
-import { AtendentesPage } from './../pages/atendentes/atendentes';
+import { HTTP,  } from '@ionic-native/http';
+import { HttpClientModule } from '@angular/common/http';
+import { UsuarioService } from './../domain/usuario/usuario_service';
+import { LoginService } from './../domain/login/login_service';
+import { AddEventoPage } from './../pages/calendario/add-evento/add-evento';
+import { AddAtendentePage } from './../pages/atendente/add-atendente/add-atendente';
 import { LoginPage } from './../pages/login/login';
-import { HomePage } from '../pages/home/home';
-import { AddEventoPage } from '../pages/home/add-evento/add-evento';
-
+import { SalaPage } from './../pages/sala/sala';
+import { NgModule, ErrorHandler, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule, LOCALE_ID } from '@angular/core';
-import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
-
+import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
+
+import { HomePage } from '../pages/home/home';
+import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { CalendarioPage } from '../pages/calendario/calendario';
+import { AtendentePage } from '../pages/atendente/atendente';
+import { PerfilPage } from '../pages/perfil/perfil';
+import { EditSalaPage } from '../pages/sala/edit-sala/edit-sala';
+import { AddSalaPage } from '../pages/sala/add-sala/add-sala';
+import { EditAtendentePage } from '../pages/atendente/edit-atendente/edit-atendente';
+import { SalaService } from '../domain/sala/sala_service';
+import { ServerProvider } from '../providers/server/server';
 import { NgCalendarModule  } from 'ionic2-calendar';
 
-
-import { ServerProvider } from '../providers/server/server';
-
+import localePtBr from '@angular/common/locales/pt-PT';
 import { registerLocaleData } from '@angular/common';
-import ptBr from '@angular/common/locales/pt-PT';
-import { LoginService } from '../domain/login/login_service';
-import { HTTP } from '@ionic-native/http';
-import { HttpClientModule } from '../../node_modules/@angular/common/http';
-import { UsuarioService } from '../domain/usuario/usuario_service';
-import { SalaService } from '../domain/sala/sala_service';
-registerLocaleData(ptBr)
+import { NovaSenhaAtendentePage } from '../pages/atendente/nova-senha-atendente/nova-senha-atendente';
+
+registerLocaleData(localePtBr);
+
 
 @NgModule({
   declarations: [
     MyApp,
+    CalendarioPage,
+    AtendentePage,
+    SalaPage,
+    PerfilPage,
     HomePage,
-    LoginPage,
-    AtendentesPage,
-    SalasPage,
-    EsqueciSenhaPage,
-    AddAtendentePage,
+    TabsPage,
+    EditSalaPage,
     AddSalaPage,
+    LoginPage,
+    EditAtendentePage,
+    AddAtendentePage,
     AddEventoPage,
-    EditAtendentePage
+    NovaSenhaAtendentePage
   ],
   imports: [
     BrowserModule,
-    NgCalendarModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp),
+    NgCalendarModule,
+    IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    CalendarioPage,
+    AtendentePage,
+    SalaPage,
+    PerfilPage,
     HomePage,
-    LoginPage,
-    AtendentesPage,
-    SalasPage,
-    EsqueciSenhaPage,
-    AddAtendentePage,
+    TabsPage,
+    EditSalaPage,
     AddSalaPage,
+    LoginPage,
+    EditAtendentePage,
+    AddAtendentePage,
     AddEventoPage,
-    EditAtendentePage
+    NovaSenhaAtendentePage
   ],
   providers: [
     StatusBar,
     SplashScreen,
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
     LoginService,
-    UsuarioService,
     SalaService,
     HTTP,
-    {provide: LOCALE_ID, useValue: undefined },
+    UsuarioService,
+    {provide: LOCALE_ID, useValue: 'pt-PT' },
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ServerProvider
   ]

@@ -1,29 +1,22 @@
 <ion-content padding>
-    <ion-grid>
-        <br><br>
-        <ion-row>
+    <ion-grid class="login">
+        <ion-row class="logo">
             <ion-col col-12>
-                <p class="titulo_app">AppAgenda</p>
+                <ion-img class="imagem-login" src="assets/imgs/logo_login.png"></ion-img>
             </ion-col>
         </ion-row>
-        <br><br>
-        <br><br>
-        <br><br>
-        <ion-row>
-            <ion-col col-12 class="formulario">
-                <ion-input [(ngModel)]="email" class="email" placeholder="E-mail" type="email"></ion-input>
-                <ion-input [(ngModel)]="password" class="password" placeholder="Password" type="password"></ion-input>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col col-12>
-                <p class="esqueci_senha" (click)="esqueciSenha()">Esqueci a Senha</p>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col col-12>
-                <button class="button_login" ion-button round (click)="login()">Login</button>
-            </ion-col>
-        </ion-row>
+        <div class="formulario">
+            <ion-row>
+                <ion-col col-12 class="campos">
+                    <ion-input [(ngModel)]="email" class="email" placeholder="E-mail" type="email"></ion-input>
+                    <ion-input [(ngModel)]="password" class="password" placeholder="Senha" type="password"></ion-input>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col col-12>
+                    <button class="button_login" full ion-button round (click)="login()">Fazer Login</button>
+                </ion-col>
+            </ion-row>
+        </div>
     </ion-grid>
 </ion-content>

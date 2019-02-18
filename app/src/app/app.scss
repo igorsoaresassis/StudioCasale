@@ -1,16 +1,31 @@
-// http://ionicframework.com/docs/theming/
+.toolbar-title {
+    text-align: left !important;
+}
 
+.tabs-md .tab-button-icon {
+    color: #fff !important;
+}
 
-// App Global Sass
-// --------------------------------------------------
-// Put style rules here that you want to apply globally. These
-// styles are for the entire app and not just one component.
-// Additionally, this file can be also used as an entry point
-// to import other Sass files to be included in the output CSS.
-//
-// Shared Sass variables, which can be used to adjust Ionic's
-// default Sass variables, belong in "theme/variables.scss".
-//
-// To declare rules for a specific mode, create a child rule
-// for the .md, .ios, or .wp mode classes. The mode class is
-// automatically applied to the <body> element in the app.
+.tabbar {
+    background: #9F8EB9 !important;
+}
+
+.tabs-md .tab-button[aria-selected=true] .tab-button-icon {
+    color: #195456 !important;
+}
+
+.tab-button[aria-selected=true] .tab-button-text {
+    color: #195456 !important;
+}
+
+.tab-button-text {
+    color: #fff !important;
+}
+
+.toolbar-title {
+    color: #195456 !important;
+}
+
+// ionic cordova build android --release --prod
+// jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore studioCasale.keystore platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk alias_name
+// /Users/sympla/Library/Android/sdk/build-tools/28.0.0/zipalign -v 4 platforms/android/app/build/outputs/apk/release/app-release-unsigned.apk StudioCasale.apk

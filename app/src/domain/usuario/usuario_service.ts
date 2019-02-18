@@ -1,17 +1,18 @@
-import { Events } from 'ionic-angular';
 import { Injectable } from '@angular/core';
 import { ServerProvider } from '../../providers/server/server';
 import { HTTP } from '@ionic-native/http';
 
+declare var _http;
+
 @Injectable()
 export class UsuarioService {
 
-    public versao: any
+    public token;
 
     constructor(
-      public events: Events,
       private _http: HTTP,
       private _service: ServerProvider) {
+        this.token = localStorage.getItem('token');
     }
 
     adicionandoUsuario(userName, userEmail, userPassword, userRooms) {
@@ -25,9 +26,11 @@ export class UsuarioService {
       }
 
       let header = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": this.token
       }
 
+      this._http.setDataSerializer('json');
       return this._http
         .post(api, data, header)
         .then(dado =>{
@@ -47,7 +50,8 @@ export class UsuarioService {
       }
 
       let header = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": this.token
       }
 
       return this._http
@@ -69,7 +73,8 @@ export class UsuarioService {
       }
 
       let header = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": this.token
       }
 
       return this._http
@@ -96,9 +101,11 @@ export class UsuarioService {
       }
 
       let header = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": this.token
       }
 
+      this._http.setDataSerializer('json');
       return this._http
         .put(api, data, header)
         .then(dado =>{
@@ -111,26 +118,105 @@ export class UsuarioService {
         });
     }
 
-    excluirUsuario(id) {
-      let api = this._service.URL_API + "controller=user&action=delete&key=" + `${id}`;
+    inativarUsuario(id) {
+      let api = this._service.URL_API + "controller=user&action=inactivate&key=" + `${id}`;
 
       let data = {
       }
 
       let header = {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": this.token
       }
 
+      this._http.setDataSerializer('json');
       return this._http
         .delete(api, data, header)
         .then(dado =>{
-          let exluirUsuario = JSON.parse(dado.data)
-          return exluirUsuario;
+          let inativaUsuario = JSON.parse(dado.data)
+          return inativaUsuario;
         })
         .catch(error =>{
           let resposta = JSON.parse(error.error)
           return resposta;
         });
+    }
+
+    ativarUsuario(id) {
+      let api = this._service.URL_API + "controller=user&action=activate&key=" + `${id}`;
+
+      let data = {
+      }
+
+      let header = {
+        "Content-Type": "application/json",
+        "Authorization": this.token
+      }
+
+      this._http.setDataSerializer('json');
+      return this._http
+        .put(api, data, header)
+        .then(dado =>{
+          let ativarUsuario = JSON.parse(dado.data)
+          return ativarUsuario;
+        })
+        .catch(error =>{
+          let resposta = JSON.parse(error.error)
+          return resposta;
+        });
+    }
+
+    atualizarSenha(id, senha, senhaAntiga) {
+      if(id === 0){
+
+        let api = this._service.URL_API + "controller=user&action=changePassword";
+
+        let data = {
+          "currentPassword": senhaAntiga,
+          "newPassword": senha
+        }
+
+        let header = {
+          "Content-Type": "application/json",
+          "Authorization": this.token
+        }
+
+        this._http.setDataSerializer('json');
+        return this._http
+          .post(api, data, header)
+          .then(dado =>{
+            let senhaUsuario = JSON.parse(dado.data)
+            return senhaUsuario;
+          })
+          .catch(error =>{
+            let resposta = JSON.parse(error.error)
+            return resposta;
+          });
+      } else {
+        let api = this._service.URL_API + "controller=user&action=changePassword&key=" + `${id}`;
+
+        let data = {
+          "newPassword": senha
+        }
+
+        let header = {
+          "Content-Type": "application/json",
+          "Authorization": this.token
+        }
+
+        this._http.setDataSerializer('json');
+        return this._http
+          .post(api, data, header)
+          .then(dado =>{
+            let senhaUsuario = JSON.parse(dado.data)
+            return senhaUsuario;
+          })
+          .catch(error =>{
+            let resposta = JSON.parse(error.error)
+            return resposta;
+          });
+      }
+
     }
 }
 

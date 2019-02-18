@@ -6,8 +6,6 @@ import { HTTP } from '@ionic-native/http';
 @Injectable()
 export class LoginService {
 
-    public versao: any
-
     constructor(
       public events: Events,
       private _http: HTTP,
@@ -28,11 +26,22 @@ export class LoginService {
           "Content-Type": "application/json"
         }
 
+        this._http.setDataSerializer('json');
         return this._http
           .post(api, data, header)
           .then(dado =>{
-            console.log('Teste Certo' + dado);
-            let user = JSON.parse(dado.data)
+            let retorno = JSON.parse(dado.data)
+            let user
+            if(retorno.data === null) {
+              user = "Erro ao fazer login";
+            } else {
+
+              user = JSON.parse(dado.data)
+
+              this.events.publish('user', user.data.userAdmin);
+
+              localStorage.setItem('token', user.data.jwtToken);
+            }
             return user;
           })
           .catch(error =>{

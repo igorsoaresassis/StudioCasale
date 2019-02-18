@@ -1,0 +1,10 @@
+<ion-tabs>
+    <ion-tab *ngIf="statusMenu === 'true'" [root]="tab1Root" tabTitle="Home" tabIcon="home"></ion-tab>
+    <ion-tab *ngIf="statusMenu === 'true'" [root]="tab2Root" tabTitle="Calendario" tabIcon="calendar"></ion-tab>
+    <ion-tab *ngIf="statusMenu === 'true'" [root]="tab3Root" tabTitle="Atendente" tabIcon="contacts"></ion-tab>
+    <ion-tab *ngIf="statusMenu === 'true'" [root]="tab4Root" tabTitle="Sala" tabIcon="medkit"></ion-tab>
+    <ion-tab *ngIf="statusMenu === 'true'" [root]="tab5Root" tabTitle="Perfil" tabIcon="person"></ion-tab>
+    <ion-tab *ngIf="statusMenu === 'false'" [root]="tab1Root" tabTitle="Home" tabIcon="home"></ion-tab>
+    <ion-tab *ngIf="statusMenu === 'false'" [root]="tab2Root" tabTitle="Calendario" tabIcon="calendar"></ion-tab>
+    <ion-tab *ngIf="statusMenu === 'false'" [root]="tab5Root" tabTitle="Perfil" tabIcon="person"></ion-tab>
+</ion-tabs>

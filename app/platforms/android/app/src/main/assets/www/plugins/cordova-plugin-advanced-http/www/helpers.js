@@ -4,7 +4,7 @@ var cookieHandler = require(pluginId + '.cookie-handler');
 var messages = require(pluginId + '.messages');
 
 var validSerializers = [ 'urlencoded', 'json', 'utf8' ];
-var validCertModes = [ 'default', 'nocheck', 'pinned' ];
+var validCertModes = [ 'default', 'nocheck', 'pinned', 'legacy' ];
 var validHttpMethods = [ 'get', 'put', 'post', 'patch', 'head', 'delete', 'upload', 'download' ];
 
 module.exports = {
@@ -214,8 +214,6 @@ function getAllowedDataTypes(dataSerializer) {
 }
 
 function getProcessedData(data, dataSerializer) {
-  data = data || {};
-
   var currentDataType = getTypeOf(data);
   var allowedDataTypes = getAllowedDataTypes(dataSerializer);
 
@@ -249,7 +247,7 @@ function handleMissingOptions(options, globals) {
     timeout: checkTimeoutValue(options.timeout || globals.timeout),
     headers: checkHeadersObject(options.headers || {}),
     params: checkParamsObject(options.params || {}),
-    data: options.data || null,
+    data: getTypeOf(options.data) === 'Undefined' ? null : options.data,
     filePath: options.filePath || '',
     name: options.name || ''
   };

@@ -1,0 +1,20 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Adicionar Sala</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-grid>
+        <ion-row>
+            <ion-col col-12 class="formulario">
+                <ion-input class="nome" [(ngModel)]="nome" class="nome" type="text" placeholder="Nome"></ion-input>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-12>
+                <button class="button_salvar" ion-button full (click)="addSala()">Salvar</button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

@@ -3,24 +3,19 @@
         <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-        <ion-title>AppAgenda</ion-title>
+        <div class="homesair">
+            <img id="home-image" src="../../assets/imgs/logo_home.png" alt="imagenotavailable">
+            <p class="button_sair">
+                <ion-icon name="exit" (click)="sair()"></ion-icon>
+            </p>
+        </div>
     </ion-navbar>
 </ion-header>
 
-<ion-content class="has-header">
-    <div>
-        <div color="primary">
-            <ion-title>{{viewTitle}}</ion-title>
-            <ion-buttons end>
-                <button ion-button [disabled]="isToday" (click)="today()">Hoje</button>
-                <button ion-button (click)="changeMode('month')">M</button>
-                <button ion-button (click)="changeMode('week')">S</button>
-                <button ion-button (click)="changeMode('day')">D</button>
-            </ion-buttons>
-        </div>
-    </div>
-
-    <calendar [eventSource]="eventSource" [locale]="calendar.locale" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate" (onCurrentDateChanged)="onCurrentDateChanged($event)" (onEventSelected)="onEventSelected($event)" (onTitleChanged)="onViewTitleChanged($event)"
-        (onTimeSelected)="onTimeSelected($event)" startHour="8" endHour="19">
-    </calendar>
+<ion-content padding>
+    <ion-row>
+        <ion-col size="12">
+            <p class="mensagem"> Olá <b>{{nome}}</b>, você tem 00 atendimentos serem realizados essa semana</p>
+        </ion-col>
+    </ion-row>
 </ion-content>

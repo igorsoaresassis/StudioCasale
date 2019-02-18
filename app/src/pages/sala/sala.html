@@ -1,0 +1,32 @@
+<ion-header>
+    <ion-navbar>
+        <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+        <div class="adicionandosala">
+            <ion-title>Salas</ion-title>
+        </div>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-card *ngFor="let salas of sala; let i = index">
+        <ion-list>
+            <ion-item>
+                <div class="lista_salas">
+                    <div class="salas">
+                        <p (click)="editar(sala[i].roomId)" class="nome_salas">{{sala[i].roomName}}</p>
+                    </div>
+                    <div class="botao">
+                        <p class="botao_excluir" (click)="excluir(sala[i].roomId)">
+                            <ion-icon name="trash"></ion-icon>
+                        </p>
+                    </div>
+                </div>
+            </ion-item>
+        </ion-list>
+    </ion-card>
+    <p class="button_add">
+        <ion-icon name="add" (click)="addSala()"></ion-icon>
+    </p>
+</ion-content>

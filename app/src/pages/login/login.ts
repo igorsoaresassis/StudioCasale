@@ -1,8 +1,7 @@
 import { LoginService } from './../../domain/login/login_service';
-import { HomePage } from './../home/home';
 import { Component } from '@angular/core';
-import { NavController, NavParams, AlertController } from 'ionic-angular';
-import { EsqueciSenhaPage } from '../esqueci-senha/esqueci-senha';
+import { NavController, NavParams, AlertController, App, LoadingController, Events } from 'ionic-angular';
+import { TabsPage } from '../tabs/tabs';
 
 @Component({
   selector: 'page-login',
@@ -12,24 +11,28 @@ export class LoginPage {
 
   public email: string;
   public password: string;
+  public token;
 
   constructor(
     public navCtrl: NavController,
+    public appCtrl: App,
     private loginService: LoginService,
+    public events: Events,
     private _alertCtrl: AlertController,
+    public loadingCtrl: LoadingController,
     public navParams: NavParams
   ) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
-  }
-
   login() {
+    let loading = this.loadingCtrl.create({
+      content: 'Carregando...'
+    });
+    loading.present();
     this.loginService
       .efetuaLogin(this.email, this.password)
       .then(user => {
-        if(user.msg === "Action not found") {
+        if(user === "Erro ao fazer login") {
           this._alertCtrl
             .create({
               title: "Problema no login",
@@ -37,17 +40,17 @@ export class LoginPage {
               buttons: [{ text: "Ok" }]
             })
             .present();
+            loading.dismiss();
         } else {
-          this.navCtrl.setRoot(HomePage);
+          localStorage.setItem('userStatus', user.data.userAdmin)
+          localStorage.setItem('idUsuario', user.data.userId)
+          this.navCtrl.setRoot(TabsPage);
+          loading.dismiss();
         }
       })
       .catch(error => {
         console.log(error);
       })
-  }
-
-  esqueciSenha(){
-    this.navCtrl.push(EsqueciSenhaPage);
   }
 
 }

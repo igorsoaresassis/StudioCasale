@@ -1,0 +1,174 @@
+page-atendente {
+    .scroll-content {
+        padding: 0 !important;
+    }
+    .adicionandoAtendente {
+        display: flex;
+        flex-direction: row;
+        align-content: center;
+        align-items: center;
+        justify-content: center;
+    }
+    ion-title {
+        width: 100%;
+        flex: none !important;
+    }
+    p.button_add {
+        width: 50px;
+        text-align: center;
+        font-size: 25px;
+        margin: 0;
+        margin-right: 12px;
+        height: 50px;
+        background: #9F8EB9;
+        line-height: 65px;
+        color: #fff;
+        border-radius: 100%;
+        position: absolute;
+        bottom: 20px;
+        right: 2px;
+        font-weight: bold;
+    }
+    .toolbar-title {
+        text-align: center;
+    }
+    .toolbar-ios ion-title {
+        padding: 0;
+        position: relative;
+        width: 80%
+    }
+    .item-md,
+    .item-ios {
+        padding: 0 !important;
+    }
+    .item-md.item-block .item-inner,
+    .item-ios.item-block .item-inner {
+        padding: 0 !important;
+    }
+    .label-md,
+    .label-ios {
+        margin: 15px !important;
+    }
+    .list-md,
+    .list-ios {
+        margin: 0px !important;
+    }
+    .lista_atendente {
+        width: 100%;
+        height: 100%;
+    }
+    .lista_atendente {
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: space-between;
+        background: #f5f5f5;
+    }
+    .nome_atendente {
+        font-size: 18px;
+        padding-left: 20px;
+    }
+    .email_atendente {
+        font-size: 12px;
+        padding-left: 20px;
+    }
+    .botao_inativar {
+        color: #195456;
+        background: #bfe8bf;
+        font-size: 20px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-content: center;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+    }
+    .botao_ativar {
+        color: #ec5656;
+        background: #ecb1b1;
+        font-size: 20px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-content: center;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+    }
+    .botao_novaSenha {
+        color: #ccc;
+        font-size: 20px;
+    }
+    .input-wrapper {
+        border-bottom: 1px solid #aaa
+    }
+    .atendente {
+        width: 78%;
+        height: 100%;
+        display: flex;
+        align-items: start;
+        justify-content: center;
+        align-content: start;
+        flex-direction: column;
+    }
+    .label-md,
+    .label-ios {
+        margin: 0px !important;
+        height: 50px;
+    }
+    .botao_inativa_ative {
+        width: 15%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        border-left: 1px solid #aaa;
+    }
+    ion-card {
+        border-radius: 10px !important;
+        -webkit-border-radius: 10px !important;
+        -moz-border-radius: 10px !important;
+        -ms-border-radius: 10px !important;
+        -o-border-radius: 10px !important;
+    }
+    .first {
+        margin: 0px;
+        text-align: center;
+        height: 40px;
+        width: 40px;
+        line-height: 55px;
+    }
+    h2.first::first-letter {
+        color: #fff !important;
+        font-size: 20px !important;
+    }
+    h2.first {
+        color: transparent;
+        font-size: 0;
+    }
+    .letra-nome {
+        display: flex;
+        flex-direction: row;
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 100%;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        background: #9F8EB9 !important;
+        margin-left: 10px;
+    }
+    .nome-perfil {
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: left;
+    }
+    .nome-perfil h1 {
+        margin-left: 10px;
+        font-weight: 100;
+        margin-top: 10px;
+    }
+}

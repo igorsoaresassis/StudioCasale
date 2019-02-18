@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="io.ionic.starter" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>AppAgenda</name>
-    <description>An awesome Ionic/Cordova app.</description>
-    <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
+    <name>Studio Casale</name>
+    <description>App de Agenda da Studio Casale</description>
+    <author email="igorsoaresassis@hotmail.com" href="">Studio Casale</author>
     <content src="index.html" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -80,9 +80,10 @@
     <plugin name="cordova-plugin-statusbar" spec="2.4.2" />
     <plugin name="cordova-plugin-device" spec="2.0.2" />
     <plugin name="cordova-plugin-splashscreen" spec="5.0.2" />
-    <plugin name="cordova-plugin-ionic-webview" spec="^2.0.0" />
+    <plugin name="cordova-plugin-ionic-webview" spec="^3.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
-    <plugin name="cordova-plugin-advanced-http" spec="^2.0.2" />
-    <allow-navigation href="http://192.168.0.12:8100" />
-    <allow-navigation href="http://10.10.10.35:8100" />
+    <allow-navigation href="http://192.168.0.16:8100" />
+    <allow-navigation href="http://192.168.0.14:8100" />
+    <allow-navigation href="http://192.168.43.26:8100" />
+    <engine name="android" spec="~7.0.0" />
 </widget>
