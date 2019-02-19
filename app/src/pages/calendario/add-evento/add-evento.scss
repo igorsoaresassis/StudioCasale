@@ -24,4 +24,52 @@ page-add-evento {
         position: relative;
         width: 80%
     }
+    .descricao textarea {
+        margin: 0 !important;
+        font-size: 20px;
+        border: 1px solid #ccc;
+        width: 100%;
+        border-radius: 20px;
+        height: 60px;
+        line-height: 30px;
+        padding-left: 10px;
+    }
+    .item-md {
+        padding-left: 0 !important;
+    }
+    ion-select.salas.select {
+        width: 100% !important;
+        border-bottom: 0.55px solid #ccc;
+        line-height: 35px;
+        margin-left: 15px;
+    }
+    ion-select {
+        max-width: 100%
+    }
+    ion-select .item-cover {
+        height: 0;
+    }
+    .select-md {
+        padding: 10px 8px 10px 0px !important;
+    }
+    ion-item.inicio,
+    ion-item.fim,
+    ion-item.salas {
+        border: 1px solid #ccc;
+        margin-top: 10px;
+        border-radius: 20px;
+        height: 60px;
+    }
+    ion-item.inicio .label,
+    ion-item.fim .label {
+        margin: 13px 8px 13px 15px;
+    }
+    .item-block .item-inner {
+        border: none !important;
+    }
+    button.button_salvar {
+        background: #9F8EB9 !important;
+        padding: 18px !important;
+        border-radius: 20px;
+    }
 }

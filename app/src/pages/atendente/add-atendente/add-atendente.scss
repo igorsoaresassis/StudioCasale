@@ -10,12 +10,6 @@ page-add-atendente {
         height: 60px;
         line-height: 35px;
     }
-    ion-select.salas.select {
-        width: 100% !important;
-        border-bottom: 0.55px solid #ccc;
-        height: 60px;
-        line-height: 35px;
-    }
     ion-select {
         max-width: 100%
     }
@@ -24,17 +18,31 @@ page-add-atendente {
     }
     ion-input.nome.input,
     ion-input.email.input,
-    ion-input.senha.input,
-    ion-input.salas.input {
+    ion-input.senha.input {
         width: 100% !important;
         border: 0.55px solid #ccc;
         border-radius: 30px;
         height: 60px;
         line-height: 35px;
-        -webkit-border-radius: 30px;
-        -moz-border-radius: 30px;
-        -ms-border-radius: 30px;
-        -o-border-radius: 30px;
+        padding-left: 10px;
+    }
+    ion-select.salas.select {
+        width: 100% !important;
+        border: 0.55px solid #ccc;
+        border-radius: 30px;
+        height: 60px;
+        line-height: 35px;
+        padding: 15px 15px 0 15px;
+    }
+    ion-input.nome .label,
+    ion-input.email .label,
+    ion-select.senha .label {
+        margin: 13px 8px 13px 15px;
+    }
+    ion-input.email.input,
+    ion-input.senha.input,
+    ion-select.salas {
+        margin-top: 10px;
     }
     .button_salvar {
         text-align: center;

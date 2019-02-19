@@ -2,6 +2,7 @@ import { UsuarioService } from './../../domain/usuario/usuario_service';
 import { Component, OnInit } from '@angular/core';
 import { NavController, LoadingController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
+import { MyApp } from '../../app/app.component';
 
 @Component({
   selector: 'page-home',
@@ -24,8 +25,13 @@ export class HomePage {
 
     this.usuarioService.buscarAtendente(this.id)
       .then(user => {
-        this.nome = user.data.userName;
-        loading.dismiss();
+        if(user.msg === "Expired Token.") {
+          localStorage.clear();
+          this.navCtrl.setRoot(MyApp);
+        } else {
+          this.nome = user.data.userName;
+          loading.dismiss();
+        }
       })
       .catch(error => {
         console.log(error);

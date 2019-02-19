@@ -90,9 +90,6 @@ export class CalendarioPage {
             console.log("Block Date Clicked: ", event);
             let d = event.selectedTime;
             //d.setHours(0, 0, 0);
-            setTimeout(() => {
-              this.blockDayEvent(d)
-            }, 2);
           }
         },
         {
@@ -105,42 +102,9 @@ export class CalendarioPage {
     }); actionsheet.present();
   }
 
-  blockDayEvent(date) {
-    let startTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
-
-    let endTime = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
-
-    let events = this.eventSource;
-    events.push({
-      title: 'All Day ',
-      startTime: startTime,
-      endTime: endTime,
-      allDay: true
-    });
-    this.eventSource = [];
-    setTimeout(() => {
-      this.eventSource = events;
-    });
-  }
-
   addEvent() {
     let modal = this.modalCtrl.create(AddEventoPage, { selectedDay: this.selectedDay });
     modal.present();
-    modal.onDidDismiss(data => {
-      if (data) {
-        let eventData = data;
-
-        eventData.startTime = new Date(data.startTime);
-        eventData.endTime = new Date(data.endTime);
-
-        let events = this.eventSource;
-        events.push(eventData);
-        this.eventSource = [];
-        setTimeout(() => {
-          this.eventSource = events;
-        });
-      }
-    });
   }
 
   onOptionSelected($event: any) {

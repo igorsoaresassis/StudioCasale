@@ -29,6 +29,7 @@ import { NgCalendarModule  } from 'ionic2-calendar';
 import localePtBr from '@angular/common/locales/pt-PT';
 import { registerLocaleData } from '@angular/common';
 import { NovaSenhaAtendentePage } from '../pages/atendente/nova-senha-atendente/nova-senha-atendente';
+import { CalendarioService } from '../domain/calendario/calendario_service';
 
 registerLocaleData(localePtBr);
 
@@ -79,6 +80,7 @@ registerLocaleData(localePtBr);
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     LoginService,
     SalaService,
+    CalendarioService,
     HTTP,
     UsuarioService,
     {provide: LOCALE_ID, useValue: 'pt-PT' },

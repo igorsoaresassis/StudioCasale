@@ -1,3 +1,9 @@
 page-calendario {
-
+    .botao_adicionar {
+        background: #9F8EB9 !important;
+        padding: 18px !important;
+    }
+    .monthview-selected[_ngcontent-c1] {
+        background: #9F8EB9 !important;
+    }
 }
