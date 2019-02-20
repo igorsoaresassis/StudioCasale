@@ -32,6 +32,7 @@ export class CalendarioService {
           "Authorization": this.token
         }
 
+        this._http.setDataSerializer('json');
         return this._http
           .post(api, data, header)
           .then(dado =>{

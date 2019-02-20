@@ -28,6 +28,7 @@ export class HomePage {
         if(user.msg === "Expired Token.") {
           localStorage.clear();
           this.navCtrl.setRoot(MyApp);
+          loading.dismiss();
         } else {
           this.nome = user.data.userName;
           loading.dismiss();

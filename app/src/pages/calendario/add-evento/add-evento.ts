@@ -28,7 +28,6 @@ export class AddEventoPage {
     endTime: new Date().toISOString(),
     allDay: false
   };
-  minDate = new Date().toISOString();
 
 
   constructor(
@@ -91,11 +90,40 @@ export class AddEventoPage {
             });
             loading.present();
 
+            this.inicio = this.inicio.split('Z')[0];
+            this.inicio = this.inicio.split('T')[0] + ' ' + this.inicio.split('T')[1];
+
+            this.fim = this.fim.split('Z')[0];
+            this.fim = this.fim.split('T')[0] + ' ' + this.fim.split('T')[1];
 
             this.calendarioService
             .adicionarEvento(this.descricao, this.inicio, this.fim, this.salas)
               .then(user => {
-                console.log(user);
+                if(user.msg === "Evento inserido com sucesso") {
+                  this.viewCtrl.dismiss();
+                  let alert = this._alertCtrl.create({
+                    title: 'adicionado com Sucesso!',
+                    subTitle: 'Evento adicionado!'
+                  });
+                  alert.present();
+                  loading.dismiss();
+                } else if(user.msg === "Agenda indisponível. Um evento já foi cadastrado no período selecionado") {
+                  let alert = this._alertCtrl.create({
+                    title: 'Erro!',
+                    subTitle: 'Evento já cadastrado no horario selecionado',
+                    buttons: ['Ok']
+                  });
+                  alert.present();
+                  loading.dismiss();
+                } else {
+                  let alert = this._alertCtrl.create({
+                    title: 'Erro não esperado!',
+                    subTitle: 'Entre em contato com o Igor',
+                    buttons: ['Ok']
+                  });
+                  alert.present();
+                  loading.dismiss();
+                }
               })
               .catch(error => {
                 let alert = this._alertCtrl.create({
@@ -104,6 +132,7 @@ export class AddEventoPage {
                   buttons: ['Ok']
                 });
                 alert.present();
+                loading.dismiss();
               })
           }
         }

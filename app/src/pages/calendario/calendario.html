@@ -28,12 +28,18 @@
 
 <ion-content class="has-header">
     <ion-row ion-content>
-        <ion-col col-9>
+        <ion-col col-5>
             <button ion-button small class="botao_adicionar" (click)="addEvent()">Adicionar</button>
         </ion-col>
         <ion-col col-3>
             <ion-select [(ngModel)]="calendar.mode" style="max-width: 100%">
                 <ion-option (ionSelect)="onOptionSelected($event)" *ngFor="let mode of calendarModes" [value]="mode.key">{{mode.value}}
+                </ion-option>
+            </ion-select>
+        </ion-col>
+        <ion-col col-4>
+            <ion-select [(ngModel)]="salas" style="max-width: 100%">
+                <ion-option *ngFor="let salas of sala; let i = index" [value]="sala[i].roomName">{{sala[i].roomName}}
                 </ion-option>
             </ion-select>
         </ion-col>

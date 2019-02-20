@@ -17,14 +17,14 @@
                 <ion-textarea [(ngModel)]="descricao" class="descricao" placeholder="Descrição"></ion-textarea>
                 <ion-item class="inicio">
                     <ion-label>Início</ion-label>
-                    <ion-datetime [(ngModel)]="inicio" displayFormat="DD/MM/YYYY HH:mm" pickerFormat="MMM D:HH:mm:ss"></ion-datetime>
+                    <ion-datetime [(ngModel)]="inicio" displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD-MM-YYYYTHH:mmTZD"></ion-datetime>
                 </ion-item>
                 <ion-item class="fim">
                     <ion-label>Fim</ion-label>
-                    <ion-datetime [(ngModel)]="fim" displayFormat="DD/MM/YYYY HH:mm" pickerFormat="MMM D:HH:mm"></ion-datetime>
+                    <ion-datetime [(ngModel)]="fim" displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD-MM-YYYYTHH:mmTZD"></ion-datetime>
                 </ion-item>
                 <ion-item class="salas">
-                    <ion-select [(ngModel)]="salas" class="salas" placeholder="Selecione uma Sala" [selectOptions]="selectOptions" multiple="true">
+                    <ion-select [(ngModel)]="salas" class="salas" placeholder="Selecione uma Sala" [selectOptions]="selectOptions" multiple="false">
                         <div *ngFor="let salas of sala; let i = index">
                             <ion-option value="{{sala[i].roomId}}">{{sala[i].roomName}}</ion-option>
                         </div>
