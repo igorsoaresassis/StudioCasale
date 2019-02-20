@@ -135,8 +135,8 @@ class EventRepository extends BaseRepository
 		$sql = 'SELECT count(*) FROM event WHERE
 			room_id = :room_id AND 
 			(
-				:event_start_date BETWEEN event_start_date AND event_end_date OR 
-				:event_end_date BETWEEN event_start_date AND event_end_date OR
+				(:event_start_date >= event_start_date AND :event_start_date < event_end_date) OR
+				(:event_end_date > event_start_date AND :event_end_date <= event_end_date) OR
 				(
 					:event_start_date <= event_start_date AND :event_end_date >= event_end_date
 				)
