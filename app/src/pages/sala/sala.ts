@@ -10,7 +10,7 @@ import { NavController, NavParams, AlertController, LoadingController } from 'io
 })
 export class SalaPage {
 
-  public sala = [];
+  public roomList = [];
 
   constructor(
     public navCtrl: NavController,
@@ -31,8 +31,8 @@ export class SalaPage {
     this.salaService
       .listarSalas()
       .then(user => {
-        this.sala = user.data;
-        console.log(this.sala);
+        this.roomList = user.data;
+        console.log(this.roomList);
         loading.dismiss();
       })
       .catch(error => {

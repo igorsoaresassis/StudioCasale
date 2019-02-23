@@ -10,23 +10,22 @@
 </ion-header>
 
 <ion-content padding>
-    <ion-card *ngFor="let salas of sala; let i = index">
-        <ion-list>
-            <ion-item>
-                <div class="lista_salas">
-                    <div class="salas">
-                        <p (click)="editar(sala[i].roomId)" class="nome_salas">{{sala[i].roomName}}</p>
-                    </div>
-                    <div class="botao">
-                        <p class="botao_excluir" (click)="excluir(sala[i].roomId)">
-                            <ion-icon name="trash"></ion-icon>
-                        </p>
-                    </div>
-                </div>
-            </ion-item>
-        </ion-list>
-    </ion-card>
-    <p class="button_add">
-        <ion-icon name="add" (click)="addSala()"></ion-icon>
-    </p>
+    <ion-fab right bottom>
+        <button ion-fab class="fab-button" (click)="addSala()">
+            <ion-icon name="add"></ion-icon>
+        </button>
+    </ion-fab>
+    <ion-list>
+        <ion-card *ngFor="let room of roomList" class="list-card">
+            <div class="icon">
+                <span>{{ room.roomName[0] }}</span>
+            </div>
+            <div class="info" (click)="editar(room.roomId)">
+                <span class="primary">{{ room.roomName }}</span>
+            </div>
+            <div class="actions">
+                <ion-icon name="trash" (click)="excluir(room.roomId)" class="button danger"></ion-icon>
+            </div>
+        </ion-card>
+    </ion-list>
 </ion-content>
