@@ -1,41 +1,32 @@
 <ion-header>
     <ion-navbar>
         <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
+            <ion-icon name="menu"></ion-icon>
+        </button>
         <div class="adicionandoAtendente">
             <ion-title>Atendentes</ion-title>
         </div>
     </ion-navbar>
 </ion-header>
-
 <ion-content padding>
-    <ion-card *ngFor="let usuarios of usuario; let i = index">
-        <ion-list *ngIf="usuario[i].userAdmin !== true">
-            <ion-item>
-                <div class="lista_atendente">
-                    <div class="nome-perfil">
-                        <div class="letra-nome">
-                            <h2 class="first">{{usuario[i].userName}}</h2>
-                        </div>
-                    </div>
-                    <div class="atendente" (click)="editar(usuario[i].userId)">
-                        <p class="nome_atendente">{{usuario[i].userName}}</p>
-                        <p class="email_atendente">{{usuario[i].userEmail}}</p>
-                    </div>
-                    <div class="botao_inativa_ative">
-                        <p class="botao_inativar" *ngIf="usuario[i].userStatus === '1'" (click)="inativar(usuario[i].userId)">
-                            <ion-icon name="unlock"></ion-icon>
-                        </p>
-                        <p class="botao_ativar" *ngIf="usuario[i].userStatus === '0'" (click)="ativar(usuario[i].userId)">
-                            <ion-icon name="lock"></ion-icon>
-                        </p>
-                    </div>
-                </div>
-            </ion-item>
-        </ion-list>
-    </ion-card>
-    <p class="button_add">
-        <ion-icon name="add" (click)="addAtendente()"></ion-icon>
-    </p>
+    <ion-fab right bottom>
+        <button ion-fab class="fab-button" (click)="addAtendente()">
+            <ion-icon name="add"></ion-icon>
+        </button>
+    </ion-fab>
+    <ion-list>
+        <ion-card *ngFor="let user of userList" class="list-card">
+            <div class="icon">
+                <span>{{ user.userName[0] }}</span>
+            </div>
+            <div class="info" (click)="editar(user.userId)">
+                <span class="primary">{{user.userName}}</span>
+                <span class="secondary">{{user.userEmail}}</span>
+            </div>
+            <div class="actions">
+                <ion-icon name="unlock" *ngIf="user.userStatus === '1'" (click)="inativar(user.userId)" class="button success"></ion-icon>
+                <ion-icon name="lock" *ngIf="user.userStatus === '0'" (click)="ativar(user.userId)" class="button danger"></ion-icon>
+            </div>
+        </ion-card>
+    </ion-list>
 </ion-content>
