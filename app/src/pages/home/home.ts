@@ -1,6 +1,6 @@
 import { UsuarioService } from './../../domain/usuario/usuario_service';
 import { Component, OnInit } from '@angular/core';
-import { NavController, LoadingController } from 'ionic-angular';
+import { NavController, LoadingController, Events } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { MyApp } from '../../app/app.component';
 
@@ -13,8 +13,14 @@ export class HomePage {
   public id;
   public nome;
 
-  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public usuarioService: UsuarioService) {
+  constructor(
+    public navCtrl: NavController,
+    public events: Events,
+    public loadingCtrl: LoadingController,
+    public usuarioService: UsuarioService
+  ) {
     this.id = localStorage.getItem('idUsuario');
+    this.events.publish('calendar', 'true');
   }
 
   ionViewWillEnter(){
@@ -27,6 +33,7 @@ export class HomePage {
       .then(user => {
         if(user.msg === "Expired Token.") {
           localStorage.clear();
+          document.querySelector(".tabbar").setAttribute("style", "z-index:-1");
           this.navCtrl.setRoot(MyApp);
           loading.dismiss();
         } else {

@@ -45,6 +45,36 @@ export class CalendarioService {
           });
     }
 
+    editarEvento(eventId, descricao, inicio, fim, salas) {
+      let api = this._service.URL_API + "controller=event&action=update";
+
+      let data = {
+        "eventId": eventId,
+        "eventStartDate": inicio,
+        "eventEndDate": fim,
+        "eventDescription": descricao,
+        "roomId": salas,
+        "userId": this.id
+      }
+
+      let header = {
+        "Content-Type": "application/json",
+        "Authorization": this.token
+      }
+
+      this._http.setDataSerializer('json');
+      return this._http
+        .put(api, data, header)
+        .then(dado =>{
+          let editarEvento = JSON.parse(dado.data)
+          return editarEvento;
+        })
+        .catch(error =>{
+          let resposta = JSON.parse(error.error)
+          return resposta;
+        });
+    }
+
 
 }
 

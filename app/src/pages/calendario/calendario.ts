@@ -1,5 +1,6 @@
+import { EditEventoPage } from './edit-evento/edit-evento';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { NavController, ActionSheetController, ModalController, LoadingController } from 'ionic-angular';
+import { NavController, ActionSheetController, ModalController, LoadingController, Events, AlertController } from 'ionic-angular';
 import { AddEventoPage } from './add-evento/add-evento';
 
 import { CalendarComponent } from 'ionic2-calendar/calendar';
@@ -40,6 +41,8 @@ export class CalendarioPage {
   constructor(public navCtrl: NavController,
     public loadingCtrl: LoadingController,
     public salaService: SalaService,
+    private _alertCtrl: AlertController,
+    public events: Events,
     private actionSheetCtrl: ActionSheetController,
     private modalCtrl: ModalController) {
 
@@ -56,12 +59,23 @@ export class CalendarioPage {
       .listarSalas()
       .then(user => {
         this.sala = user.data;
-        console.log(this.sala);
         loading.dismiss();
       })
       .catch(error => {
         console.log(error);
       })
+
+    this.events.subscribe('calendar',(user) =>{
+      this.salaService
+        .listarSalas()
+        .then(user => {
+          this.sala = user.data;
+          loading.dismiss();
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    });
   }
 
 
@@ -133,9 +147,53 @@ export class CalendarioPage {
     modal.present();
   }
 
+  editEvent () {
+    let modal = this.modalCtrl.create(EditEventoPage, { selectedDay: this.selectedDay });
+    modal.present();
+  }
+
+  excluirEvent(id) {
+    let alert = this._alertCtrl.create({
+      title: 'Excluir Sala!',
+      message: 'Deseja excluir está sala?',
+      buttons: [
+        {
+          text: 'Não',
+          role: 'Não'
+        },
+        {
+          text: 'Sim',
+          role: 'Sim',
+          handler: () => {
+            this.salaService
+              .excluirSala(id)
+              .then(user => {
+                console.log(user);
+                this.navCtrl.setRoot(this.navCtrl.getActive().component);
+              })
+              .catch(error => {
+                let alert = this._alertCtrl.create({
+                  title: 'Erro não esperado!',
+                  subTitle: 'Entre em contato com o Igor',
+                  buttons: ['Ok']
+                });
+                alert.present();
+              })
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
   onOptionSelected($event: any) {
     console.log($event)
-    //this.calendar.mode = $event
+    this.calendar.mode = $event
+  }
+
+  onSelected($event: any) {
+    console.log($event)
+    this.calendar.mode = $event
   }
 
 }

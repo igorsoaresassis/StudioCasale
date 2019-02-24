@@ -1,3 +1,4 @@
+import { EditEventoPage } from './../pages/calendario/edit-evento/edit-evento';
 import { HTTP,  } from '@ionic-native/http';
 import { HttpClientModule } from '@angular/common/http';
 import { UsuarioService } from './../domain/usuario/usuario_service';
@@ -49,6 +50,7 @@ registerLocaleData(localePtBr);
     EditAtendentePage,
     AddAtendentePage,
     AddEventoPage,
+    EditEventoPage,
     NovaSenhaAtendentePage
   ],
   imports: [
@@ -72,6 +74,7 @@ registerLocaleData(localePtBr);
     EditAtendentePage,
     AddAtendentePage,
     AddEventoPage,
+    EditEventoPage,
     NovaSenhaAtendentePage
   ],
   providers: [
