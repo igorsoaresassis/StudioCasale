@@ -11,6 +11,7 @@ import { DayViewComponent } from 'ionic2-calendar/dayview';
 import localePtBr from '@angular/common/locales/pt-PT';
 import { registerLocaleData } from '@angular/common';
 import { SalaService } from '../../domain/sala/sala_service';
+import { CalendarioService } from '../../domain/calendario/calendario_service';
 
 registerLocaleData(localePtBr);
 
@@ -41,6 +42,7 @@ export class CalendarioPage {
   constructor(public navCtrl: NavController,
     public loadingCtrl: LoadingController,
     public salaService: SalaService,
+    public calendarioService: CalendarioService,
     private _alertCtrl: AlertController,
     public events: Events,
     private actionSheetCtrl: ActionSheetController,
@@ -65,17 +67,25 @@ export class CalendarioPage {
         console.log(error);
       })
 
-    this.events.subscribe('calendar',(user) =>{
-      this.salaService
-        .listarSalas()
-        .then(user => {
-          this.sala = user.data;
-          loading.dismiss();
-        })
-        .catch(error => {
-          console.log(error);
-        })
-    });
+      this.calendarioService
+        .buscarEvento()
+        .then((result) => {
+          console.log(result);
+        }).catch((err) => {
+          console.log(err);
+        });
+
+    // this.events.subscribe('calendar',(user) =>{
+    //   this.salaService
+    //     .listarSalas()
+    //     .then(user => {
+    //       this.sala = user.data;
+    //       loading.dismiss();
+    //     })
+    //     .catch(error => {
+    //       console.log(error);
+    //     })
+    // });
   }
 
 
@@ -154,8 +164,8 @@ export class CalendarioPage {
 
   excluirEvent(id) {
     let alert = this._alertCtrl.create({
-      title: 'Excluir Sala!',
-      message: 'Deseja excluir está sala?',
+      title: 'Excluir Evento!',
+      message: 'Deseja excluir este evento?',
       buttons: [
         {
           text: 'Não',
@@ -165,8 +175,8 @@ export class CalendarioPage {
           text: 'Sim',
           role: 'Sim',
           handler: () => {
-            this.salaService
-              .excluirSala(id)
+            this.calendarioService
+              .excluirEvento(id)
               .then(user => {
                 console.log(user);
                 this.navCtrl.setRoot(this.navCtrl.getActive().component);

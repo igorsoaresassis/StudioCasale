@@ -38,7 +38,7 @@
             </ion-select>
         </ion-col>
         <ion-col col-4>
-            <ion-select [(ngModel)]="salas" style="max-width: 100%">
+            <ion-select placeholder="Salas" [(ngModel)]="salas" style="max-width: 100%">
                 <ion-option (ionSelect)="onSelected($event)" *ngFor="let salas of sala; let i = index" [value]="sala[i].roomId">{{sala[i].roomName}}
                 </ion-option>
             </ion-select>

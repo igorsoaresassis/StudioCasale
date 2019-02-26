@@ -29,7 +29,6 @@ export class AddEventoPage {
     allDay: false
   };
 
-
   constructor(
     public navCtrl: NavController,
     public calendarioService: CalendarioService,

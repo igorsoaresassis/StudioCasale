@@ -11,8 +11,8 @@ import { CalendarioService } from '../../../domain/calendario/calendario_service
 moment.locale('pt-br');
 
 @Component({
-  selector: 'page-add-evento',
-  templateUrl: 'add-evento.html',
+  selector: 'page-edit-evento',
+  templateUrl: 'edit-evento.html',
 })
 export class EditEventoPage {
 

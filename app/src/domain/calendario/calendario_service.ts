@@ -75,6 +75,53 @@ export class CalendarioService {
         });
     }
 
+    buscarEvento() {
+      let api = this._service.URL_API + "controller=event&action=list";
+
+      let data = {
+      }
+
+      let header = {
+        "Content-Type": "application/json",
+        "Authorization": this.token
+      }
+
+      this._http.setDataSerializer('json');
+      return this._http
+        .put(api, data, header)
+        .then(dado =>{
+          let editarEvento = JSON.parse(dado.data)
+          return editarEvento;
+        })
+        .catch(error =>{
+          let resposta = JSON.parse(error.error)
+          return resposta;
+        });
+    }
+
+    excluirEvento(id) {
+      let api = this._service.URL_API + "controller=event&action=delete&key=" + `${id}`;
+
+      let data = {
+      }
+
+      let header = {
+        "Content-Type": "application/json",
+        "Authorization": this.token
+      }
+
+      this._http.setDataSerializer('json');
+      return this._http
+        .delete(api, data, header)
+        .then(dado =>{
+          let exluirSala = JSON.parse(dado.data)
+          return exluirSala;
+        })
+        .catch(error =>{
+          let resposta = JSON.parse(error.error)
+          return resposta;
+        });
+    }
 
 }
 
