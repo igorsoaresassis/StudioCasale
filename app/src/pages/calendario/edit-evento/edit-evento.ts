@@ -27,7 +27,8 @@ export class EditEventoPage {
   event = {
     startTime: new Date().toISOString(),
     endTime: new Date().toISOString(),
-    allDay: false
+    allDay: false,
+    sala: ""
   };
 
 
@@ -39,15 +40,17 @@ export class EditEventoPage {
     private _alertCtrl: AlertController,
     private navParams: NavParams,
     public viewCtrl: ViewController) {
-    let preselectedDate = moment(this.navParams.get('selectedDay')).format();
-    this.event.startTime = preselectedDate;
-    this.event.endTime = preselectedDate;
 
-    this.selectOptions = {
-      title: 'Escolha uma sala',
-      subTitle: 'É possível selecionar multiplas salas',
-      mode: 'md'
-    };
+        this.event = this.navParams.get('event');
+        let preselectedDate = moment(this.navParams.get('selectedDay')).format();
+        this.event.startTime = preselectedDate;
+        this.event.endTime = preselectedDate;
+
+        this.selectOptions = {
+          title: 'Escolha uma sala',
+          subTitle: 'É possível selecionar multiplas salas',
+          mode: 'md'
+        };
   }
 
   ionViewWillEnter() {

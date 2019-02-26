@@ -88,7 +88,7 @@ export class CalendarioService {
 
       this._http.setDataSerializer('json');
       return this._http
-        .put(api, data, header)
+        .get(api, data, header)
         .then(dado =>{
           let editarEvento = JSON.parse(dado.data)
           return editarEvento;

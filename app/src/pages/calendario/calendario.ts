@@ -71,6 +71,18 @@ export class CalendarioPage {
         .buscarEvento()
         .then((result) => {
           console.log(result);
+
+          this.eventSource = result.data.map((event) => {
+              return {
+                  title: event.eventDescription,
+                  startTime: new Date(event.eventStartDate),
+                  endTime: new Date(event.eventEndDate),
+                  allDay: false,
+                  sala: event.sala
+              }
+          })
+
+
         }).catch((err) => {
           console.log(err);
         });
@@ -97,6 +109,11 @@ export class CalendarioPage {
   }
   onEventSelected(event) {
     console.log('Event selected:' + event.startTime + '-' + event.endTime + ',' + event.title);
+
+      let modal = this.modalCtrl.create(EditEventoPage, { event: event });
+      modal.present();
+
+
   }
   changeMode(mode) {
     this.calendar.mode = mode;
