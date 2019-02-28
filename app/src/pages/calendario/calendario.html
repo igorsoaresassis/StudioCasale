@@ -49,12 +49,13 @@
     <calendar
         [monthviewEventDetailTemplate]="template"
         [eventSource]="eventSource"
-        [markDisabled]="markDisabled"
         [calendarMode]="calendar.mode"
         [currentDate]="calendar.currentDate"
+		formatDayHeader="EE"
         (onCurrentDateChanged)="onCurrentDateChanged($event)"
         (onEventSelected)="onEventSelected($event)"
         (onTitleChanged)="onViewTitleChanged($event)"
-        (onTimeSelected)="onTimeSelected($event)" step="30">
+        (onTimeSelected)="onTimeSelected($event)"
+		step="30">
     </calendar>
 </ion-content>
