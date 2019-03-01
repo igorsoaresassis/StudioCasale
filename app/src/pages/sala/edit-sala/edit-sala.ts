@@ -25,29 +25,29 @@ export class EditSalaPage {
     }
 
     saveRoom() {
-        let saving = this.loadingCtrl.create({ content: 'Salvando...'});
+        let saving = this.loadingCtrl.create({content: 'Salvando...'});
         saving.present();
 
         if (this.room.roomId) {
 
-            this.salaService.editarSala(this.room.roomId,this.room.roomName).then(response => {
+            this.salaService.editarSala(this.room.roomId, this.room.roomName).then(response => {
                 saving.dismiss();
 
                 this._alertCtrl.create({
                     title: response.msg,
                     buttons: [{text: "Ok"}]
                 })
-                .present();
+                    .present();
             })
-            .catch(error => {
-                saving.dismiss();
+                .catch(error => {
+                    saving.dismiss();
 
-                this._alertCtrl.create({
-                    title: "Falha ao atualizar sala.",
-                    buttons: [{text: "Ok"}]
+                    this._alertCtrl.create({
+                        title: "Falha ao atualizar sala.",
+                        buttons: [{text: "Ok"}]
+                    })
+                        .present();
                 })
-                .present();
-            })
         } else {
             this.salaService.adicionarSala(this.room.roomName).then(response => {
                 saving.dismiss();
@@ -60,17 +60,17 @@ export class EditSalaPage {
                     title: response.msg,
                     buttons: [{text: "Ok"}]
                 })
-                .present();
+                    .present();
             })
-            .catch(error => {
-                saving.dismiss();
+                .catch(error => {
+                    saving.dismiss();
 
-                this._alertCtrl.create({
-                    title: "Falha ao inserir sala.",
-                    buttons: [{text: "Ok"}]
+                    this._alertCtrl.create({
+                        title: "Falha ao inserir sala.",
+                        buttons: [{text: "Ok"}]
+                    })
+                        .present();
                 })
-                .present();
-            })
         }
     }
 }

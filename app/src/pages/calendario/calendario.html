@@ -17,7 +17,7 @@
 <ion-header>
     <ion-navbar>
         <button ion-button menuToggle>
-          <ion-icon name="menu"></ion-icon>
+            <ion-icon name="menu"></ion-icon>
         </button>
         <ion-title>{{viewTitle}}</ion-title>
         <ion-buttons end>
@@ -33,13 +33,15 @@
         </ion-col>
         <ion-col col-3>
             <ion-select [(ngModel)]="calendar.mode" style="max-width: 100%">
-                <ion-option (ionSelect)="onOptionSelected($event)" *ngFor="let mode of calendarModes" [value]="mode.key">{{mode.value}}
+                <ion-option (ionSelect)="onOptionSelected($event)" *ngFor="let mode of calendarModes" [value]="mode.key">
+                    {{mode.value}}
                 </ion-option>
             </ion-select>
         </ion-col>
         <ion-col col-4>
             <ion-select placeholder="Salas" [(ngModel)]="salas" style="max-width: 100%">
-                <ion-option (ionSelect)="onSelected($event)" *ngFor="let salas of sala; let i = index" [value]="sala[i].roomId">{{sala[i].roomName}}
+                <ion-option (ionSelect)="onSelected($event)" *ngFor="let salas of sala; let i = index" [value]="sala[i].roomId">
+                    {{sala[i].roomName}}
                 </ion-option>
             </ion-select>
         </ion-col>
@@ -51,11 +53,11 @@
         [eventSource]="eventSource"
         [calendarMode]="calendar.mode"
         [currentDate]="calendar.currentDate"
-		formatDayHeader="EE"
+        formatDayHeader="EE"
         (onCurrentDateChanged)="onCurrentDateChanged($event)"
         (onEventSelected)="onEventSelected($event)"
         (onTitleChanged)="onViewTitleChanged($event)"
         (onTimeSelected)="onTimeSelected($event)"
-		step="30">
+        step="30">
     </calendar>
 </ion-content>
