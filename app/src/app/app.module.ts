@@ -21,7 +21,6 @@ import { CalendarioPage } from '../pages/calendario/calendario';
 import { AtendentePage } from '../pages/atendente/atendente';
 import { PerfilPage } from '../pages/perfil/perfil';
 import { EditSalaPage } from '../pages/sala/edit-sala/edit-sala';
-import { AddSalaPage } from '../pages/sala/add-sala/add-sala';
 import { EditAtendentePage } from '../pages/atendente/edit-atendente/edit-atendente';
 import { SalaService } from '../domain/sala/sala_service';
 import { ServerProvider } from '../providers/server/server';

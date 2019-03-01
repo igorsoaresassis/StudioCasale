@@ -5,18 +5,12 @@
                 <ion-img class="imagem-login" src="assets/imgs/logo_login.png"></ion-img>
             </ion-col>
         </ion-row>
-        <div class="formulario">
-            <ion-row>
-                <ion-col col-12 class="campos">
-                    <ion-input [(ngModel)]="email" class="email" placeholder="E-mail" type="email"></ion-input>
-                    <ion-input [(ngModel)]="password" class="password" placeholder="Senha" type="password"></ion-input>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col col-12>
-                    <button class="button_login" full ion-button round (click)="login()">Fazer Login</button>
-                </ion-col>
-            </ion-row>
-        </div>
+        <ion-row>
+            <ion-col col-12 class="campos">
+                <ion-input [(ngModel)]="email" class="email" placeholder="E-mail" type="email"></ion-input>
+                <ion-input [(ngModel)]="password" class="password" placeholder="Senha" type="password"></ion-input>
+                <button full ion-button (click)="login()">Fazer Login</button>
+            </ion-col>
+        </ion-row>
     </ion-grid>
 </ion-content>

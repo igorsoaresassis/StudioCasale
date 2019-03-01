@@ -1,17 +1,11 @@
 <ion-header>
     <ion-navbar>
-        <button ion-button menuToggle>
-        <ion-icon name="menu"></ion-icon>
-      </button>
-        <div class="adicionandosala">
-            <ion-title>Salas</ion-title>
-        </div>
+        <ion-title>Salas</ion-title>
     </ion-navbar>
 </ion-header>
-
 <ion-content padding>
     <ion-fab right bottom>
-        <button ion-fab class="fab-button" (click)="addSala()">
+        <button ion-fab class="fab-button" (click)="addRoom()">
             <ion-icon name="add"></ion-icon>
         </button>
     </ion-fab>
@@ -20,7 +14,7 @@
             <div class="icon">
                 <span>{{ room.roomName[0] }}</span>
             </div>
-            <div class="info" (click)="editar(room.roomId)">
+            <div class="info" (click)="editRoom(room)">
                 <span class="primary">{{ room.roomName }}</span>
             </div>
             <div class="actions">

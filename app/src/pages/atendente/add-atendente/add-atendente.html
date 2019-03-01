@@ -6,20 +6,16 @@
 <ion-content padding>
     <ion-grid>
         <ion-row>
-            <ion-col col-12 class="formulario">
-                <ion-input [(ngModel)]="nome" class="nome" type="text" placeholder="Nome"></ion-input>
-                <ion-input [(ngModel)]="email" class="email" type="email" placeholder="E-mail"></ion-input>
-                <ion-input [(ngModel)]="senha" class="senha" type="password" placeholder="Senha"></ion-input>
-                <ion-select [(ngModel)]="salas" class="salas" placeholder="Selecione uma Sala" [selectOptions]="selectOptions" multiple="true">
+            <ion-col col-12>
+                <ion-input [(ngModel)]="nome" type="text" placeholder="Nome"></ion-input>
+                <ion-input [(ngModel)]="email" type="email" placeholder="E-mail"></ion-input>
+                <ion-input [(ngModel)]="senha" type="password" placeholder="Senha"></ion-input>
+                <ion-select [(ngModel)]="salas" placeholder="Selecione as Sala" [selectOptions]="selectOptions" multiple="true">
                     <div *ngFor="let salas of sala; let i = index">
                         <ion-option value="{{sala[i].roomId}}">{{sala[i].roomName}}</ion-option>
                     </div>
                 </ion-select>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col col-12>
-                <button class="button_salvar" ion-button full (click)="adicionarAtendente()">Salvar</button>
+                <button ion-button full (click)="adicionarAtendente()">Salvar</button>
             </ion-col>
         </ion-row>
     </ion-grid>
