@@ -9,102 +9,107 @@ import {UsuarioService} from '../../domain/usuario/usuario_service';
 })
 export class PerfilPage {
 
-    public id;
-    public nome;
-    public senha;
-    public novaSenha;
-    public confirmarSenha;
-    public senhaAntiga;
+    public user = {
+        userId: null,
+        userName: null,
+        userEmail: null
+    };
 
-    constructor(public navCtrl: NavController,
-                private _alertCtrl: AlertController,
-                public loadingCtrl: LoadingController,
-                public usuarioService: UsuarioService) {
+    public currentPassword;
+    public newPassword;
+    public passwordConfirmation;
+
+    constructor(
+        public navCtrl: NavController,
+        public alertCtrl: AlertController,
+        public loadingCtrl: LoadingController,
+        public usuarioService: UsuarioService) {
+
+        this.user.userId = localStorage.getItem('userId');
+        this.user.userName = localStorage.getItem('userName');
+        this.user.userEmail = localStorage.getItem('userEmail');
     }
 
-    ionViewWillEnter() {
-        let loading = this.loadingCtrl.create({
-            content: 'Carregando...'
-        });
-        loading.present();
+    changePasswordDialog() {
+        let alert = this.alertCtrl.create({ title: 'Erro', buttons: [{ text: "Ok" }] });
 
-        this.id = localStorage.getItem('idUsuario');
-
-        this.usuarioService.buscarAtendente(this.id)
-            .then(user => {
-                this.nome = user.data.userName;
-                loading.dismiss();
-            })
-            .catch(error => {
-                console.log(error);
-            })
-    }
-
-    atualizarSenha() {
-        if (this.novaSenha === this.confirmarSenha) {
-            let alert = this._alertCtrl.create({
-                title: 'Atualizar a senha',
-                message: 'Deseja atuatulizar a senha?',
-                buttons: [
-                    {
-                        text: 'Não',
-                        role: 'Não'
-                    },
-                    {
-                        text: 'Sim',
-                        role: 'Sim',
-                        handler: () => {
-                            this.id = 0;
-                            this.usuarioService
-                                .atualizarSenha(this.id, this.novaSenha, this.senhaAntiga)
-                                .then(user => {
-                                    if (user.msg === "Senha alterada com sucesso") {
-                                        this._alertCtrl
-                                            .create({
-                                                title: "Erro inesperado, constatar o Igor",
-                                                buttons: [{text: "Ok"}]
-                                            })
-                                            .present();
-                                        this.navCtrl.setRoot(PerfilPage);
-                                    } else if (user.msg === "Falha ao alterar senha") {
-                                        this._alertCtrl
-                                            .create({
-                                                title: "Falha, verifique a senhas e faça novamente!",
-                                                buttons: [{text: "Ok"}]
-                                            })
-                                            .present();
-                                    } else {
-                                        this._alertCtrl
-                                            .create({
-                                                title: "Erro inesperado, constatar o Igor",
-                                                buttons: [{text: "Ok"}]
-                                            })
-                                            .present();
-                                    }
-                                })
-                                .catch(error => {
-                                    console.log(error);
-                                })
-                        }
-                    }
-                ]
-            });
+        if (!this.currentPassword || !this.newPassword || !this.passwordConfirmation) {
+            alert.setMessage('Preencha todos os campos para alterar sua senha.');
             alert.present();
-        } else {
-            this._alertCtrl
-                .create({
-                    title: "Senha diferentes.",
-                    subTitle: "A senha estão diferentes!",
-                    buttons: [{text: "Ok"}]
-                })
-                .present();
+            return;
         }
+
+        if (this.newPassword !== this.passwordConfirmation) {
+            alert.setMessage('A senha e a confirmação devem ser idênticas.');
+            alert.present();
+            return;
+        }
+
+        const buttons = [
+            {
+                text: 'Não',
+                role: 'Não'
+            },
+            {
+                text: 'Sim',
+                role: 'Sim',
+                handler: () => { this.changePassword() }
+            }
+        ];
+
+        alert = this.alertCtrl.create({ title: 'Alteração de Senha', buttons: buttons });
+        alert.setMessage('Tem certeza que deseja alterar sua senha?');
+        alert.present();
     }
 
-    sair() {
+    changePassword() {
+        let alert = this.alertCtrl.create({ title: 'Sucesso', buttons: [{text: "Ok"}] });
+        let loader = this.loadingCtrl.create({ content: 'Processando...' });
+        loader.present();
+
+        this.usuarioService
+            .atualizarSenha(this.user.userId, this.newPassword, this.currentPassword)
+            .then(response => {
+                if (!response.data.hasError) {
+                    this.currentPassword = null;
+                    this.newPassword = null;
+                    this.passwordConfirmation = null;
+                }
+
+                alert.setMessage(response.msg);
+
+                loader.dismiss();
+                alert.present();
+            }).catch(() => {
+                alert.setTitle('Erro');
+                alert.setMessage('Falha ao alterar senha.');
+
+                loader.dismiss();
+                alert.present();
+            })
+    }
+
+    logoutDialog() {
+        const buttons = [
+            {
+                text: 'Não',
+                role: 'Não'
+            },
+            {
+                text: 'Sim',
+                role: 'Sim',
+                handler: () => { this.logout() }
+            }
+        ];
+
+        let alert = this.alertCtrl.create({ title: 'Logout', buttons: buttons });
+        alert.setMessage('Tem certeza que deseja sair do sistema?');
+        alert.present();
+    }
+
+    logout() {
         document.querySelector(".tabbar").setAttribute("style", "z-index:-1");
         localStorage.clear();
         this.navCtrl.setRoot(LoginPage);
     }
-
 }

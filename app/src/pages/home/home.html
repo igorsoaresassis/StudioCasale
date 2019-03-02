@@ -1,21 +1,19 @@
 <ion-header>
     <ion-navbar>
-        <button ion-button menuToggle>
-            <ion-icon name="menu"></ion-icon>
-        </button>
-        <div class="homesair">
-            <img id="home-image" src="../../assets/imgs/logo_home.png" alt="imagenotavailable">
-            <p class="button_sair">
-                <ion-icon name="exit" (click)="sair()"></ion-icon>
-            </p>
+        <div class="nav-bar-container">
+            <div class="logo-container">
+                <img id="home-image" src="../../assets/imgs/logo_home.png">
+            </div>
+            <ion-icon name="exit" class="button-exit" (click)="logoutDialog()"></ion-icon>
         </div>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
     <ion-row>
-        <ion-col size="12">
-            <p class="mensagem"> Olá <b>{{nome}}</b>, você tem 00 atendimentos serem realizados essa semana</p>
+        <ion-col col-12>
+            <h2>Bem vindo {{ getFirstName(user.userName) }}</h2>
+            <p class="mensagem">Você tem 00 atendimentos serem realizados essa semana</p>
         </ion-col>
     </ion-row>
 </ion-content>

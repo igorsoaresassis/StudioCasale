@@ -219,7 +219,25 @@ ion-select {
             color: white;
         }
     }
+}
 
+.nav-bar-container {
+    display: flex;
+    align-items: center;
+
+    ion-title {
+        flex-grow: 1;
+    }
+
+    .logo-container {
+        flex-grow: 1;
+    }
+
+    .button-exit {
+        font-size: 25px;
+        margin-right: 10px;
+        color: map-get($colors, secondary) !important;
+    }
 }
 
 // ionic cordova build android --release --prod

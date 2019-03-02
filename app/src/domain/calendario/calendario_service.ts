@@ -12,7 +12,7 @@ export class CalendarioService {
     constructor(
         private _http: HTTP,
         private _service: ServerProvider) {
-        this.id = localStorage.getItem('idUsuario');
+        this.id = localStorage.getItem('userId');
         this.token = localStorage.getItem('token');
     }
 

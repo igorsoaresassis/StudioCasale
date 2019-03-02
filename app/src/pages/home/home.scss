@@ -1,40 +1,15 @@
 page-home {
-    .homesair {
-        display: flex;
-        flex-direction: row;
-        align-content: center;
-        align-items: center;
-        justify-content: space-between;
-    }
-    ion-title {
-        width: 80%;
-        flex: none !important;
-    }
-    p.button_sair {
-        width: 4%;
-        text-align: right;
-        font-size: 20px;
-        margin-right: 20px;
-        color: #195456 !important;
-    }
-    .toolbar-title {
-        text-align: center;
-    }
-    .toolbar-ios ion-title {
-        padding: 0;
-        position: relative;
-        width: 80%
-    }
-    p.mensagem {
+
+   p.mensagem {
         font-size: 20px;
         margin: 0;
         text-align: center;
         padding: 10px;
         border: 1px solid;
     }
-    img#home-image {
-        width: 33%;
-        height: 55px;
-        margin-left: 20px;
+
+    #home-image {
+        height: 44px;
+        margin-left: 10px;
     }
 }

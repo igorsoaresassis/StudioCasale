@@ -15,42 +15,42 @@ export class LoginPage {
 
     constructor(
         public navCtrl: NavController,
-        public appCtrl: App,
         private loginService: LoginService,
         public events: Events,
-        private _alertCtrl: AlertController,
+        public alertCtrl: AlertController,
         public loadingCtrl: LoadingController,
-        public navParams: NavParams
     ) {
     }
 
     login() {
-        let loading = this.loadingCtrl.create({
-            content: 'Carregando...'
-        });
-        loading.present();
+        let loader = this.loadingCtrl.create({ content: 'Processando...' });
+        loader.present();
+
         this.loginService
             .efetuaLogin(this.email, this.password)
-            .then(user => {
-                if (user === "Erro ao fazer login") {
-                    this._alertCtrl
-                        .create({
-                            title: "Problema no login",
-                            subTitle: "Email ou senha inválidos. Tente Novamente!",
-                            buttons: [{text: "Ok"}]
-                        })
-                        .present();
-                    loading.dismiss();
-                } else {
-                    localStorage.setItem('userStatus', user.data.userAdmin)
-                    localStorage.setItem('idUsuario', user.data.userId)
-                    this.navCtrl.setRoot(TabsPage);
-                    loading.dismiss();
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            })
-    }
+            .then(response => {
+                if (!response.data.hasError) {
+                    localStorage.setItem('userId', response.data.userId);
+                    localStorage.setItem('userName', response.data.userName);
+                    localStorage.setItem('userEmail', response.data.userEmail);
+                    localStorage.setItem('userStatus', response.data.userAdmin);
+                    loader.dismiss();
 
+                    this.navCtrl.setRoot(TabsPage);
+                    return;
+                }
+
+                let alert = this.alertCtrl.create({ title: 'Erro', buttons: [{ text: "Ok" }] });
+                alert.setMessage(response.data.msg);
+
+                loader.dismiss();
+                alert.present();
+            })
+            .catch(() => {
+                let alert = this.alertCtrl.create({ title: 'Erro', buttons: [{ text: "Ok" }] });
+                alert.setMessage('Falha ao realizar login.');
+                loader.dismiss();
+                alert.present();
+            });
+    }
 }
