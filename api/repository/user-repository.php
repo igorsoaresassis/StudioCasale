@@ -6,7 +6,7 @@ class UserRepository extends BaseRepository
 	function GetThis($userId)
 	{
 		if (!GetLoggedUser()->userAdmin && GetLoggedUser()->userId != $userId) {
-			throw new Warning('Falha ao executar ação. Nível de acesso inválido');
+			throw new Warning('Nível de acesso inválido');
 		}
 
 		$conn = $this->db->getConnection();
@@ -31,7 +31,7 @@ class UserRepository extends BaseRepository
 	function GetList()
 	{
 		if (!GetLoggedUser()->userAdmin) {
-			throw new Warning('Falha ao executar ação. Nível de acesso inválido');
+			throw new Warning('Nível de acesso inválido');
 		}
 
 		$conn = $this->db->getConnection();
@@ -57,7 +57,7 @@ class UserRepository extends BaseRepository
 	function Insert(User &$user)
 	{
 		if (!GetLoggedUser()->userAdmin) {
-			throw new Warning('Falha ao executar ação. Nível de acesso inválido');
+			throw new Warning('Nível de acesso inválido');
 		}
 
 		if (!$this->IsAvailableUser($user->userEmail))
@@ -86,7 +86,7 @@ class UserRepository extends BaseRepository
 	function Update(User &$user)
 	{
 		if (!GetLoggedUser()->userAdmin && GetLoggedUser()->userId != $user->userId) {
-			throw new Warning('Falha ao executar ação. Nível de acesso inválido');
+			throw new Warning('Nível de acesso inválido');
 		}
 
 		if (!$this->IsAvailableUser($user->userEmail, $user->userId))
@@ -122,7 +122,7 @@ class UserRepository extends BaseRepository
 	function UpdateStatus($userId, $userStatus)
 	{
 		if (!GetLoggedUser()->userAdmin) {
-			throw new Warning('Falha ao executar ação. Nível de acesso inválido');
+			throw new Warning('Nível de acesso inválido');
 		}
 
 		$conn = $this->db->getConnection();

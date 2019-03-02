@@ -1,0 +1,5 @@
+export const ERROR_CODES = {
+    TOKEN_NOT_FOUND: 1001,
+    EXPIRED_TOKEN: 1002,
+    INVALID_TOKEN: 1003
+};

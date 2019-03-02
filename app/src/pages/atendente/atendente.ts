@@ -2,6 +2,7 @@ import {EditAtendentePage} from './edit-atendente/edit-atendente';
 import {UsuarioService} from './../../domain/usuario/usuario_service';
 import {Component} from '@angular/core';
 import {NavController, AlertController, LoadingController} from 'ionic-angular';
+import { showErrorAlert } from "../../app/util";
 
 @Component({
     selector: 'page-atendente',
@@ -30,16 +31,20 @@ export class AtendentePage {
         document.querySelector(".tabbar").setAttribute("style", "z-index:1");
 
         this.usuarioService
-            .listarUsuarios()
+            .list()
             .then(response => {
+                if (response.data.hasError) {
+                    loader.dismiss();
+                    showErrorAlert(this.alertCtrl, response.data.msg);
+                    return;
+                }
+
                 this.userList = response.data.filter(user => !user.userAdmin);
                 loader.dismiss();
             })
-            .catch(error => {
-                let alert = this.alertCtrl.create({ title: 'Erro', buttons: [{ text: "Ok" }] });
-                alert.setMessage('Falha ao carregar atendentes.');
+            .catch(() => {
                 loader.dismiss();
-                alert.present();
+                showErrorAlert(this.alertCtrl, 'Falha ao carregar atendentes.');
             })
     }
 
@@ -74,8 +79,14 @@ export class AtendentePage {
         loader.present();
 
         this.usuarioService
-            .inativarUsuario(userId)
+            .inactivateUser(userId)
             .then(response => {
+                if (response.data.hasError) {
+                    loader.dismiss();
+                    showErrorAlert(this.alertCtrl, response.data.msg);
+                    return;
+                }
+
                 const buttons = [
                     {
                         text: 'Ok',
@@ -90,11 +101,8 @@ export class AtendentePage {
                 alert.present();
             })
             .catch(() => {
-                let alert = this.alertCtrl.create({ title: 'Erro' });
-                alert.setMessage('Falha ao inativar atendente.');
-
                 loader.dismiss();
-                alert.present();
+                showErrorAlert(this.alertCtrl, 'Falha ao inativar atendente.');
             })
     }
 
@@ -121,8 +129,14 @@ export class AtendentePage {
         loader.present();
 
         this.usuarioService
-            .ativarUsuario(userId)
+            .activateUser(userId)
             .then(response => {
+                if (response.data.hasError) {
+                    loader.dismiss();
+                    showErrorAlert(this.alertCtrl, response.data.msg);
+                    return;
+                }
+
                 const buttons = [
                     {
                         text: 'Ok',
@@ -137,11 +151,8 @@ export class AtendentePage {
                 alert.present();
             })
             .catch(() => {
-                let alert = this.alertCtrl.create({ title: 'Erro' });
-                alert.setMessage('Falha ao ativar atendente.');
-
                 loader.dismiss();
-                alert.present();
+                showErrorAlert(this.alertCtrl, 'Falha ao ativar atendente.');
             })
     }
 }

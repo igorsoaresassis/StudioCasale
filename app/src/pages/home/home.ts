@@ -28,6 +28,10 @@ export class HomePage {
     }
 
     getFirstName(name) {
+        if (!name) {
+            return '';
+        }
+        
         return name.split(' ')[0];
     }
 

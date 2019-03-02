@@ -19,15 +19,18 @@ function CreateLog($msg)
 	fclose($handler);
 }
 
-function WrapData($data, $msg = '', $hasError = false)
+function WrapData($data, $msg = '', $hasError = false, $errorCode = null)
 {
-	$result = array('data' => $data, 'msg' => $msg, 'hasError' => $hasError);
+	$result = array('data' => $data, 'msg' => $msg, 'hasError' => $hasError, 'errorCode' => $errorCode);
 	return $result;
 }
 
 function ToJson($data)
 {
 	header('Content-type: application/json');
+	header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
+    header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
 
 	echo json_encode($data);
 	exit;
@@ -38,9 +41,9 @@ function ToWrappedJson($data, $msg = '', $hasError = false)
 	ToJson(WrapData($data, $msg, $hasError));
 }
 
-function ToErrorJson($msg)
+function ToErrorJson($msg, $errorCode = null)
 {
-	ToJson(WrapData(null, $msg, true));
+	ToJson(WrapData(null, $msg, true, $errorCode));
 }
 
 function ToExceptionJson(Exception $e)
@@ -91,7 +94,15 @@ function SaveLoggedUser($userData) {
 
 function GetLoggedUser() {
 	$loggedUser = new User();
-	$loggedUser->FillByObject($_SESSION['loggedUser']);
+
+	if (ENV != 'Dev') {
+		$loggedUser->FillByObject($_SESSION['loggedUser']);
+	} else {
+	    $loggedUser->userId = 0;
+	    $loggedUser->userName = 'Dev User';
+	    $loggedUser->userAdmin = true;
+	}
+
 	return $loggedUser;
 }
 

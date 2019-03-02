@@ -2,6 +2,7 @@ import {SalaService} from './../../../domain/sala/sala_service';
 import {UsuarioService} from './../../../domain/usuario/usuario_service';
 import {Component} from '@angular/core';
 import {NavController, NavParams, AlertController, LoadingController} from 'ionic-angular';
+import { showAlert, showErrorAlert} from "../../../app/util";
 
 @Component({
     selector: 'page-edit-atendente',
@@ -60,54 +61,51 @@ export class EditAtendentePage {
                 loader.dismiss();
             })
             .catch(error => {
-                let alert = this.alertCtrl.create({ title: 'Erro', buttons: [{ text: "Ok" }] });
-                alert.setMessage('Falha ao carregar salas.');
                 loader.dismiss();
-                alert.present();
+                showErrorAlert(this.alertCtrl, 'Falha ao carregar salas.');
             })
     }
 
     saveUser() {
-        let alert = this.alertCtrl.create({ title: 'Sucesso', buttons: [{text: "Ok"}] });
         let loader = this.loadingCtrl.create({content: 'Salvando...'});
         loader.present();
 
         if (this.user.userId) {
             this.usuarioService
-                .editartUsuario(this.user)
+                .update(this.user)
                 .then(response => {
-                    alert.setMessage(response.msg);
+                    if (response.data.hasError) {
+                        loader.dismiss();
+                        showErrorAlert(this.alertCtrl, response.data.msg);
+                        return;
+                    }
 
                     this.user.userPassword = null;
 
                     loader.dismiss();
-                    alert.present();
+                    showAlert(this.alertCtrl, response.msg);
                 }).catch(() => {
-                    alert.setTitle('Erro');
-                    alert.setMessage('Falha ao atualizar usuário.');
-
                     loader.dismiss();
-                    alert.present();
+                    showErrorAlert(this.alertCtrl, 'Falha ao atualizar usuário.');
                 })
         } else {
             this.usuarioService
-                .adicionarUsuario(this.user.userName, this.user.userEmail, this.user.userPassword, this.user.userRooms)
+                .insert(this.user.userName, this.user.userEmail, this.user.userPassword, this.user.userRooms)
                 .then(response => {
-                    if (!response.hasError) {
-                        this.user.userId = response.data.userId;
-                        this.user.userPassword = null;
+                    if (response.data.hasError) {
+                        loader.dismiss();
+                        showErrorAlert(this.alertCtrl, response.data.msg);
+                        return;
                     }
 
-                    alert.setMessage(response.msg);
+                    this.user.userId = response.data.userId;
+                    this.user.userPassword = null;
 
                     loader.dismiss();
-                    alert.present();
+                    showAlert(this.alertCtrl, response.msg);
                 }).catch(() => {
-                    alert.setTitle('Erro');
-                    alert.setMessage('Falha ao inserir usuário.');
-
-                    loader.dismiss();
-                    alert.present();
+                     loader.dismiss();
+                    showErrorAlert(this.alertCtrl, 'Falha ao inserir usuário.');
                 })
         }
     }

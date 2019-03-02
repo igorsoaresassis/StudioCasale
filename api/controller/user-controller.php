@@ -92,7 +92,7 @@ class UserController extends BaseController
 		$result = $repository->Insert($user);
 
 		if (!$result)
-			throw new Warning("Falha ao inserir usuário");
+			throw new Warning('Falha ao inserir usuário');
 
 		$user->userPassword = null;
 
@@ -120,7 +120,7 @@ class UserController extends BaseController
 		$result = $repository->UpdateStatus($userId, $userStatus);
 
 		if (!$result)
-			throw new Warning("Falha ao inativar usuário");
+			throw new Warning('Falha ao inativar usuário');
 
 		$msg = "Usuário inativado com sucesso";
 
@@ -141,19 +141,19 @@ class UserController extends BaseController
 
 		if (!GetLoggedUser()->userAdmin) {
 			if (GetLoggedUser()->userId != $userId)
-				throw new Warning('Falha ao executar ação. Nível de acesso inválido');
+				throw new Warning('Nível de acesso inválido');
 
 			if (!$repository->Authenticate($userId, $obj->currentPassword))
-				throw new Warning('Falha ao alterar senha. Senha atual incorreta');
+				throw new Warning('Senha atual incorreta');
 
 			if ($obj->currentPassword == $obj->newPassword)
-				throw new Warning('Falha ao alterar senha. A nova senha deve ser diferente da senha atual');
+				throw new Warning('A nova senha deve ser diferente da senha atual');
 		}
 
 		$result = $repository->ChangePassword($userId, $obj->newPassword);
 
 		if (!$result)
-			throw new Warning("Falha ao alterar senha");
+			throw new Warning('Falha ao alterar senha');
 
 		ToWrappedJson("{}", "Senha alterada com sucesso");
 	}

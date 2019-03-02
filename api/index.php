@@ -22,19 +22,16 @@ if (ENV != 'Dev' && ($controllerName != 'user' || $actionName != 'login')) {
 	$jwtToken = GetJwtToken();
 
 	if ($jwtToken == null) {
-		header('HTTP/1.0 401 Unauthorized');
-		ToErrorJson('Access Denied.');
+		ToErrorJson('Acesso negado.', Constants::TOKEN_NOT_FOUND);
 	}
 
 	try {
 		$jwtTokenData = JWT::decode($jwtToken, JWT_SECRET, array('HS256'));
 		SaveLoggedUser($jwtTokenData->data);
 	} catch (Firebase\JWT\ExpiredException $ex) {
-		header('HTTP/1.0 401 Unauthorized');
-		ToErrorJson('Expired Token.');
+		ToErrorJson('Token de acesso expirado.', Constants::EXPIRED_TOKEN);
 	} catch (Exception $ex) {
-		header('HTTP/1.0 401 Unauthorized');
-		ToErrorJson('Invalid Token.');
+		ToErrorJson('Token de acesso inválido.', Constants::INVALID_TOKEN);
 	}
 }
 

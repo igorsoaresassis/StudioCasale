@@ -53,7 +53,7 @@ class EventRepository extends BaseRepository
 		$conn = $this->db->getConnection();
 
 		if (!$this->IsAvailableSchedule($event))
-			throw new Warning('Agenda indisponível. Um evento já foi cadastrado no período selecionado');
+			throw new Warning('Um evento já foi cadastrado no período selecionado');
 
 		$sql = 'INSERT INTO 
 				event (event_start_date, event_end_date, event_description, room_id, user_id) 
@@ -82,7 +82,7 @@ class EventRepository extends BaseRepository
 		$conn = $this->db->getConnection();
 
 		if (!$this->IsAvailableSchedule($event))
-			throw new Warning('Agenda indisponível. Um evento já foi cadastrado no período selecionado');
+			throw new Warning('Um evento já foi cadastrado no período selecionado');
 
 		$sql = 'UPDATE event SET 
             event_start_date = :event_start_date,
@@ -110,7 +110,7 @@ class EventRepository extends BaseRepository
 		$event->FillByDB($this->GetThis($eventId));
 
 		if ($event->eventId == null) {
-			throw new Warning('Falha ao excluir. Evento inválido');
+			throw new Warning('Evento inválido');
 		}
 
 		if (!GetLoggedUser()->userAdmin && GetLoggedUser()->userId != $event->userId) {

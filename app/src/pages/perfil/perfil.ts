@@ -68,7 +68,7 @@ export class PerfilPage {
         loader.present();
 
         this.usuarioService
-            .atualizarSenha(this.user.userId, this.newPassword, this.currentPassword)
+            .changePassword(this.user.userId, this.newPassword, this.currentPassword)
             .then(response => {
                 if (!response.data.hasError) {
                     this.currentPassword = null;
