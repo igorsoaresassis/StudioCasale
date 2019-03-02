@@ -15,7 +15,7 @@ export class UsuarioService {
         this.token = localStorage.getItem('token');
     }
 
-    adicionandoUsuario(userName, userEmail, userPassword, userRooms) {
+    adicionarUsuario(userName, userEmail, userPassword, userRooms) {
         let api = this._service.URL_API + "controller=user&action=insert";
 
         let data = {
@@ -87,21 +87,21 @@ export class UsuarioService {
             });
     }
 
-
-    editartUsuario(userId, userName, userEmail, userRooms) {
+    editartUsuario(user) {
         let api = this._service.URL_API + "controller=user&action=update";
 
         let data = {
-            "userId": userId,
-            "userName": userName,
-            "userEmail": userEmail,
-            "userRooms": userRooms
-        }
+            "userId": user.userId,
+            "userName": user.userName,
+            "userEmail": user.userEmail,
+            "userPassword": user.userPassword,
+            "userRooms": user.userRooms
+        };
 
         let header = {
             "Content-Type": "application/json",
             "Authorization": this.token
-        }
+        };
 
         this._http.setDataSerializer('json');
         return this._http

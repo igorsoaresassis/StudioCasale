@@ -15,27 +15,31 @@ export class SalaPage {
         public navCtrl: NavController,
         public salaService: SalaService,
         public loadingCtrl: LoadingController,
-        private _alertCtrl: AlertController,
-        public navParams: NavParams
+        public alertCtrl: AlertController
     ) {
     }
 
     ionViewWillEnter() {
+        this.loadRooms();
+    }
+
+    loadRooms() {
+        let loader = this.loadingCtrl.create({ content: 'Carregando...' });
+        loader.present();
+
         document.querySelector(".tabbar").setAttribute("style", "z-index:1");
-        let loading = this.loadingCtrl.create({
-            content: 'Buscando...'
-        });
-        loading.present();
 
         this.salaService
             .listarSalas()
-            .then(user => {
-                this.roomList = user.data;
-                console.log(this.roomList);
-                loading.dismiss();
+            .then(response => {
+                this.roomList = response.data;
+                loader.dismiss();
             })
             .catch(error => {
-                console.log(error);
+                let alert = this.alertCtrl.create({ title: 'Erro', buttons: [{ text: "Ok" }] });
+                alert.setMessage('Falha ao carregar salas.');
+                loader.dismiss();
+                alert.present();
             })
     }
 
@@ -47,33 +51,50 @@ export class SalaPage {
         this.navCtrl.push(EditSalaPage, room);
     }
 
-    excluir(id) {
-        let alert = this._alertCtrl.create({
-            title: 'Excluir Sala!',
-            message: 'Deseja excluir está sala?',
-            buttons: [
-                {
-                    text: 'Não',
-                    role: 'Não'
-                },
-                {
-                    text: 'Sim',
-                    role: 'Sim',
-                    handler: () => {
-                        this.salaService
-                            .excluirSala(id)
-                            .then(user => {
-                                console.log(user);
-                                this.navCtrl.setRoot(this.navCtrl.getActive().component);
-                            })
-                            .catch(error => {
-                                console.log(error);
-                            })
-                    }
-                }
-            ]
-        });
+    removeRoomDialog(roomId) {
+        const buttons = [
+            {
+                text: 'Não',
+                role: 'Não'
+            },
+            {
+                text: 'Sim',
+                role: 'Sim',
+                handler: () => { this.removeRoom(roomId) }
+            }
+        ];
+
+        let alert = this.alertCtrl.create({ title: 'Exclusão de Sala', buttons: buttons });
+        alert.setMessage('Tem certeza que deseja excluir a sala?');
         alert.present();
     }
 
+    removeRoom(roomId) {
+        let loader = this.loadingCtrl.create({ content: 'Processando...' });
+        loader.present();
+
+        this.salaService
+            .excluirSala(roomId)
+            .then((response) => {
+                const buttons = [
+                    {
+                        text: 'Ok',
+                        handler: () => { this.navCtrl.setRoot(this.navCtrl.getActive().component) }
+                    }
+                ];
+
+                let alert = this.alertCtrl.create({ title: 'Sucesso', buttons: buttons });
+                alert.setMessage(response.msg);
+
+                loader.dismiss();
+                alert.present();
+            })
+            .catch(() => {
+                let alert = this.alertCtrl.create({ title: 'Erro' });
+                alert.setMessage('Falha ao remover sala.');
+
+                loader.dismiss();
+                alert.present();
+            })
+    }
 }

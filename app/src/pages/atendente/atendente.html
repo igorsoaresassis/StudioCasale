@@ -5,7 +5,7 @@
 </ion-header>
 <ion-content padding>
     <ion-fab right bottom>
-        <button ion-fab class="fab-button" (click)="addAtendente()">
+        <button ion-fab class="fab-button" (click)="addUser()">
             <ion-icon name="add"></ion-icon>
         </button>
     </ion-fab>
@@ -14,13 +14,13 @@
             <div class="icon">
                 <span>{{ user.userName[0] }}</span>
             </div>
-            <div class="info" (click)="editar(user.userId)">
-                <span class="primary">{{user.userName}}</span>
-                <span class="secondary">{{user.userEmail}}</span>
+            <div class="info" (click)="editUser(user)">
+                <span class="primary">{{ user.userName }}</span>
+                <span class="secondary">{{ user.userEmail }}</span>
             </div>
             <div class="actions">
-                <ion-icon name="unlock" *ngIf="user.userStatus === '1'" (click)="inativar(user.userId)" class="button success"></ion-icon>
-                <ion-icon name="lock" *ngIf="user.userStatus === '0'" (click)="ativar(user.userId)" class="button danger"></ion-icon>
+                <ion-icon name="unlock" *ngIf="user.userStatus === '1'" (click)="inactivateDialog(user.userId)" class="button success"></ion-icon>
+                <ion-icon name="lock" *ngIf="user.userStatus === '0'" (click)="activateDialog(user.userId)" class="button danger"></ion-icon>
             </div>
         </ion-card>
     </ion-list>

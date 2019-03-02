@@ -4,7 +4,6 @@ import {HttpClientModule} from '@angular/common/http';
 import {UsuarioService} from './../domain/usuario/usuario_service';
 import {LoginService} from './../domain/login/login_service';
 import {AddEventoPage} from './../pages/calendario/add-evento/add-evento';
-import {AddAtendentePage} from './../pages/atendente/add-atendente/add-atendente';
 import {LoginPage} from './../pages/login/login';
 import {SalaPage} from './../pages/sala/sala';
 import {NgModule, ErrorHandler, LOCALE_ID} from '@angular/core';
@@ -28,7 +27,6 @@ import {NgCalendarModule} from 'ionic2-calendar';
 
 import localePtBr from '@angular/common/locales/pt-PT';
 import {registerLocaleData} from '@angular/common';
-import {NovaSenhaAtendentePage} from '../pages/atendente/nova-senha-atendente/nova-senha-atendente';
 import {CalendarioService} from '../domain/calendario/calendario_service';
 
 registerLocaleData(localePtBr);
@@ -46,10 +44,8 @@ registerLocaleData(localePtBr);
         EditSalaPage,
         LoginPage,
         EditAtendentePage,
-        AddAtendentePage,
         AddEventoPage,
         EditEventoPage,
-        NovaSenhaAtendentePage
     ],
     imports: [
         BrowserModule,
@@ -69,10 +65,8 @@ registerLocaleData(localePtBr);
         EditSalaPage,
         LoginPage,
         EditAtendentePage,
-        AddAtendentePage,
         AddEventoPage,
-        EditEventoPage,
-        NovaSenhaAtendentePage
+        EditEventoPage
     ],
     providers: [
         StatusBar,

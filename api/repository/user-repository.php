@@ -43,7 +43,13 @@ class UserRepository extends BaseRepository
 
 		$stm = $conn->prepare($sql);
 		$stm->execute();
-		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
+		$userList = $stm->fetchAll(PDO::FETCH_ASSOC);
+
+		$result = array();
+		foreach ($userList as $user) {
+			$user['user_rooms'] = $this->GetUserRooms($user['user_id']);
+			$result[] = $user;
+		}
 
 		return $result;
 	}
@@ -104,6 +110,10 @@ class UserRepository extends BaseRepository
 
 		if ($user->userRooms) {
 			$userRoomRepository->InsertRooms($user->userId, $user->userRooms);
+		}
+
+		if ($user->userPassword) {
+		    $this->ChangePassword($user->userId, $user->userPassword);
 		}
 
 		return $stm->rowCount() > 0;

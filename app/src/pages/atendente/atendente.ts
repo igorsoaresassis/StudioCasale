@@ -1,8 +1,7 @@
 import {EditAtendentePage} from './edit-atendente/edit-atendente';
 import {UsuarioService} from './../../domain/usuario/usuario_service';
-import {AddAtendentePage} from './add-atendente/add-atendente';
 import {Component} from '@angular/core';
-import {NavController, NavParams, AlertController, LoadingController} from 'ionic-angular';
+import {NavController, AlertController, LoadingController} from 'ionic-angular';
 
 @Component({
     selector: 'page-atendente',
@@ -11,140 +10,138 @@ import {NavController, NavParams, AlertController, LoadingController} from 'ioni
 export class AtendentePage {
 
     public userList = [];
-    public inativado: boolean = true;
 
     constructor(
         public navCtrl: NavController,
-        private usuarioService: UsuarioService,
-        private _alertCtrl: AlertController,
-        public loadingCtrl: LoadingController,
-        public navParams: NavParams
+        public usuarioService: UsuarioService,
+        public alertCtrl: AlertController,
+        public loadingCtrl: LoadingController
     ) {
     }
 
     ionViewWillEnter() {
+        this.loadUsers();
+    }
+
+    loadUsers() {
+        let loader = this.loadingCtrl.create({ content: 'Carregando...' });
+        loader.present();
+
         document.querySelector(".tabbar").setAttribute("style", "z-index:1");
-        let loading = this.loadingCtrl.create({
-            content: 'Buscando...'
-        });
-        loading.present();
 
         this.usuarioService
             .listarUsuarios()
             .then(response => {
                 this.userList = response.data.filter(user => !user.userAdmin);
-                loading.dismiss();
+                loader.dismiss();
             })
             .catch(error => {
-                console.log(error);
+                let alert = this.alertCtrl.create({ title: 'Erro', buttons: [{ text: "Ok" }] });
+                alert.setMessage('Falha ao carregar atendentes.');
+                loader.dismiss();
+                alert.present();
             })
     }
 
-    addAtendente() {
-        this.navCtrl.push(AddAtendentePage);
+    addUser() {
+        this.navCtrl.push(EditAtendentePage);
     }
 
-    editar(id) {
-        this.navCtrl.push(EditAtendentePage, id);
+    editUser(user) {
+        this.navCtrl.push(EditAtendentePage, user);
     }
 
-    inativar(id) {
-        let alert = this._alertCtrl.create({
-            title: 'Inativar o Atendente!',
-            message: 'Deseja inativar este Atendente?',
-            buttons: [
-                {
-                    text: 'Não',
-                    role: 'Não'
-                },
-                {
-                    text: 'Sim',
-                    role: 'Sim',
-                    handler: () => {
-                        let loading = this.loadingCtrl.create({
-                            content: 'Carregando...'
-                        });
-                        loading.present();
+    inactivateDialog(userId) {
+        const buttons = [
+            {
+                text: 'Não',
+                role: 'Não'
+            },
+            {
+                text: 'Sim',
+                role: 'Sim',
+                handler: () => { this.inactivateUser(userId) }
+            }
+        ];
 
-                        this.usuarioService
-                            .inativarUsuario(id)
-                            .then(user => {
-                                if (user.msg === "Usuário inativado com sucesso") {
-                                    this.navCtrl.setRoot(this.navCtrl.getActive().component);
-                                    this.inativado === true;
-                                    loading.dismiss();
-                                } else {
-                                    let alert = this._alertCtrl.create({
-                                        title: 'Erro não esperado!',
-                                        subTitle: 'Entre em contato com o Igor',
-                                        buttons: ['Ok']
-                                    });
-                                    alert.present();
-                                    this.inativado === false;
-                                }
-                            })
-                            .catch(error => {
-                                let alert = this._alertCtrl.create({
-                                    title: 'Erro não esperado!',
-                                    subTitle: 'Entre em contato com o Igor',
-                                    buttons: ['Ok']
-                                });
-                                alert.present();
-                            })
-                    }
-                }
-            ]
-        });
+        let alert = this.alertCtrl.create({ title: 'Inativação de Atendente', buttons: buttons });
+        alert.setMessage('Tem certeza que deseja inativar o atendente?');
         alert.present();
     }
 
-    ativar(id) {
-        let alert = this._alertCtrl.create({
-            title: 'Ativar o Atendente!',
-            message: 'Deseja ativar este atendente?',
-            buttons: [
-                {
-                    text: 'Não',
-                    role: 'Não'
-                },
-                {
-                    text: 'Sim',
-                    role: 'Sim',
-                    handler: () => {
-                        let loading = this.loadingCtrl.create({
-                            content: 'Carregando...'
-                        });
-                        loading.present();
+    inactivateUser(userId) {
+        let loader = this.loadingCtrl.create({ content: 'Processando...' });
+        loader.present();
 
-                        this.usuarioService
-                            .ativarUsuario(id)
-                            .then(user => {
-                                if (user.msg === "Usuário ativado com sucesso") {
-                                    this.navCtrl.setRoot(this.navCtrl.getActive().component);
-                                    this.inativado === false;
-                                    loading.dismiss();
-                                } else {
-                                    let alert = this._alertCtrl.create({
-                                        title: 'Erro não esperado!',
-                                        subTitle: 'Entre em contato com o Igor',
-                                        buttons: ['Ok']
-                                    });
-                                    alert.present();
-                                    this.inativado === true;
-                                }
-                            })
-                            .catch(error => {
-                                let alert = this._alertCtrl.create({
-                                    title: 'Erro nã esperado!',
-                                    subTitle: 'Entre em contato com o Igor',
-                                    buttons: ['Ok']
-                                });
-                                alert.present();
-                            })
+        this.usuarioService
+            .inativarUsuario(userId)
+            .then(response => {
+                const buttons = [
+                    {
+                        text: 'Ok',
+                        handler: () => { this.navCtrl.setRoot(this.navCtrl.getActive().component) }
                     }
-                }
-            ]
-        });
+                ];
+
+                let alert = this.alertCtrl.create({ title: 'Sucesso', buttons: buttons });
+                alert.setMessage(response.msg);
+
+                loader.dismiss();
+                alert.present();
+            })
+            .catch(() => {
+                let alert = this.alertCtrl.create({ title: 'Erro' });
+                alert.setMessage('Falha ao inativar atendente.');
+
+                loader.dismiss();
+                alert.present();
+            })
+    }
+
+    activateDialog(userId) {
+        const buttons = [
+            {
+                text: 'Não',
+                role: 'Não'
+            },
+            {
+                text: 'Sim',
+                role: 'Sim',
+                handler: () => { this.activateUser(userId) }
+            }
+        ];
+
+        let alert = this.alertCtrl.create({ title: 'Ativação de Atendente', buttons: buttons });
+        alert.setMessage('Tem certeza que deseja ativar o atendente?');
         alert.present();
+    }
+
+    activateUser(userId) {
+        let loader = this.loadingCtrl.create({ content: 'Processando...' });
+        loader.present();
+
+        this.usuarioService
+            .ativarUsuario(userId)
+            .then(response => {
+                const buttons = [
+                    {
+                        text: 'Ok',
+                        handler: () => { this.navCtrl.setRoot(this.navCtrl.getActive().component) }
+                    }
+                ];
+
+                let alert = this.alertCtrl.create({ title: 'Sucesso', buttons: buttons });
+                alert.setMessage(response.msg);
+
+                loader.dismiss();
+                alert.present();
+            })
+            .catch(() => {
+                let alert = this.alertCtrl.create({ title: 'Erro' });
+                alert.setMessage('Falha ao ativar atendente.');
+
+                loader.dismiss();
+                alert.present();
+            })
     }
 }
