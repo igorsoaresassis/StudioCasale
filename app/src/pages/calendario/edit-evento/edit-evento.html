@@ -5,7 +5,7 @@
                 <ion-icon name="close"></ion-icon>
             </button>
         </ion-buttons>
-        <ion-title>Editar Horário</ion-title>
+        <ion-title>{{pageTitle}}</ion-title>
     </ion-navbar>
 </ion-header>
 
@@ -13,28 +13,20 @@
 <ion-content padding>
     <ion-grid>
         <ion-row>
-            <ion-col col-12 class="formulario">
-                <ion-textarea [(ngModel)]="descricao" class="descricao" placeholder="Descrição"></ion-textarea>
-                <ion-item class="inicio">
-                    <ion-label>Início</ion-label>
-                    <ion-datetime [(ngModel)]="inicio" displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD-MM-YYYYTHH:mmTZD"></ion-datetime>
-                </ion-item>
-                <ion-item class="fim">
-                    <ion-label>Fim</ion-label>
-                    <ion-datetime [(ngModel)]="fim" displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD-MM-YYYYTHH:mmTZD"></ion-datetime>
-                </ion-item>
-                <ion-item class="salas">
-                    <ion-select [(ngModel)]="salas" class="salas" placeholder="Selecione uma Sala" [selectOptions]="selectOptions" multiple="false">
-                        <div *ngFor="let salas of sala; let i = index">
-                            <ion-option value="{{sala[i].roomId}}">{{sala[i].roomName}}</ion-option>
-                        </div>
-                    </ion-select>
-                </ion-item>
+            <ion-col col-12>
+                <ion-input [(ngModel)]="descricao" class="descricao" placeholder="Descrição"></ion-input>
+                <ion-datetime placeholder="Início" [(ngModel)]="inicio" displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD-MM-YYYYTHH:mmTZD"></ion-datetime>
+                <ion-datetime placeholder="Fim" [(ngModel)]="fim" displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD-MM-YYYYTHH:mmTZD"></ion-datetime>
+                <ion-select [(ngModel)]="salas" placeholder="Selecione uma Sala" [selectOptions]="selectOptions" multiple="false">
+                    <div *ngFor="let salas of sala">
+                        <ion-option value="{{salas.roomId}}">{{salas.roomName}}</ion-option>
+                    </div>
+                </ion-select>
             </ion-col>
         </ion-row>
         <ion-row>
             <ion-col col-12>
-                <button class="button_salvar" ion-button full (click)="adicionarEvento()">Salvar</button>
+                <button class="button_salvar" ion-button full (click)="saveEvent()">Salvar</button>
             </ion-col>
         </ion-row>
     </ion-grid>

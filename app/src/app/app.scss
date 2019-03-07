@@ -1,5 +1,4 @@
 @import "../theme/variables";
-
 * {
     color: map-get($colors, dark);
 }
@@ -32,6 +31,44 @@
     color: map-get($colors, secondary) !important;
 }
 
+//datetime defaults
+ion-datetime {
+    height: 50px;
+    display: flex;
+    border: 1px solid #CCC;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    .text-input-md,
+    .text-input-ios {
+        margin: 13px 10px;
+    }
+    .text-input {
+        &::-moz-placeholder {
+            font-size: 15px;
+        }
+        &:-ms-input-placeholder {
+            font-size: 15px;
+        }
+        &::-webkit-input-placeholder {
+            font-size: 15px;
+        }
+    }
+    &.input-danger {
+        border-color: map-get($colors, danger);
+        .text-input {
+            &::-moz-placeholder {
+                color: rgba(map-get($colors, danger), 0.8);
+            }
+            &:-ms-input-placeholder {
+                color: rgba(map-get($colors, danger), 0.8);
+            }
+            &::-webkit-input-placeholder {
+                color: rgba(map-get($colors, danger), 0.8);
+            }
+        }
+    }
+}
+
 //Input defaults
 ion-input {
     height: 50px;
@@ -39,39 +76,30 @@ ion-input {
     border: 1px solid #CCC;
     border-radius: 10px;
     margin-bottom: 10px;
-
     .text-input-md,
     .text-input-ios {
         margin: 13px 10px;
     }
-
     .text-input {
-
         &::-moz-placeholder {
             font-size: 15px;
         }
-
         &:-ms-input-placeholder {
             font-size: 15px;
         }
-
         &::-webkit-input-placeholder {
             font-size: 15px;
         }
     }
-
     &.input-danger {
         border-color: map-get($colors, danger);
-
         .text-input {
             &::-moz-placeholder {
                 color: rgba(map-get($colors, danger), 0.8);
             }
-
             &:-ms-input-placeholder {
                 color: rgba(map-get($colors, danger), 0.8);
             }
-
             &::-webkit-input-placeholder {
                 color: rgba(map-get($colors, danger), 0.8);
             }
@@ -87,21 +115,18 @@ ion-select {
     border: 1px solid #CCC;
     border-radius: 10px;
     margin-bottom: 10px;
-
     &.select-md {
         padding: 0;
-
         .select-icon {
             width: 20px;
             height: 100%;
-
             .select-icon-inner {
                 left: 0;
             }
         }
     }
-
-    .select-placeholder, .select-text {
+    .select-placeholder,
+    .select-text {
         display: flex;
         align-items: center;
         margin: 13px 10px;
@@ -116,7 +141,6 @@ ion-select {
     margin: 15px auto 0;
     border-radius: 10px;
     background: map-get($colors, primary);
-
     .button-inner {
         color: white;
         text-transform: uppercase;
@@ -133,11 +157,9 @@ ion-select {
     margin: 0 0 15px !important;
     padding: 0 !important;
     box-shadow: none !important;
-
     .icon {
         display: flex;
         align-items: center;
-
         span {
             width: 45px;
             height: 45px;
@@ -153,7 +175,6 @@ ion-select {
             margin: 0 5px;
         }
     }
-
     .info {
         height: 100%;
         display: flex;
@@ -162,12 +183,10 @@ ion-select {
         flex-grow: 1;
         padding: 10px 10px;
         border-right: 1px solid map-get($colors, grey);
-
         .primary {
             font-size: 18px;
             font-weight: 500;
         }
-
         .secondary {
             font-size: 12px;
             font-weight: 300;
@@ -175,12 +194,10 @@ ion-select {
             margin-top: 3px;
         }
     }
-
     .actions {
         height: 100% !important;
         display: flex;
         align-items: center;
-
         .button {
             width: 100%;
             height: 100%;
@@ -191,12 +208,10 @@ ion-select {
             margin: 0;
             padding: 5px 15px;
         }
-
         .success {
             color: map-get($colors, success);
             background: rgba(map-get($colors, success), 0.1);
         }
-
         .danger {
             color: map-get($colors, danger);
             background: rgba(map-get($colors, danger), 0.1);
@@ -206,10 +221,8 @@ ion-select {
 
 .fab-button {
     background: map-get($colors, primary);
-
-    > * {
-
-        > * {
+    >* {
+        >* {
             width: 100%;
             height: 100%;
             display: flex;
@@ -224,15 +237,12 @@ ion-select {
 .nav-bar-container {
     display: flex;
     align-items: center;
-
     ion-title {
         flex-grow: 1;
     }
-
     .logo-container {
         flex-grow: 1;
     }
-
     .button-exit {
         font-size: 25px;
         margin-right: 10px;

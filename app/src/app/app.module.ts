@@ -3,7 +3,6 @@ import {HTTP,} from '@ionic-native/http';
 import {HttpClientModule} from '@angular/common/http';
 import {UsuarioService} from './../domain/usuario/usuario_service';
 import {LoginService} from './../domain/login/login_service';
-import {AddEventoPage} from './../pages/calendario/add-evento/add-evento';
 import {LoginPage} from './../pages/login/login';
 import {SalaPage} from './../pages/sala/sala';
 import {NgModule, ErrorHandler, LOCALE_ID} from '@angular/core';
@@ -44,7 +43,6 @@ registerLocaleData(localePtBr);
         EditSalaPage,
         LoginPage,
         EditAtendentePage,
-        AddEventoPage,
         EditEventoPage,
     ],
     imports: [
@@ -65,7 +63,6 @@ registerLocaleData(localePtBr);
         EditSalaPage,
         LoginPage,
         EditAtendentePage,
-        AddEventoPage,
         EditEventoPage
     ],
     providers: [

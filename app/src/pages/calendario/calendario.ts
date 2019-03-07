@@ -8,7 +8,6 @@ import {
     Events,
     AlertController
 } from 'ionic-angular';
-import {AddEventoPage} from './add-evento/add-evento';
 
 import {CalendarComponent} from 'ionic2-calendar/calendar';
 import {MonthViewComponent} from 'ionic2-calendar/monthview';
@@ -44,7 +43,7 @@ export class CalendarioPage {
     calendar = {
         mode: this.calendarModes[0].key,
         currentDate: new Date()
-    }; // these are the variable used by the calendar.
+    };
 
     constructor(public navCtrl: NavController,
                 public loadingCtrl: LoadingController,
@@ -97,22 +96,8 @@ export class CalendarioPage {
         // });
     }
 
-
-    loadEvents() {
-        // this.eventSource = this.createRandomEvents();
-    }
-
     onViewTitleChanged(title) {
         this.viewTitle = title;
-    }
-
-    onEventSelected(event) {
-        console.log('Event selected:' + event.startTime + '-' + event.endTime + ',' + event.title);
-
-        let modal = this.modalCtrl.create(EditEventoPage, {event: event});
-        modal.present();
-
-
     }
 
     changeMode(mode) {
@@ -175,12 +160,13 @@ export class CalendarioPage {
     }
 
     addEvent() {
-        let modal = this.modalCtrl.create(AddEventoPage, {selectedDay: this.selectedDay});
+        let modal = this.modalCtrl.create(EditEventoPage, {selectedDay: this.selectedDay});
         modal.present();
     }
 
-    editEvent() {
-        let modal = this.modalCtrl.create(EditEventoPage, {selectedDay: this.selectedDay});
+    onEventSelected(event) {
+        console.log('Event selected:' + event.startTime + '-' + event.endTime + ',' + event.title);
+        let modal = this.modalCtrl.create(EditEventoPage, {event: event});
         modal.present();
     }
 

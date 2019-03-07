@@ -28,17 +28,19 @@
 
 <ion-content class="has-header">
     <ion-row ion-content>
-        <ion-col col-5>
-            <button ion-button small class="botao_adicionar" (click)="addEvent()">Adicionar</button>
-        </ion-col>
-        <ion-col col-3>
+        <ion-fab right bottom>
+            <button ion-fab class="fab-button" (click)="addEvent()">
+              <ion-icon name="add"></ion-icon>
+          </button>
+        </ion-fab>
+        <ion-col col-6>
             <ion-select [(ngModel)]="calendar.mode" style="max-width: 100%">
                 <ion-option (ionSelect)="onOptionSelected($event)" *ngFor="let mode of calendarModes" [value]="mode.key">
                     {{mode.value}}
                 </ion-option>
             </ion-select>
         </ion-col>
-        <ion-col col-4>
+        <ion-col col-6>
             <ion-select placeholder="Salas" [(ngModel)]="salas" style="max-width: 100%">
                 <ion-option (ionSelect)="onSelected($event)" *ngFor="let salas of sala; let i = index" [value]="sala[i].roomId">
                     {{sala[i].roomName}}
@@ -48,16 +50,7 @@
     </ion-row>
     <!-- <p>{{selectedObject | json}}</p> -->
     <!-- <p>{{eventSource | json}}</p> -->
-    <calendar
-        [monthviewEventDetailTemplate]="template"
-        [eventSource]="eventSource"
-        [calendarMode]="calendar.mode"
-        [currentDate]="calendar.currentDate"
-        formatDayHeader="EE"
-        (onCurrentDateChanged)="onCurrentDateChanged($event)"
-        (onEventSelected)="onEventSelected($event)"
-        (onTitleChanged)="onViewTitleChanged($event)"
-        (onTimeSelected)="onTimeSelected($event)"
-        step="30">
+    <calendar [monthviewEventDetailTemplate]="template" [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate" formatDayHeader="EE" (onCurrentDateChanged)="onCurrentDateChanged($event)" (onEventSelected)="onEventSelected($event)"
+        (onTitleChanged)="onViewTitleChanged($event)" (onTimeSelected)="onTimeSelected($event)" step="30">
     </calendar>
 </ion-content>
