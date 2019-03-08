@@ -28,17 +28,30 @@ import {CalendarioService} from '../../domain/calendario/calendario_service';
 })
 export class CalendarioPage {
 
-    public sala = [];
-    selectedDay = new Date()
-    selectedObject
-    eventSource = []
+    eventList = [];
+    roomList = [];
+    selectedRoom = null;
+    selectedDay = new Date();
+
+    modesSelectOptions = {
+        title: 'Modo de Visualização',
+        mode: 'md'
+    };
+
+    roomSelectOptions = {
+        title: 'Salas',
+        mode: 'md'
+    };
+
+    calendarModes = [
+        { key: 'month', value: 'Mês' },
+        { key: 'week', value: 'Semana' },
+        { key: 'day', value: 'Dia' },
+    ];
+
+    selectedObject;
     viewTitle;
     isToday: boolean;
-    calendarModes = [
-        {key: 'month', value: 'Mês'},
-        {key: 'week', value: 'Semana'},
-        {key: 'day', value: 'Dia'},
-    ]
 
     calendar = {
         mode: this.calendarModes[0].key,
@@ -59,41 +72,30 @@ export class CalendarioPage {
 
     async ionViewWillEnter() {
         let loading = this.loadingCtrl.create({
-            content: 'Buscando...'
+            content: 'Carregando...'
         });
 
         loading.present();
 
-        this.salaService.listarSalas().then(response => {
-            this.sala = response.data;
+        this.salaService.list().then(response => {
+            this.roomList = response.data;
 
             this.calendarioService.buscarEvento().then(response => {
-                this.eventSource = response.data.map((event) => {
+
+                this.eventList = response.data.map((event) => {
                     return {
+                        eventId: event.eventId,
                         title: event.eventDescription,
                         startTime: new Date(event.eventStartDate),
                         endTime: new Date(event.eventEndDate),
                         allDay: false,
-                        sala: event.sala
+                        roomId: event.roomId
                     }
                 });
 
                 loading.dismiss();
             })
         });
-
-
-        // this.events.subscribe('calendar',(user) =>{
-        //   this.salaService
-        //     .listarSalas()
-        //     .then(user => {
-        //       this.sala = user.data;
-        //       loading.dismiss();
-        //     })
-        //     .catch(error => {
-        //       console.log(error);
-        //     })
-        // });
     }
 
     onViewTitleChanged(title) {
@@ -125,49 +127,12 @@ export class CalendarioPage {
 
     }
 
-    onRangeChanged(ev) {
-        console.log('range changed: startTime: ' + ev.startTime + ', endTime: ' + ev.endTime);
-    }
-
-    markDisabled = (date: Date) => {
-        var current = new Date();
-        current.setHours(0, 0, 0);
-        return (date < current);
-    };
-
-    openActionSheet(event) {
-        console.log('opening');
-        let actionsheet = this.actionSheetCtrl.create({
-            title: "Choose Option",
-            buttons: [
-                {
-                    text: 'Block Date',
-                    handler: () => {
-                        console.log("Block Date Clicked: ", event);
-                        let d = event.selectedTime;
-                        //d.setHours(0, 0, 0);
-                    }
-                },
-                {
-                    text: 'Meet Up With',
-                    handler: function () {
-                        console.log("Meet Up With Clicked");
-                    }
-                }
-            ]
-        });
-        actionsheet.present();
-    }
-
     addEvent() {
-        let modal = this.modalCtrl.create(EditEventoPage, {selectedDay: this.selectedDay});
-        modal.present();
+        this.navCtrl.push(EditEventoPage);
     }
 
-    onEventSelected(event) {
-        console.log('Event selected:' + event.startTime + '-' + event.endTime + ',' + event.title);
-        let modal = this.modalCtrl.create(EditEventoPage, {event: event});
-        modal.present();
+    editEvent(event) {
+        this.navCtrl.push(EditEventoPage, event);
     }
 
     excluirEvent(id) {
@@ -211,7 +176,7 @@ export class CalendarioPage {
 
     onSelected($event: any) {
         console.log($event)
-        this.calendar.mode = $event
+        //this.calendar.mode = $event
     }
 
 }

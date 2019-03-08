@@ -21,20 +21,22 @@ moment.locale("pt-br");
     templateUrl: "edit-evento.html"
 })
 export class EditEventoPage {
-    public pageTitle = "Inserir Evento";
-    public sala = [];
-    public selectOptions;
-    public descricao;
-    public salas;
-    public inicio;
-    public fim;
-    public eventId;
+    pageTitle = "Inserir Evento";
+    roomList = [];
 
     event = {
+        eventId: null,
+        title: null,
+        startDate: new Date().toISOString(),
         startTime: new Date().toISOString(),
+        endDate: new Date().toISOString(),
         endTime: new Date().toISOString(),
-        allDay: false,
-        sala: ""
+        roomId: null
+    };
+
+    selectOptions = {
+        title: "Escolha uma sala",
+        mode: "md"
     };
 
     constructor(
@@ -46,157 +48,37 @@ export class EditEventoPage {
         private navParams: NavParams,
         public viewCtrl: ViewController
     ) {
-        // this.event = this.navParams.get("event");
-        // let preselectedDate = moment(this.navParams.get("selectedDay")).format();
-        // this.event.startTime = preselectedDate;
-        // this.event.endTime = preselectedDate;
-
         this.event = Object.assign({}, this.navParams.data);
 
-        if (this.event.sala) {
-            this.pageTitle = "Editar Atendente";
+        console.log(this.event);
+        if (this.event.eventId) {
+            this.pageTitle = "Editar Evento";
         }
-
-        this.selectOptions = {
-            title: "Escolha uma sala",
-            mode: "md"
-        };
     }
 
     ionViewWillEnter() {
-        this.loadRoons();
+        this.loadRooms();
     }
 
-    loadRoons() {
-        let loading = this.loadingCtrl.create({
-            content: "Buscando..."
-        });
-        loading.present();
-
-        this.salaService
-            .listarSalas()
-            .then(user => {
-                this.sala = user.data;
-                console.log(this.sala);
-                loading.dismiss();
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }
-
-    cancel() {
-        this.viewCtrl.dismiss();
-    }
-
-    saveUser() {
-        let loader = this.loadingCtrl.create({ content: "Salvando..." });
+    loadRooms() {
+        let loader = this.loadingCtrl.create({ content: 'Carregando...' });
         loader.present();
 
-        if (this.event.sala) {
+        document.querySelector(".tabbar").setAttribute("style", "z-index:1");
 
-            this.inicio = this.inicio.split("Z")[0];
-            this.inicio =
-                this.inicio.split("T")[0] + " " + this.inicio.split("T")[1];
+        this.salaService
+            .list()
+            .then(response => {
+                this.roomList = response.data;
+                loader.dismiss();
+            })
+            .catch(() => {
+                loader.dismiss();
+                showErrorAlert(this.alertCtrl, 'Falha ao carregar salas.');
+            })
+    }
 
-            this.fim = this.fim.split("Z")[0];
-            this.fim = this.fim.split("T")[0] + " " + this.fim.split("T")[1];
+    saveEvent() {
 
-            this.calendarioService
-                .editarEvento(
-                    this.eventId,
-                    this.descricao,
-                    this.inicio,
-                    this.fim,
-                    this.salas
-                )
-                .then(user => {
-                    console.log(user);
-
-                    // if(user.msg === "Evento inserido com sucesso") {
-                    //   this.viewCtrl.dismiss();
-                    //   let alert = this._alertCtrl.create({
-                    //     title: 'adicionado com Sucesso!',
-                    //     subTitle: 'Evento adicionado!'
-                    //   });
-                    //   alert.present();
-                    //   loading.dismiss();
-                    // } else if(user.msg === "Agenda indisponível. Um evento já foi cadastrado no período selecionado") {
-                    //   let alert = this._alertCtrl.create({
-                    //     title: 'Erro!',
-                    //     subTitle: 'Evento já cadastrado no horario selecionado',
-                    //     buttons: ['Ok']
-                    //   });
-                    //   alert.present();
-                    //   loading.dismiss();
-                    // } else {
-                    //   let alert = this._alertCtrl.create({
-                    //     title: 'Erro não esperado!',
-                    //     subTitle: 'Entre em contato com o Igor',
-                    //     buttons: ['Ok']
-                    //   });
-                    //   alert.present();
-                    //   loading.dismiss();
-                    // }
-                    loader.dismiss();
-                    showAlert(this.alertCtrl, user.msg);
-                })
-                .catch(error => {
-                  loader.dismiss();
-                  showErrorAlert(this.alertCtrl, 'Falha ao atualizar usuário.');
-                });
-        } else {
-
-            this.inicio = this.inicio.split("Z")[0];
-            this.inicio =
-                this.inicio.split("T")[0] + " " + this.inicio.split("T")[1];
-
-            this.fim = this.fim.split("Z")[0];
-            this.fim = this.fim.split("T")[0] + " " + this.fim.split("T")[1];
-
-            this.calendarioService
-                .adicionarEvento(
-                    this.descricao,
-                    this.inicio,
-                    this.fim,
-                    this.salas
-                )
-                .then(user => {
-                    if (user.msg === "Evento inserido com sucesso") {
-                        this.viewCtrl.dismiss();
-                        let alert = this.alertCtrl.create({
-                            title: "adicionado com Sucesso!",
-                            subTitle: "Evento adicionado!"
-                        });
-                        alert.present();
-                        loader.dismiss();
-                    } else if (user.msg === "Agenda indisponível. Um evento já foi cadastrado no período selecionado") {
-                        let alert = this.alertCtrl.create({
-                            title: "Erro!",
-                            subTitle: "Evento já cadastrado no horario selecionado",
-                            buttons: ["Ok"]
-                        });
-                        alert.present();
-                        loader.dismiss();
-                    } else {
-                        let alert = this.alertCtrl.create({
-                            title: "Erro não esperado!",
-                            subTitle: "Entre em contato com o Igor",
-                            buttons: ["Ok"]
-                        });
-                        alert.present();
-                        loader.dismiss();
-                    }
-                })
-                .catch(error => {
-                    let alert = this.alertCtrl.create({
-                        title: "Erro não esperado!",
-                        subTitle: "Entre em contato com o Igor",
-                        buttons: ["Ok"]
-                    });
-                    alert.present();
-                    loader.dismiss();
-                });
-        }
     }
 }

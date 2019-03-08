@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController, LoadingController, Events, AlertController} from 'ionic-angular';
 import {LoginPage} from '../login/login';
+import {logout} from '../../app/util';
 
 @Component({
     selector: 'page-home',
@@ -44,18 +45,12 @@ export class HomePage {
             {
                 text: 'Sim',
                 role: 'Sim',
-                handler: () => { this.logout() }
+                handler: () => { logout(this.navCtrl) }
             }
         ];
 
         let alert = this.alertCtrl.create({ title: 'Logout', buttons: buttons });
         alert.setMessage('Tem certeza que deseja sair do sistema?');
         alert.present();
-    }
-
-    logout() {
-        document.querySelector(".tabbar").setAttribute("style", "z-index:-1");
-        localStorage.clear();
-        this.navCtrl.setRoot(LoginPage);
     }
 }

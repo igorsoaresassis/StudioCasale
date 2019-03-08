@@ -14,6 +14,10 @@ page-calendario {
         border-left: none !important;
     }
 
+    .monthview-datetable th {
+        text-transform: uppercase;
+    }
+
     .monthview-datetable th, .monthview-datetable td {
         border: none !important;
         color: map-get($colors, dark) !important;
@@ -27,5 +31,9 @@ page-calendario {
     }
     .monthview-datetable td.monthview-selected {
         background-color: rgba(map-get($colors, primary), 0.8) !important;
+    }
+
+    .event-detail-container {
+        border-top: 1px solid map-get($colors, grey) !important;
     }
 }

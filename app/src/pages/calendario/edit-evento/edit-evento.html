@@ -1,32 +1,24 @@
 <ion-header>
-    <ion-navbar>
-        <ion-buttons start>
-            <button ion-button icon-only (click)="cancel()">
-                <ion-icon name="close"></ion-icon>
-            </button>
-        </ion-buttons>
-        <ion-title>{{pageTitle}}</ion-title>
-    </ion-navbar>
+	<ion-navbar>
+		<ion-title>{{ pageTitle }}</ion-title>
+	</ion-navbar>
 </ion-header>
-
 
 <ion-content padding>
     <ion-grid>
         <ion-row>
             <ion-col col-12>
-                <ion-input [(ngModel)]="descricao" class="descricao" placeholder="Descrição"></ion-input>
-                <ion-datetime placeholder="Início" [(ngModel)]="inicio" displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD-MM-YYYYTHH:mmTZD"></ion-datetime>
-                <ion-datetime placeholder="Fim" [(ngModel)]="fim" displayFormat="DD/MM/YYYY HH:mm" pickerFormat="DD-MM-YYYYTHH:mmTZD"></ion-datetime>
-                <ion-select [(ngModel)]="salas" placeholder="Selecione uma Sala" [selectOptions]="selectOptions" multiple="false">
-                    <div *ngFor="let salas of sala">
-                        <ion-option value="{{salas.roomId}}">{{salas.roomName}}</ion-option>
+                <ion-input [(ngModel)]="event.title" placeholder="Descrição"></ion-input>
+                <ion-datetime [(ngModel)]="event.startDate" placeholder="Data de Início"  displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY"></ion-datetime>
+                <ion-datetime [(ngModel)]="event.startTime" placeholder="Hora de Início"  displayFormat="HH:MM" pickerFormat="HH MM"></ion-datetime>
+                <ion-datetime [(ngModel)]="event.endDate" placeholder="Data de Fim" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY"></ion-datetime>
+                <ion-datetime [(ngModel)]="event.endTime" placeholder="Hora de Fim" displayFormat="HH:MM" pickerFormat="HH MM"></ion-datetime>
+                <ion-select [(ngModel)]="event.roomId" placeholder="Selecione uma Sala" [selectOptions]="selectOptions" multiple="false">
+                    <div *ngFor="let room of roomList">
+                        <ion-option value="{{room.roomId}}">{{room.roomName}}</ion-option>
                     </div>
                 </ion-select>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col col-12>
-                <button class="button_salvar" ion-button full (click)="saveEvent()">Salvar</button>
+				<button ion-button full (click)="saveEvent()">Salvar</button>
             </ion-col>
         </ion-row>
     </ion-grid>

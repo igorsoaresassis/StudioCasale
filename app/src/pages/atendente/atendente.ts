@@ -2,7 +2,7 @@ import {EditAtendentePage} from './edit-atendente/edit-atendente';
 import {UsuarioService} from './../../domain/usuario/usuario_service';
 import {Component} from '@angular/core';
 import {NavController, AlertController, LoadingController} from 'ionic-angular';
-import { showErrorAlert } from "../../app/util";
+import { showErrorAlert, validateToken } from "../../app/util";
 
 @Component({
     selector: 'page-atendente',
@@ -33,9 +33,14 @@ export class AtendentePage {
         this.usuarioService
             .list()
             .then(response => {
-                if (response.data.hasError) {
+                if (response.hasError) {
                     loader.dismiss();
-                    showErrorAlert(this.alertCtrl, response.data.msg);
+
+                    if (!validateToken(response.errorCode, this.navCtrl)) {
+                        return;
+                    }
+
+                    showErrorAlert(this.alertCtrl, response.msg);
                     return;
                 }
 
@@ -81,9 +86,9 @@ export class AtendentePage {
         this.usuarioService
             .inactivateUser(userId)
             .then(response => {
-                if (response.data.hasError) {
+                if (response.hasError) {
                     loader.dismiss();
-                    showErrorAlert(this.alertCtrl, response.data.msg);
+                    showErrorAlert(this.alertCtrl, response.msg);
                     return;
                 }
 
@@ -131,9 +136,9 @@ export class AtendentePage {
         this.usuarioService
             .activateUser(userId)
             .then(response => {
-                if (response.data.hasError) {
+                if (response.hasError) {
                     loader.dismiss();
-                    showErrorAlert(this.alertCtrl, response.data.msg);
+                    showErrorAlert(this.alertCtrl, response.msg);
                     return;
                 }
 

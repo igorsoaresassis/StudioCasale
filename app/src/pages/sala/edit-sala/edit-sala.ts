@@ -36,7 +36,7 @@ export class EditSalaPage {
 
         if (this.room.roomId) {
             this.salaService
-                .editarSala(this.room.roomId, this.room.roomName)
+                .update(this.room.roomId, this.room.roomName)
                 .then(response => {
                     alert.setMessage(response.msg);
 
@@ -51,7 +51,7 @@ export class EditSalaPage {
                 })
         } else {
             this.salaService
-                .adicionarSala(this.room.roomName)
+                .insert(this.room.roomName)
                 .then(response => {
                     if (!response.hasError) {
                         this.room.roomId = response.data.roomId;

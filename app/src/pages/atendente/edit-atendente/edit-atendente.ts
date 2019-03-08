@@ -55,12 +55,12 @@ export class EditAtendentePage {
         document.querySelector(".tabbar").setAttribute("style", "z-index:1");
 
         this.salaService
-            .listarSalas()
+            .list()
             .then(response => {
                 this.roomList = response.data;
                 loader.dismiss();
             })
-            .catch(error => {
+            .catch(() => {
                 loader.dismiss();
                 showErrorAlert(this.alertCtrl, 'Falha ao carregar salas.');
             })

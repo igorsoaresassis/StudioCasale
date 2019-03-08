@@ -26,8 +26,8 @@ export class UsuarioService {
 
         return this._http
             .post(api, data, {})
-            .then(dado => {
-                return JSON.parse(dado.data);
+            .then(response => {
+                return JSON.parse(response.data);
             })
             .catch(error => {
                 return JSON.parse(error.error);

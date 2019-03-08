@@ -1,7 +1,8 @@
 import {EditSalaPage} from './edit-sala/edit-sala';
 import {SalaService} from './../../domain/sala/sala_service';
 import {Component} from '@angular/core';
-import {NavController, NavParams, AlertController, LoadingController} from 'ionic-angular';
+import {NavController, AlertController, LoadingController} from 'ionic-angular';
+import { showErrorAlert, validateToken } from "../../app/util";
 
 @Component({
     selector: 'page-sala',
@@ -30,16 +31,25 @@ export class SalaPage {
         document.querySelector(".tabbar").setAttribute("style", "z-index:1");
 
         this.salaService
-            .listarSalas()
+            .list()
             .then(response => {
+                if (response.hasError) {
+                    loader.dismiss();
+
+                    if (!validateToken(response.errorCode, this.navCtrl)) {
+                        return;
+                    }
+
+                    showErrorAlert(this.alertCtrl, response.msg);
+                    return;
+                }
+
                 this.roomList = response.data;
                 loader.dismiss();
             })
-            .catch(error => {
-                let alert = this.alertCtrl.create({ title: 'Erro', buttons: [{ text: "Ok" }] });
-                alert.setMessage('Falha ao carregar salas.');
+            .catch(() => {
                 loader.dismiss();
-                alert.present();
+                showErrorAlert(this.alertCtrl, 'Falha ao carregar salas.');
             })
     }
 
@@ -74,8 +84,14 @@ export class SalaPage {
         loader.present();
 
         this.salaService
-            .excluirSala(roomId)
+            .remove(roomId)
             .then((response) => {
+                if (response.hasError) {
+                    loader.dismiss();
+                    showErrorAlert(this.alertCtrl, response.msg);
+                    return;
+                }
+
                 const buttons = [
                     {
                         text: 'Ok',
@@ -90,11 +106,8 @@ export class SalaPage {
                 alert.present();
             })
             .catch(() => {
-                let alert = this.alertCtrl.create({ title: 'Erro' });
-                alert.setMessage('Falha ao remover sala.');
-
                 loader.dismiss();
-                alert.present();
+                showErrorAlert(this.alertCtrl, 'Falha ao remover sala.');
             })
     }
 }

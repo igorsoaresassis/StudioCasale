@@ -2,6 +2,7 @@ import {LoginPage} from './../login/login';
 import {Component} from '@angular/core';
 import {NavController, LoadingController, AlertController} from 'ionic-angular';
 import {UsuarioService} from '../../domain/usuario/usuario_service';
+import {logout} from '../../app/util';
 
 @Component({
     selector: 'page-perfil',
@@ -98,18 +99,12 @@ export class PerfilPage {
             {
                 text: 'Sim',
                 role: 'Sim',
-                handler: () => { this.logout() }
+                handler: () => { logout(this.navCtrl) }
             }
         ];
 
         let alert = this.alertCtrl.create({ title: 'Logout', buttons: buttons });
         alert.setMessage('Tem certeza que deseja sair do sistema?');
         alert.present();
-    }
-
-    logout() {
-        document.querySelector(".tabbar").setAttribute("style", "z-index:-1");
-        localStorage.clear();
-        this.navCtrl.setRoot(LoginPage);
     }
 }
