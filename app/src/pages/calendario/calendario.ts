@@ -80,7 +80,8 @@ export class CalendarioPage {
         this.salaService.list().then(response => {
             this.roomList = response.data;
 
-            this.calendarioService.buscarEvento().then(response => {
+            this.calendarioService.list().then(response => {
+                console.log(response);
 
                 this.eventList = response.data.map((event) => {
                     return {
@@ -89,7 +90,8 @@ export class CalendarioPage {
                         startTime: new Date(event.eventStartDate),
                         endTime: new Date(event.eventEndDate),
                         allDay: false,
-                        roomId: event.roomId
+                        roomId: event.roomId,
+                        userId: event.userId
                     }
                 });
 
@@ -149,7 +151,7 @@ export class CalendarioPage {
                     role: 'Sim',
                     handler: () => {
                         this.calendarioService
-                            .excluirEvento(id)
+                            .remove(id)
                             .then(user => {
                                 console.log(user);
                                 this.navCtrl.setRoot(this.navCtrl.getActive().component);

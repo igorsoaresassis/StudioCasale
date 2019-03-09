@@ -9,11 +9,11 @@
         <ion-row>
             <ion-col col-12>
                 <ion-input [(ngModel)]="event.title" placeholder="Descrição"></ion-input>
-                <ion-datetime [(ngModel)]="event.startDate" placeholder="Data de Início"  displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY"></ion-datetime>
-                <ion-datetime [(ngModel)]="event.startTime" placeholder="Hora de Início"  displayFormat="HH:MM" pickerFormat="HH MM"></ion-datetime>
-                <ion-datetime [(ngModel)]="event.endDate" placeholder="Data de Fim" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY"></ion-datetime>
-                <ion-datetime [(ngModel)]="event.endTime" placeholder="Hora de Fim" displayFormat="HH:MM" pickerFormat="HH MM"></ion-datetime>
-                <ion-select [(ngModel)]="event.roomId" placeholder="Selecione uma Sala" [selectOptions]="selectOptions" multiple="false">
+                <ion-datetime [(ngModel)]="event.startTime" placeholder="Data de Início"  displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY"></ion-datetime>
+                <ion-datetime [(ngModel)]="event.startTime" placeholder="Hora de Início"  displayFormat="HH:mm" pickerFormat="HH mm"></ion-datetime>
+                <ion-datetime [(ngModel)]="event.endTime" placeholder="Data de Fim" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY"></ion-datetime>
+                <ion-datetime [(ngModel)]="event.endTime" placeholder="Hora de Fim" displayFormat="HH:mm" pickerFormat="HH mm"></ion-datetime>
+                <ion-select [(ngModel)]="event.roomId" placeholder="Selecione a Sala" [selectOptions]="selectOptions" multiple="false">
                     <div *ngFor="let room of roomList">
                         <ion-option value="{{room.roomId}}">{{room.roomName}}</ion-option>
                     </div>
