@@ -12,6 +12,7 @@ export class EditAtendentePage {
 
     public pageTitle = 'Inserir Atendente';
     public selectOptions;
+    public roomList = [];
 
     public user = {
         userId: null,
@@ -21,13 +22,11 @@ export class EditAtendentePage {
         userRooms: []
     };
 
-    public roomList = [];
-
     constructor(
         public navCtrl: NavController,
         public salaService: SalaService,
-        private usuarioService: UsuarioService,
-        private alertCtrl: AlertController,
+        public usuarioService: UsuarioService,
+        public alertCtrl: AlertController,
         public loadingCtrl: LoadingController,
         public navParams: NavParams
     ) {

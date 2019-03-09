@@ -6,121 +6,85 @@ import {HTTP} from '@ionic-native/http';
 @Injectable()
 export class CalendarioService {
 
-    public id;
+    public loggedUserId;
     public token;
 
-    constructor(
-        private _http: HTTP,
-        private _service: ServerProvider) {
-        this.id = localStorage.getItem('userId');
+    constructor(private _http: HTTP, private _service: ServerProvider) {
+        this.loggedUserId = localStorage.getItem('userId');
         this.token = localStorage.getItem('token');
+        this._http.setDataSerializer('json');
+        this._http.setHeader('*', 'Content-Type', 'application/json');
+        this._http.setHeader('*', 'Authorization', this.token);
     }
 
-    adicionarEvento(descricao, inicio, fim, salas) {
+    insert(description, startDate, endDate, roomId) {
         let api = this._service.URL_API + "controller=event&action=insert";
 
         let data = {
-            "eventStartDate": inicio,
-            "eventEndDate": fim,
-            "eventDescription": descricao,
-            "roomId": salas,
-            "userId": this.id
-        }
+            eventDescription: description,
+            eventStartDate: startDate,
+            eventEndDate: endDate,
+            roomId: roomId,
+            userId: this.loggedUserId
+        };
 
-        let header = {
-            "Content-Type": "application/json",
-            "Authorization": this.token
-        }
-
-        this._http.setDataSerializer('json');
         return this._http
-            .post(api, data, header)
-            .then(dado => {
-                let inserirEvento = JSON.parse(dado.data)
-                return inserirEvento;
+            .post(api, data, {})
+            .then(response => {
+                return JSON.parse(response.data);
             })
             .catch(error => {
-                let resposta = JSON.parse(error.error)
-                return resposta;
+                return JSON.parse(error.error);
             });
     }
 
-    editarEvento(eventId, descricao, inicio, fim, salas) {
+    update(eventId, description, startDate, endDate, roomId) {
         let api = this._service.URL_API + "controller=event&action=update";
 
         let data = {
-            "eventId": eventId,
-            "eventStartDate": inicio,
-            "eventEndDate": fim,
-            "eventDescription": descricao,
-            "roomId": salas,
-            "userId": this.id
-        }
+            eventId: eventId,
+            eventDescription: description,
+            eventStartDate: startDate,
+            eventEndDate: endDate,
+            roomId: roomId,
+            userId: this.loggedUserId
+        };
 
-        let header = {
-            "Content-Type": "application/json",
-            "Authorization": this.token
-        }
-
-        this._http.setDataSerializer('json');
         return this._http
-            .put(api, data, header)
-            .then(dado => {
-                let editarEvento = JSON.parse(dado.data)
-                return editarEvento;
+            .put(api, data, {})
+            .then(response => {
+                return JSON.parse(response.data);
             })
             .catch(error => {
-                let resposta = JSON.parse(error.error)
-                return resposta;
+                return JSON.parse(error.error);
             });
     }
 
-    buscarEvento() {
+    list() {
         let api = this._service.URL_API + "controller=event&action=list";
 
-        let data = {}
-
-        let header = {
-            "Content-Type": "application/json",
-            "Authorization": this.token
-        }
-
-        this._http.setDataSerializer('json');
         return this._http
-            .get(api, data, header)
-            .then(dado => {
-                let editarEvento = JSON.parse(dado.data)
-                return editarEvento;
+            .get(api, {}, {})
+            .then(response => {
+                return JSON.parse(response.data);
             })
             .catch(error => {
-                let resposta = JSON.parse(error.error)
-                return resposta;
+                return JSON.parse(error.error);
             });
     }
 
-    excluirEvento(id) {
+    remove(id) {
         let api = this._service.URL_API + "controller=event&action=delete&key=" + `${id}`;
 
-        let data = {}
-
-        let header = {
-            "Content-Type": "application/json",
-            "Authorization": this.token
-        }
-
-        this._http.setDataSerializer('json');
         return this._http
-            .delete(api, data, header)
-            .then(dado => {
-                let exluirSala = JSON.parse(dado.data)
-                return exluirSala;
+            .delete(api, {}, {})
+            .then(response => {
+                return JSON.parse(response.data);
             })
             .catch(error => {
-                let resposta = JSON.parse(error.error)
-                return resposta;
+                return JSON.parse(error.error);
             });
     }
-
 }
 
 
