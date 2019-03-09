@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController, NavParams, AlertController, LoadingController} from 'ionic-angular';
 import {SalaService} from '../../../domain/sala/sala_service';
+import { showErrorAlert } from '../../../app/util';
 
 @Component({
     selector: 'page-edit-sala',
@@ -33,8 +34,16 @@ export class EditSalaPage {
         let alert = this.alertCtrl.create({ title: 'Sucesso', buttons: [{text: "Ok"}] });
         let loader = this.loadingCtrl.create({content: 'Salvando...'});
         loader.present();
+        let saveName = this.room.roomName;
 
         if (this.room.roomId) {
+          if(this.room.roomName === "") {
+            loader.dismiss();
+            showErrorAlert(this.alertCtrl, 'Campo está vazio!');
+          } else if(saveName === this.room.roomName) {
+            loader.dismiss();
+            showErrorAlert(this.alertCtrl, 'Campo não editado!');
+          } else {
             this.salaService
                 .update(this.room.roomId, this.room.roomName)
                 .then(response => {
@@ -49,25 +58,31 @@ export class EditSalaPage {
                     loader.dismiss();
                     alert.present();
                 })
+          }
         } else {
-            this.salaService
-                .insert(this.room.roomName)
-                .then(response => {
-                    if (!response.hasError) {
-                        this.room.roomId = response.data.roomId;
-                    }
+          if(this.room.roomName === undefined) {
+            loader.dismiss();
+            showErrorAlert(this.alertCtrl, 'Campo está vazio');
+          } else {
+              this.salaService
+                  .insert(this.room.roomName)
+                  .then(response => {
+                      if (!response.hasError) {
+                          this.room.roomId = response.data.roomId;
+                      }
 
-                    alert.setTitle(response.msg);
+                      alert.setTitle(response.msg);
 
-                    loader.dismiss();
-                    alert.present();
-                }).catch(() => {
-                    alert.setTitle('Erro');
-                    alert.setMessage('Falha ao inserir sala.');
+                      loader.dismiss();
+                      alert.present();
+                  }).catch(() => {
+                      alert.setTitle('Erro');
+                      alert.setMessage('Falha ao inserir sala.');
 
-                    loader.dismiss();
-                    alert.present();
-                })
+                      loader.dismiss();
+                      alert.present();
+                  })
+          }
         }
     }
 }

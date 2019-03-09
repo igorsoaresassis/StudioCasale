@@ -3,6 +3,7 @@ import {UsuarioService} from './../../domain/usuario/usuario_service';
 import {Component} from '@angular/core';
 import {NavController, AlertController, LoadingController} from 'ionic-angular';
 import { showErrorAlert, validateToken } from "../../app/util";
+import { Network } from '@ionic-native/network/ngx';
 
 @Component({
     selector: 'page-atendente',
@@ -14,6 +15,7 @@ export class AtendentePage {
 
     constructor(
         public navCtrl: NavController,
+        public network: Network,
         public usuarioService: UsuarioService,
         public alertCtrl: AlertController,
         public loadingCtrl: LoadingController
@@ -25,32 +27,39 @@ export class AtendentePage {
     }
 
     loadUsers() {
-        let loader = this.loadingCtrl.create({ content: 'Carregando...' });
-        loader.present();
+      // this.network.onDisconnect().subscribe(() => {
+      //     console.log('network was disconnected :-(');
+      //     showErrorAlert(this.alertCtrl, 'Falha na Internet, Verifique sua conexão!');
+      // });
+      // this.network.onConnect().subscribe(() => {
+      //     console.log('network connected!');
+          let loader = this.loadingCtrl.create({ content: 'Carregando...' });
+          loader.present();
 
-        document.querySelector(".tabbar").setAttribute("style", "z-index:1");
+          document.querySelector(".tabbar").setAttribute("style", "z-index:1");
 
-        this.usuarioService
-            .list()
-            .then(response => {
-                if (response.hasError) {
-                    loader.dismiss();
+          this.usuarioService
+              .list()
+              .then(response => {
+                  if (response.hasError) {
+                      loader.dismiss();
 
-                    if (!validateToken(response.errorCode, this.navCtrl)) {
-                        return;
-                    }
+                      if (!validateToken(response.errorCode, this.navCtrl)) {
+                          return;
+                      }
 
-                    showErrorAlert(this.alertCtrl, response.msg);
-                    return;
-                }
+                      showErrorAlert(this.alertCtrl, response.msg);
+                      return;
+                  }
 
-                this.userList = response.data.filter(user => !user.userAdmin);
-                loader.dismiss();
-            })
-            .catch(() => {
-                loader.dismiss();
-                showErrorAlert(this.alertCtrl, 'Falha ao carregar atendentes.');
-            })
+                  this.userList = response.data.filter(user => !user.userAdmin);
+                  loader.dismiss();
+              })
+              .catch(() => {
+                  loader.dismiss();
+                  showErrorAlert(this.alertCtrl, 'Falha ao carregar atendentes.');
+              })
+      // });
     }
 
     addUser() {

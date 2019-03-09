@@ -71,42 +71,52 @@ export class EditAtendentePage {
         loader.present();
 
         if (this.user.userId) {
-            this.usuarioService
-                .update(this.user)
-                .then(response => {
-                    if (response.data.hasError) {
-                        loader.dismiss();
-                        showErrorAlert(this.alertCtrl, response.data.msg);
-                        return;
-                    }
+            if(this.user.userPassword === null) {
+              loader.dismiss();
+              showErrorAlert(this.alertCtrl, 'Campo Senha está vazio');
+            } else {
+              this.usuarioService
+                  .update(this.user)
+                  .then(response => {
+                      if (response.data.hasError) {
+                          loader.dismiss();
+                          showErrorAlert(this.alertCtrl, response.data.msg);
+                          return;
+                      }
 
-                    this.user.userPassword = null;
+                      this.user.userPassword = null;
 
-                    loader.dismiss();
-                    showAlert(this.alertCtrl, response.msg);
-                }).catch(() => {
-                    loader.dismiss();
-                    showErrorAlert(this.alertCtrl, 'Falha ao atualizar usuário.');
-                })
+                      loader.dismiss();
+                      showAlert(this.alertCtrl, response.msg);
+                  }).catch(() => {
+                      loader.dismiss();
+                      showErrorAlert(this.alertCtrl, 'Falha ao atualizar usuário.');
+                  })
+              }
         } else {
-            this.usuarioService
-                .insert(this.user.userName, this.user.userEmail, this.user.userPassword, this.user.userRooms)
-                .then(response => {
-                    if (response.data.hasError) {
-                        loader.dismiss();
-                        showErrorAlert(this.alertCtrl, response.data.msg);
-                        return;
-                    }
+            if(this.user.userName === undefined ||  this.user.userEmail === undefined || this.user.userPassword === undefined || this.user.userRooms === undefined) {
+              loader.dismiss();
+              showErrorAlert(this.alertCtrl, 'Verifique se algum campo está vazio!');
+            } else {
+              this.usuarioService
+                  .insert(this.user.userName, this.user.userEmail, this.user.userPassword, this.user.userRooms)
+                  .then(response => {
+                      if (response.data.hasError) {
+                          loader.dismiss();
+                          showErrorAlert(this.alertCtrl, response.data.msg);
+                          return;
+                      }
 
-                    this.user.userId = response.data.userId;
-                    this.user.userPassword = null;
+                      this.user.userId = response.data.userId;
+                      this.user.userPassword = null;
 
-                    loader.dismiss();
-                    showAlert(this.alertCtrl, response.msg);
-                }).catch(() => {
-                     loader.dismiss();
-                    showErrorAlert(this.alertCtrl, 'Falha ao inserir usuário.');
-                })
+                      loader.dismiss();
+                      showAlert(this.alertCtrl, response.msg);
+                  }).catch(() => {
+                      loader.dismiss();
+                      showErrorAlert(this.alertCtrl, 'Falha ao inserir usuário.');
+                  })
+          }
         }
     }
 }

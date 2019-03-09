@@ -27,6 +27,7 @@ import {NgCalendarModule} from 'ionic2-calendar';
 import localePtBr from '@angular/common/locales/pt-PT';
 import {registerLocaleData} from '@angular/common';
 import {CalendarioService} from '../domain/calendario/calendario_service';
+import { Network } from '@ionic-native/network/ngx';
 
 registerLocaleData(localePtBr);
 
@@ -73,6 +74,7 @@ registerLocaleData(localePtBr);
         SalaService,
         CalendarioService,
         HTTP,
+        Network,
         UsuarioService,
         {provide: LOCALE_ID, useValue: 'pt-PT'},
         {provide: ErrorHandler, useClass: IonicErrorHandler},
