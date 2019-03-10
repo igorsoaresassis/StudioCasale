@@ -91,6 +91,7 @@ export class CalendarioPage {
                         endTime: new Date(event.eventEndDate),
                         allDay: false,
                         roomId: event.roomId,
+                        roomName: event.roomName,
                         userId: event.userId
                     }
                 });

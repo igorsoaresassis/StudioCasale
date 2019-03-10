@@ -55,6 +55,7 @@ ion-item {
 
         .label-md {
             margin-top: 0;
+            color: map-get($colors, secondary);
         }
     }
 
@@ -62,11 +63,6 @@ ion-item {
         .text-input-md {
             margin-top: 0;
             margin-bottom: 5px;
-        }
-
-        .label-md[floating] {
-            -webkit-transform: translate3d(0, 20px, 0);
-            transform: translate3d(0, 20px, 0);
         }
 
         ion-select {
@@ -99,8 +95,16 @@ ion-item {
         }
     }
 
-    &.input-has-value {
+    &.item-label-floating {
         .label-md[floating] {
+            -webkit-transform: translate3d(0, 20px, 0);
+            transform: translate3d(0, 20px, 0);
+        }
+    }
+
+    &.input-has-value, &.input-has-focus {
+        .label-md[floating] {
+            color: map-get($colors, secondary);
             -webkit-transform: translate3d(0, 0, 0) scale(0.8);
             transform: translate3d(0, 0, 0) scale(0.8);
         }
@@ -123,7 +127,7 @@ ion-item {
     align-content: center;
     justify-content: center;
     margin: 15px auto 0;
-    border-radius: 10px;
+    border-radius: 5px;
     background: map-get($colors, primary);
     .button-inner {
         color: white;
@@ -131,14 +135,18 @@ ion-item {
     }
 }
 
+.main-list {
+    margin-bottom: 55px;
+}
+
 .list-card {
     width: 100%;
     height: 60px;
     display: flex;
-    border: 1px solid map-get($colors, grey);
-    border-radius: 10px !important;
-    background: map-get($colors, light);
-    margin: 0 0 15px !important;
+    background-color: rgba(map-get($colors, primary), 0.1);
+    border: 1px solid map-get($colors, primary);
+    border-radius: 5px !important;
+    margin: 0 0 5px !important;
     padding: 0 !important;
     box-shadow: none !important;
     .icon {
@@ -166,7 +174,7 @@ ion-item {
         justify-content: center;
         flex-grow: 1;
         padding: 10px 10px;
-        border-right: 1px solid map-get($colors, grey);
+        border-right: 1px solid map-get($colors, primary);
         .primary {
             font-size: 18px;
             font-weight: 500;
