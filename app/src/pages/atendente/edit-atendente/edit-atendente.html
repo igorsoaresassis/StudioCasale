@@ -24,12 +24,11 @@
                             </div>
                         </ion-select>
                     </ion-item>
-                    <p *ngIf="user.userId" class="password-info">* Preencha caso deseje alterar a senha</p>
-
-                    <ion-item>
+                    <ion-item [ngClass]="{'input-danger': user.userId}">
                         <ion-label color="primary" floating>Senha</ion-label>
-                        <ion-input [(ngModel)]="user.userPassword" name="senha" [ngClass]="{'input-danger': user.userId}" type="password"></ion-input>
+                        <ion-input [(ngModel)]="user.userPassword" name="senha" type="password" tabindex="4"></ion-input>
                     </ion-item>
+                    <p *ngIf="user.userId" class="password-info">* Preencha apenas caso deseje alterar a senha</p>
                     <button ion-button full type="submit">Salvar</button>
                 </form>
             </ion-col>
