@@ -15,7 +15,7 @@ export class LoginPage {
 
     constructor(
         public navCtrl: NavController,
-        private loginService: LoginService,
+        public loginService: LoginService,
         public events: Events,
         public alertCtrl: AlertController,
         public loadingCtrl: LoadingController,
@@ -33,7 +33,7 @@ export class LoginPage {
                     localStorage.setItem('userId', response.data.userId);
                     localStorage.setItem('userName', response.data.userName);
                     localStorage.setItem('userEmail', response.data.userEmail);
-                    localStorage.setItem('userStatus', response.data.userAdmin);
+                    localStorage.setItem('userAdmin', response.data.userAdmin);
                     loader.dismiss();
 
                     this.navCtrl.setRoot(TabsPage);

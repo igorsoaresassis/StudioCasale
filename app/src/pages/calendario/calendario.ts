@@ -15,8 +15,7 @@ import {WeekViewComponent} from 'ionic2-calendar/weekview';
 import {DayViewComponent} from 'ionic2-calendar/dayview';
 
 import {CalendarioService} from '../../domain/calendario/calendario_service';
-import {m} from "@angular/core/src/render3";
-import {showErrorAlert} from "../../app/util";
+import { showErrorAlert, getLoggedUser } from "../../app/util";
 
 @Component({
     selector: 'page-calendario',
@@ -38,10 +37,13 @@ export class CalendarioPage {
         currentDate: new Date()
     };
 
-    loadedPeriod = {
+    loadedData = {
         start: null,
-        end: null
+        end: null,
+        lastLoad: null
     };
+
+    loggedUser = getLoggedUser();
 
     constructor(public navCtrl: NavController,
                 public loadingCtrl: LoadingController,
@@ -50,11 +52,18 @@ export class CalendarioPage {
                 public events: Events,
                 public popoverCtrl: PopoverController) {
 
-        this.events.subscribe('calendar:change-mode', (mode) => { this.changeCalendarMode(mode) })
+        this.events.subscribe('calendar:change-mode', (mode) => { this.changeCalendarMode(mode) });
+        this.events.subscribe('calendar:load-events', (silent) => { this.loadEvents(true, silent) });
     }
 
-    loadEvents(startRange = null, endRange = null, currentDate = null) {
-        if (this.isPeriodLoaded(startRange, endRange)) {
+    ionViewWillEnter() {
+        if (this.loadedData.lastLoad && this.loadedData.lastLoad.diff(moment(), 'minutes') > 15) {
+            this.loadEvents(true);
+        }
+    }
+
+    loadEvents(forceReload = false, silent = false, startRange = null, endRange = null, currentDate = null) {
+        if (!forceReload && this.isPeriodLoaded(startRange, endRange)) {
             this.eventSource = [...this.eventList];
             return;
         }
@@ -63,7 +72,9 @@ export class CalendarioPage {
             content: 'Carregando...'
         });
 
-        loader.present();
+        if (!silent) {
+            loader.present();
+        }
 
         const currentMoment = moment(currentDate ? currentDate : this.calendar.currentDate);
         const startOfMonth = currentMoment.clone().startOf('month').subtract(2, 'months');
@@ -83,13 +94,15 @@ export class CalendarioPage {
                     allDay: false,
                     roomId: event.roomId,
                     roomName: event.roomName,
-                    userId: event.userId
+                    userId: event.userId,
+                    userName: event.userName
                 }
             });
 
             this.eventSource = [...this.eventList];
-            this.loadedPeriod.start = startOfMonth;
-            this.loadedPeriod.end = endOfMonth;
+            this.loadedData.start = startOfMonth;
+            this.loadedData.end = endOfMonth;
+            this.loadedData.lastLoad = moment();
 
             loader.dismiss();
         }).catch(() => {
@@ -99,11 +112,11 @@ export class CalendarioPage {
     }
 
     isPeriodLoaded(startRange, endRange) {
-        if (!startRange || !endRange || !this.loadedPeriod.start || !this.loadedPeriod.end) {
+        if (!startRange || !endRange || !this.loadedData.start || !this.loadedData.end) {
             return false;
         }
 
-        return startRange.isSameOrAfter(this.loadedPeriod.start) && endRange.isSameOrBefore(this.loadedPeriod.end);
+        return startRange.isSameOrAfter(this.loadedData.start) && endRange.isSameOrBefore(this.loadedData.end);
     }
 
     onRangeChanged(event) {
@@ -113,7 +126,7 @@ export class CalendarioPage {
         let startDate = moment(event.startTime);
         let endDate = moment(event.endTime);
 
-        this.loadEvents(startDate, endDate, currentDate);
+        this.loadEvents(false, false, startDate, endDate, currentDate);
     }
 
     onViewTitleChanged(title) {
@@ -133,6 +146,10 @@ export class CalendarioPage {
     }
 
     editEvent(event) {
+        if (this.loggedUser.userId !== event.userId && !this.loggedUser.userAdmin) {
+            return;
+        }
+
         this.navCtrl.push(EditEventoPage, event);
     }
 

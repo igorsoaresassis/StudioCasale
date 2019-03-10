@@ -17,7 +17,7 @@ export class CalendarioService {
         this._http.setHeader('*', 'Authorization', this.token);
     }
 
-    insert(description, startDate, endDate, roomId) {
+    insert(description, startDate, endDate, roomId, userId) {
         let api = `${this._service.URL_API}controller=event&action=insert`;
 
         let data = {
@@ -25,7 +25,7 @@ export class CalendarioService {
             eventStartDate: startDate,
             eventEndDate: endDate,
             roomId: roomId,
-            userId: this.loggedUserId
+            userId: userId
         };
 
         return this._http
@@ -38,7 +38,7 @@ export class CalendarioService {
             });
     }
 
-    update(eventId, description, startDate, endDate, roomId) {
+    update(eventId, description, startDate, endDate, roomId, userId) {
         let api = `${this._service.URL_API}controller=event&action=update`;
 
         let data = {
@@ -47,7 +47,7 @@ export class CalendarioService {
             eventStartDate: startDate,
             eventEndDate: endDate,
             roomId: roomId,
-            userId: this.loggedUserId
+            userId: userId
         };
 
         return this._http

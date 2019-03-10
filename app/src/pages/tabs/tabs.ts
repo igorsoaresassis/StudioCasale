@@ -17,13 +17,11 @@ export class TabsPage implements OnInit {
     tab3Root;
     tab4Root;
     tab5Root;
-    status;
-    statusMenu;
+    userAdmin;
 
     constructor(public events: Events) {
         this.events.subscribe('user', (user) => {
-            this.status = user;
-            if (this.status === true) {
+            if (user) {
                 this.tab1Root = HomePage;
                 this.tab2Root = CalendarioPage;
                 this.tab3Root = AtendentePage;
@@ -38,17 +36,15 @@ export class TabsPage implements OnInit {
     }
 
     ngOnInit() {
-        this.statusMenu = localStorage.getItem('userStatus')
-        if (this.statusMenu === "true") {
-            this.tab1Root = HomePage;
-            this.tab2Root = CalendarioPage;
+        this.userAdmin = localStorage.getItem('userAdmin') === "true";
+
+        this.tab1Root = HomePage;
+        this.tab2Root = CalendarioPage;
+        this.tab5Root = PerfilPage;
+
+        if (this.userAdmin) {
             this.tab3Root = AtendentePage;
             this.tab4Root = SalaPage;
-            this.tab5Root = PerfilPage;
-        } else {
-            this.tab1Root = HomePage;
-            this.tab2Root = CalendarioPage;
-            this.tab5Root = PerfilPage;
         }
     }
 }

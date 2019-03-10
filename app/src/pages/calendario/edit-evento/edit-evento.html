@@ -28,9 +28,17 @@
                     <ion-label floating>Hora de Fim</ion-label>
                     <ion-datetime floating [(ngModel)]="event.endTime" displayFormat="HH:mm" pickerFormat="HH mm"></ion-datetime>
                 </ion-item>
+                <ion-item *ngIf="loggedUser.userAdmin">
+                    <ion-label floating>Selecione o atendente</ion-label>
+                    <ion-select floating [(ngModel)]="event.userId" [selectOptions]="userSelectOptions" multiple="false">
+                        <div *ngFor="let user of userList">
+                            <ion-option value="{{user.userId}}">{{user.userName}}</ion-option>
+                        </div>
+                    </ion-select>
+                </ion-item>
                 <ion-item>
                     <ion-label floating>Selecione a Sala</ion-label>
-                    <ion-select floating [(ngModel)]="event.roomId" [selectOptions]="selectOptions" multiple="false">
+                    <ion-select floating [(ngModel)]="event.roomId" [selectOptions]="roomSelectOptions" multiple="false">
                         <div *ngFor="let room of roomList">
                             <ion-option value="{{room.roomId}}">{{room.roomName}}</ion-option>
                         </div>

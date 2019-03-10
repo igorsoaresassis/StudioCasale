@@ -9,6 +9,7 @@ class Event
 	var $roomId;
 	var $roomName;
 	var $userId;
+	var $userName;
 
 	function FillByObject($obj)
 	{
@@ -32,6 +33,9 @@ class Event
 
 		if (property_exists($obj, 'userId'))
 			$this->userId = $obj->userId;
+
+		if (property_exists($obj, 'userName'))
+			$this->userName = $obj->userName;
 	}
 
 	function FillByDB($dbArray)
@@ -56,5 +60,8 @@ class Event
 
 		if (array_key_exists('user_id', $dbArray))
 			$this->userId = $dbArray['user_id'];
+
+		if (array_key_exists('user_name', $dbArray))
+			$this->userName = $dbArray['user_name'];
 	}
 }

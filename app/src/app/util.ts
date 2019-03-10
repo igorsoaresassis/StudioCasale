@@ -30,3 +30,12 @@ export const validateToken = (errorCode, navCtrl) => {
 
     return true;
 };
+
+export const getLoggedUser = () => {
+    return {
+        userId: localStorage.getItem('userId'),
+        userName: localStorage.getItem('userName'),
+        userEmail: localStorage.getItem('userEmail'),
+        userAdmin: localStorage.getItem('userAdmin') === "true"
+    };
+};

@@ -27,15 +27,16 @@ class EventRepository extends BaseRepository
 		$conn = $this->db->getConnection();
 
 		$sql = 'SELECT 
-			   event_id, event_start_date, event_end_date, event_description, e.room_id, r.room_name, user_id
+			   event_id, event_start_date, event_end_date, event_description, e.room_id, r.room_name, e.user_id, u.user_name
             FROM 
                 event e
-            INNER JOIN room r ON  (e.room_id = r.room_id)
+            INNER JOIN room r ON (e.room_id = r.room_id)
+            INNER JOIN user u ON (e.user_id = u.user_id)
             WHERE
             	(:ft_start_date IS NULL OR event_start_date >= :ft_start_date) AND
             	(:ft_end_date IS NULL OR event_end_date <= :ft_end_date) AND
             	(:ft_room_id IS NULL OR e.room_id = :ft_room_id) AND
-            	(:ft_user_id IS NULL OR user_id = :ft_user_id)
+            	(:ft_user_id IS NULL OR e.user_id = :ft_user_id)
             ORDER BY event_start_date';
 
 		$stm = $conn->prepare($sql);
