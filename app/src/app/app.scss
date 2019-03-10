@@ -31,15 +31,32 @@
     color: map-get($colors, secondary) !important;
 }
 
+.scroll-content {
+    .grid {
+        padding: 0;
+
+        [col-12] {
+            padding: 0;
+        }
+    }
+}
+
+.item-md {
+    padding-left: 0;
+
+    .item-inner {
+        border-bottom-color: map-get($colors, grey) !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        padding-right: 0 !important;
+    }
+}
+
 //datetime defaults
 ion-datetime {
     max-width: unset;
-    height: 50px;
     position: relative;
     display: flex;
-    border: 1px solid #CCC;
-    border-radius: 10px;
-    margin-bottom: 10px;
 
     .text-input-md,
     .text-input-ios {
@@ -74,11 +91,8 @@ ion-datetime {
 
 //Input defaults
 ion-input {
-    height: 50px;
     display: flex;
-    border: 1px solid #CCC;
-    border-radius: 10px;
-    margin-bottom: 10px;
+
     .text-input-md,
     .text-input-ios {
         margin: 13px 10px;
@@ -112,27 +126,31 @@ ion-input {
 
 ion-select {
     max-width: unset;
-    height: 50px;
     position: relative;
     display: flex;
-    border: 1px solid #CCC;
-    border-radius: 10px;
-    margin-bottom: 10px;
+
     &.select-md {
-        padding: 0;
+        padding: 14px 8px 8px 0 !important;
+
         .select-icon {
             width: 20px;
             height: 100%;
+
             .select-icon-inner {
                 left: 0;
             }
         }
     }
-    .select-placeholder,
     .select-text {
         display: flex;
         align-items: center;
-        margin: 13px 10px;
+        margin: 0 0 8px;
+    }
+
+    .select-placeholder {
+        display: flex;
+        align-items: center;
+        margin: 8px 0;
     }
 }
 

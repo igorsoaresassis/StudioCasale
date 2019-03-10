@@ -8,16 +8,34 @@
     <ion-grid>
         <ion-row>
             <ion-col col-12>
-                <ion-input [(ngModel)]="event.title" placeholder="Descrição"></ion-input>
-                <ion-datetime [(ngModel)]="event.startTime" placeholder="Data de Início"  displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY"></ion-datetime>
-                <ion-datetime [(ngModel)]="event.startTime" placeholder="Hora de Início"  displayFormat="HH:mm" pickerFormat="HH mm"></ion-datetime>
-                <ion-datetime [(ngModel)]="event.endTime" placeholder="Data de Fim" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY"></ion-datetime>
-                <ion-datetime [(ngModel)]="event.endTime" placeholder="Hora de Fim" displayFormat="HH:mm" pickerFormat="HH mm"></ion-datetime>
-                <ion-select [(ngModel)]="event.roomId" placeholder="Selecione a Sala" [selectOptions]="selectOptions" multiple="false">
-                    <div *ngFor="let room of roomList">
-                        <ion-option value="{{room.roomId}}">{{room.roomName}}</ion-option>
-                    </div>
-                </ion-select>
+                <ion-item>
+                    <ion-label color="primary" floating>Descrição</ion-label>
+                    <ion-input floating [(ngModel)]="event.title"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-label color="primary" floating>Data de Início</ion-label>
+                    <ion-datetime floating [(ngModel)]="event.startTime" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY"></ion-datetime>
+                </ion-item>
+                <ion-item>
+                    <ion-label color="primary" floating>Hora de Início</ion-label>
+                    <ion-datetime floating [(ngModel)]="event.startTime" displayFormat="HH:mm" pickerFormat="HH mm"></ion-datetime>
+                </ion-item>
+                <ion-item>
+                    <ion-label color="primary" floating>Data de Fim</ion-label>
+                    <ion-datetime floating [(ngModel)]="event.endTime" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY"></ion-datetime>
+                </ion-item>
+                <ion-item>
+                    <ion-label color="primary" floating>Hora de Fim</ion-label>
+                    <ion-datetime floating [(ngModel)]="event.endTime" displayFormat="HH:mm" pickerFormat="HH mm"></ion-datetime>
+                </ion-item>
+                <ion-item>
+                    <ion-label color="primary" floating>Selecione a Sala</ion-label>
+                    <ion-select floating [(ngModel)]="event.roomId" [selectOptions]="selectOptions" multiple="false">
+                        <div *ngFor="let room of roomList">
+                            <ion-option value="{{room.roomId}}">{{room.roomName}}</ion-option>
+                        </div>
+                    </ion-select>
+                </ion-item>
 				<button ion-button full (click)="saveEvent()">Salvar</button>
             </ion-col>
         </ion-row>
