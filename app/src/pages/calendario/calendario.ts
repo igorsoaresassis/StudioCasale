@@ -7,12 +7,16 @@ import {
     AlertController, PopoverController, ViewController
 } from 'ionic-angular';
 
+import * as moment from "moment";
+
 import {CalendarComponent} from 'ionic2-calendar/calendar';
 import {MonthViewComponent} from 'ionic2-calendar/monthview';
 import {WeekViewComponent} from 'ionic2-calendar/weekview';
 import {DayViewComponent} from 'ionic2-calendar/dayview';
 
 import {CalendarioService} from '../../domain/calendario/calendario_service';
+import {m} from "@angular/core/src/render3";
+import {showErrorAlert} from "../../app/util";
 
 @Component({
     selector: 'page-calendario',
@@ -20,6 +24,7 @@ import {CalendarioService} from '../../domain/calendario/calendario_service';
 })
 export class CalendarioPage {
     eventList = [];
+    eventSource = [];
     viewTitle;
 
     calendarModes = [
@@ -29,8 +34,13 @@ export class CalendarioPage {
     ];
 
     calendar = {
-        mode: this.calendarModes[1].key,
+        mode: this.calendarModes[0].key,
         currentDate: new Date()
+    };
+
+    loadedPeriod = {
+        start: null,
+        end: null
     };
 
     constructor(public navCtrl: NavController,
@@ -43,14 +53,25 @@ export class CalendarioPage {
         this.events.subscribe('calendar:change-mode', (mode) => { this.changeCalendarMode(mode) })
     }
 
-    async ionViewWillEnter() {
-        let loading = this.loadingCtrl.create({
+    loadEvents(startRange = null, endRange = null, currentDate = null) {
+        if (this.isPeriodLoaded(startRange, endRange)) {
+            this.eventSource = [...this.eventList];
+            return;
+        }
+
+        let loader = this.loadingCtrl.create({
             content: 'Carregando...'
         });
 
-        loading.present();
+        loader.present();
 
-        this.calendarioService.list().then(response => {
+        const currentMoment = moment(currentDate ? currentDate : this.calendar.currentDate);
+        const startOfMonth = currentMoment.clone().startOf('month').subtract(2, 'months');
+        const endOfMonth   = currentMoment.clone().endOf('month').add(2, 'months');
+
+        const filter = `startDate:${ startOfMonth.format('YYYY-MM-DD') }|endDate:${ endOfMonth.format('YYYY-MM-DD')  }`;
+
+        this.calendarioService.list(filter).then(response => {
             console.log(response);
 
             this.eventList = response.data.map((event) => {
@@ -66,8 +87,33 @@ export class CalendarioPage {
                 }
             });
 
-            loading.dismiss();
+            this.eventSource = [...this.eventList];
+            this.loadedPeriod.start = startOfMonth;
+            this.loadedPeriod.end = endOfMonth;
+
+            loader.dismiss();
+        }).catch(() => {
+            loader.dismiss();
+            showErrorAlert(this.alertCtrl, 'Falha ao carregar eventos.');
         });
+    }
+
+    isPeriodLoaded(startRange, endRange) {
+        if (!startRange || !endRange || !this.loadedPeriod.start || !this.loadedPeriod.end) {
+            return false;
+        }
+
+        return startRange.isSameOrAfter(this.loadedPeriod.start) && endRange.isSameOrBefore(this.loadedPeriod.end);
+    }
+
+    onRangeChanged(event) {
+        let date = event.startTime.getDate();
+        let month = (event.startTime.getMonth() + (date !== 1 ? 1 : 0)) % 12;
+        let currentDate = moment().month(month);
+        let startDate = moment(event.startTime);
+        let endDate = moment(event.endTime);
+
+        this.loadEvents(startDate, endDate, currentDate);
     }
 
     onViewTitleChanged(title) {

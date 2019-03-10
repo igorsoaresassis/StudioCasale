@@ -42,12 +42,14 @@
         formatWeekTitle="MMMM yyyy"
         formatHourColumn="HH:mm"
         formatDayTitle="dd MMMM - yyyy"
-        [eventSource]="eventList"
+        queryMode="remote"
+        [eventSource]="eventSource"
         [calendarMode]="calendar.mode"
         [currentDate]="calendar.currentDate"
         [monthviewEventDetailTemplate]="monthviewEventDetailTemplate"
         (onEventSelected)="editEvent($event)"
         (onTitleChanged)="onViewTitleChanged($event)"
+        (onRangeChanged)="onRangeChanged($event)"
         step="30">
     </calendar>
 </ion-content>

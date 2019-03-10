@@ -18,7 +18,7 @@ export class CalendarioService {
     }
 
     insert(description, startDate, endDate, roomId) {
-        let api = this._service.URL_API + "controller=event&action=insert";
+        let api = `${this._service.URL_API}controller=event&action=insert`;
 
         let data = {
             eventDescription: description,
@@ -39,7 +39,7 @@ export class CalendarioService {
     }
 
     update(eventId, description, startDate, endDate, roomId) {
-        let api = this._service.URL_API + "controller=event&action=update";
+        let api = `${this._service.URL_API}controller=event&action=update`;
 
         let data = {
             eventId: eventId,
@@ -60,8 +60,12 @@ export class CalendarioService {
             });
     }
 
-    list() {
-        let api = this._service.URL_API + "controller=event&action=list";
+    list(filter = null) {
+        let api = `${ this._service.URL_API}controller=event&action=list`;
+
+        if (filter) {
+            api += `&key=${ filter }`;
+        }
 
         return this._http
             .get(api, {}, {})
@@ -74,7 +78,7 @@ export class CalendarioService {
     }
 
     remove(id) {
-        let api = this._service.URL_API + "controller=event&action=delete&key=" + `${id}`;
+        let api = `${this._service.URL_API}controller=event&action=delete&key=${id}`;
 
         return this._http
             .delete(api, {}, {})
