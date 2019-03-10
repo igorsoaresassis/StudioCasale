@@ -7,18 +7,31 @@
     <ion-grid>
         <ion-row>
             <ion-col col-12>
-                <ion-input [(ngModel)]="user.userName" type="text" placeholder="Nome"></ion-input>
-                <ion-input [(ngModel)]="user.userEmail" type="email" placeholder="E-mail"></ion-input>
-                <ion-select [(ngModel)]="user.userRooms" placeholder="Selecione as salas" [selectOptions]="selectOptions" multiple="true">
-                    <div *ngFor="let room of roomList">
-                        <ion-option value="{{ room.roomId }}">{{ room.roomName }}</ion-option>
-                    </div>
-                </ion-select>
+                <form (ngSubmit)="saveUser()">
+                    <ion-item>
+                        <ion-label color="primary" floating>Nome</ion-label>
+                        <ion-input [(ngModel)]="user.userName" name="nome" type="text" placeholder="Nome"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label color="primary" floating>E-mail</ion-label>
+                        <ion-input [(ngModel)]="user.userEmail" name="email" type="email" placeholder="E-mail"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label color="primary" floating>Selecione as salas</ion-label>
+                        <ion-select [(ngModel)]="user.userRooms" name="selecioneSala" [selectOptions]="selectOptions" multiple="true">
+                            <div *ngFor="let room of roomList">
+                                <ion-option value="{{ room.roomId }}">{{ room.roomName }}</ion-option>
+                            </div>
+                        </ion-select>
+                    </ion-item>
+                    <p *ngIf="user.userId" class="password-info">* Preencha caso deseje alterar a senha</p>
 
-                <p *ngIf="user.userId" class="password-info">* Preencha caso deseje alterar a senha</p>
-                <ion-input [(ngModel)]="user.userPassword" [ngClass]="{'input-danger': user.userId}" type="password" placeholder="Senha"></ion-input>
-
-                <button ion-button full (click)="saveUser()">Salvar</button>
+                    <ion-item>
+                        <ion-label color="primary" floating>Senha</ion-label>
+                        <ion-input [(ngModel)]="user.userPassword" name="senha" [ngClass]="{'input-danger': user.userId}" type="password"></ion-input>
+                    </ion-item>
+                    <button ion-button full type="submit">Salvar</button>
+                </form>
             </ion-col>
         </ion-row>
     </ion-grid>

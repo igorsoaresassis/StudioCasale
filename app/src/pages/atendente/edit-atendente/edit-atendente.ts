@@ -70,9 +70,18 @@ export class EditAtendentePage {
         loader.present();
 
         if (this.user.userId) {
-            if(this.user.userPassword === null) {
+            if(!this.user.userName) {
               loader.dismiss();
-              showErrorAlert(this.alertCtrl, 'Campo Senha está vazio');
+              showErrorAlert(this.alertCtrl, 'Por favor preencher o campo nome!');
+              return;
+            } else if(!this.user.userEmail) {
+              loader.dismiss();
+              showErrorAlert(this.alertCtrl, 'Por favor preencher o campo e-mail!');
+              return;
+            } else if(!this.user.userRooms) {
+              loader.dismiss();
+              showErrorAlert(this.alertCtrl, 'Por favor preencher o campo Salas!');
+              return;
             } else {
               this.usuarioService
                   .update(this.user)
@@ -93,9 +102,10 @@ export class EditAtendentePage {
                   })
               }
         } else {
-            if(this.user.userName === undefined ||  this.user.userEmail === undefined || this.user.userPassword === undefined || this.user.userRooms === undefined) {
+            if(!this.user.userName ||  !this.user.userEmail || !this.user.userPassword || !this.user.userRooms) {
               loader.dismiss();
-              showErrorAlert(this.alertCtrl, 'Verifique se algum campo está vazio!');
+              showErrorAlert(this.alertCtrl, 'Por Favor, preencha todos os campos!');
+              return;
             } else {
               this.usuarioService
                   .insert(this.user.userName, this.user.userEmail, this.user.userPassword, this.user.userRooms)
@@ -115,7 +125,7 @@ export class EditAtendentePage {
                       loader.dismiss();
                       showErrorAlert(this.alertCtrl, 'Falha ao inserir usuário.');
                   })
-          }
+            }
         }
     }
 }

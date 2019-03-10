@@ -34,15 +34,12 @@ export class EditSalaPage {
         let alert = this.alertCtrl.create({ title: 'Sucesso', buttons: [{text: "Ok"}] });
         let loader = this.loadingCtrl.create({content: 'Salvando...'});
         loader.present();
-        let saveName = this.room.roomName;
 
         if (this.room.roomId) {
-          if(this.room.roomName === "") {
+          if(!this.room.roomName) {
             loader.dismiss();
             showErrorAlert(this.alertCtrl, 'Campo está vazio!');
-          } else if(saveName === this.room.roomName) {
-            loader.dismiss();
-            showErrorAlert(this.alertCtrl, 'Campo não editado!');
+            return;
           } else {
             this.salaService
                 .update(this.room.roomId, this.room.roomName)

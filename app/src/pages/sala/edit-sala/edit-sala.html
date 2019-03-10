@@ -7,8 +7,13 @@
     <ion-grid>
         <ion-row>
             <ion-col col-12>
-                <ion-input [(ngModel)]="room.roomName" type="text" placeholder="Nome">{{nome}}</ion-input>
-                <button ion-button full (click)="saveRoom()">Salvar</button>
+                <form (ngSubmit)="saveRoom()">
+                    <ion-item>
+                        <ion-label color="primary" floating>Nome</ion-label>
+                        <ion-input [(ngModel)]="room.roomName" name="nome" type="text">{{nome}}</ion-input>
+                    </ion-item>
+                    <button ion-button full type="submit">Salvar</button>
+                </form>
             </ion-col>
         </ion-row>
     </ion-grid>
