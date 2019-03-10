@@ -20,7 +20,12 @@
         </button>
         <ion-title>{{viewTitle}}</ion-title>
         <ion-buttons end>
-            <button ion-button [disabled]="isToday" (click)="today()">Hoje</button>
+            <button ion-button (click)="goToday()">Hoje</button>
+        </ion-buttons>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="presentPopover($event)">
+                <ion-icon name="more"></ion-icon>
+            </button>
         </ion-buttons>
     </ion-navbar>
 </ion-header>
@@ -31,39 +36,18 @@
             <ion-icon name="add"></ion-icon>
         </button>
     </ion-fab>
-    <!--<ion-grid>-->
-        <!--<ion-row ion-content>-->
-            <!--<ion-col col-6>-->
-                <!--<ion-select [selectOptions]="modesSelectOptions" [(ngModel)]="calendar.mode" style="max-width: 100%">-->
-                    <!--<ion-option (ionSelect)="onOptionSelected($event)" *ngFor="let mode of calendarModes" [value]="mode.key">-->
-                        <!--{{mode.value}}-->
-                    <!--</ion-option>-->
-                <!--</ion-select>-->
-            <!--</ion-col>-->
-            <!--<ion-col col-6>-->
-                <!--<ion-select placeholder="Filtrar por Sala" [selectOptions]="roomSelectOptions" [(ngModel)]="selectedRoom" style="max-width: 100%">-->
-                    <!--<ion-option (ionSelect)="onSelected($event)" [value]="">Todas</ion-option>-->
-                    <!--<ion-option (ionSelect)="onSelected($event)" *ngFor="let room of roomList" [value]="room.roomId">-->
-                        <!--{{room.roomName}}-->
-                    <!--</ion-option>-->
-                <!--</ion-select>-->
-            <!--</ion-col>-->
-        <!--</ion-row>-->
-        <!--<ion-row>-->
-            <!--<ion-col col-12>-->
-                <calendar
-            [monthviewEventDetailTemplate]="monthviewEventDetailTemplate"
-            [eventSource]="eventList"
-            [calendarMode]="calendar.mode"
-            [currentDate]="calendar.currentDate"
-            formatDayHeader="EEEEEE"
-            (onEventSelected)="editEvent($event)"
-            (onCurrentDateChanged)="onCurrentDateChanged($event)"
-            (onTitleChanged)="onViewTitleChanged($event)"
-            (onTimeSelected)="onTimeSelected($event)"
-            step="30">
-        </calendar>
-            <!--</ion-col>-->
-        <!--</ion-row>-->
-    <!--</ion-grid>-->
+    <calendar
+        formatDayHeader="EEEEEE"
+        formatWeekViewDayHeader="EEEEEE d"
+        formatWeekTitle="MMMM yyyy"
+        formatHourColumn="HH:mm"
+        formatDayTitle="dd MMMM - yyyy"
+        [eventSource]="eventList"
+        [calendarMode]="calendar.mode"
+        [currentDate]="calendar.currentDate"
+        [monthviewEventDetailTemplate]="monthviewEventDetailTemplate"
+        (onEventSelected)="editEvent($event)"
+        (onTitleChanged)="onViewTitleChanged($event)"
+        step="30">
+    </calendar>
 </ion-content>

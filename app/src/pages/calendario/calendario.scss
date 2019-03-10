@@ -9,6 +9,10 @@ page-calendario {
         }
     }
 
+    .toolbar-title-md {
+        text-transform: capitalize;
+    }
+
     .monthview-container {
         monthview {
             > div {
@@ -23,37 +27,35 @@ page-calendario {
         }
     }
 
-    .monthview-selected[_ngcontent-c1] {
-        background: map-get($colors, primary) !important;
-    }
-
     .monthview-datetable {
         border: none !important;
-    }
 
-    .monthview-datetable th {
-        text-transform: uppercase;
-    }
+        th {
+            text-transform: uppercase;
+        }
 
-    .monthview-datetable th, .monthview-datetable td {
-        border: none !important;
-        color: map-get($colors, dark) !important;
-        font-size: 15px !important;
-    }
+        th, td {
+            border: none !important;
+            color: map-get($colors, dark) !important;
+            font-size: 15px !important;
+        }
 
-    .monthview-datetable td.monthview-current {
-        font-weight: bold;
-    }
-    .monthview-datetable td.monthview-selected {
-        background-color: rgba(map-get($colors, primary), 0.5) !important;
-        border: 1px solid map-get($colors, primary) !important;
-        color: inherit;
+        td {
+            &.monthview-current {
+                font-weight: bold;
+            }
+
+            &.monthview-selected {
+                background-color: rgba(map-get($colors, primary), 0.5) !important;
+                border: 1px solid map-get($colors, primary) !important;
+                color: inherit;
+            }
+        }
     }
 
     .monthview-primary-with-event, .monthview-secondary-with-event {
         background-color: rgba(map-get($colors, primary), 0.3) !important;
     }
-
 
     .event-detail-container {
         border-top: 1px solid map-get($colors, grey) !important;
@@ -99,6 +101,77 @@ page-calendario {
 
         .event-room {
             font-size: 12px;
+        }
+    }
+
+    .weekview-header {
+        border: none !important;
+
+        th {
+            line-height: 1.3 !important;
+            padding: 5px 8px !important;
+            text-transform: uppercase;
+            white-space: normal;
+            border-bottom: 1px solid rgba(map-get($colors, grey), 0.8) !important;
+            border-right: 1px solid rgba(map-get($colors, grey), 0.5) !important;
+            background-color: rgba(map-get($colors, grey), 0.1);
+        }
+
+        .calendar-hour-column {
+            border: none;
+            background-color: transparent !important;
+
+        }
+    }
+
+    .weekview-allday-table {
+        display: none !important;
+    }
+
+    .weekview-normal-event-container {
+        margin-top: 41px;
+
+        .scroll-content {
+            padding: 0 !important;
+        }
+    }
+
+    .weekview-normal-event-table,
+    .dayview-normal-event-table {
+        border: none !important;
+        margin-bottom: 70px;
+    }
+
+    .weekview-normal-event-container,
+    .dayview-normal-event-container {
+        .calendar-hour-column {
+            border: none !important;
+            border-bottom: 1px solid rgba(map-get($colors, grey), 0.2) !important;
+            padding-right: 5px;
+            font-size: 10px;
+        }
+
+        .calendar-cell {
+            border-color: rgba(map-get($colors, grey), 0.5) !important;
+            border-bottom: 1px solid rgba(map-get($colors, grey), 0.2) !important;
+            border-top: none !important;
+
+            .calendar-event-inner {
+                background-color: map-get($colors, primary);
+                border-radius: 5px;
+            }
+        }
+    }
+
+    .dayview-allday-table {
+        display: none;
+    }
+
+    .dayview-normal-event-container {
+        margin-top: 0;
+
+        .scroll-content {
+            padding: 0 !important;
         }
     }
 }

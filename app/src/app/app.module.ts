@@ -15,7 +15,7 @@ import {TabsPage} from '../pages/tabs/tabs';
 
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
-import {CalendarioPage} from '../pages/calendario/calendario';
+import {CalendarioPage, CalendarPopover} from '../pages/calendario/calendario';
 import {AtendentePage} from '../pages/atendente/atendente';
 import {PerfilPage} from '../pages/perfil/perfil';
 import {EditSalaPage} from '../pages/sala/edit-sala/edit-sala';
@@ -45,6 +45,7 @@ registerLocaleData(localePtBr);
         LoginPage,
         EditAtendentePage,
         EditEventoPage,
+        CalendarPopover
     ],
     imports: [
         BrowserModule,
@@ -64,7 +65,8 @@ registerLocaleData(localePtBr);
         EditSalaPage,
         LoginPage,
         EditAtendentePage,
-        EditEventoPage
+        EditEventoPage,
+        CalendarPopover
     ],
     providers: [
         StatusBar,
