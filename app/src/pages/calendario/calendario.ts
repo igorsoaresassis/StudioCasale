@@ -60,6 +60,7 @@ export class CalendarioPage {
         if (this.loadedData.lastLoad && this.loadedData.lastLoad.diff(moment(), 'minutes') > 15) {
             this.loadEvents(true);
         }
+        document.querySelector(".tabbar").setAttribute("style", "z-index:1");
     }
 
     loadEvents(forceReload = false, silent = false, startRange = null, endRange = null, currentDate = null) {

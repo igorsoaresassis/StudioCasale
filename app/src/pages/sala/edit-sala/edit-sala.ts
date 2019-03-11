@@ -28,6 +28,7 @@ export class EditSalaPage {
         if (this.room.roomId) {
             this.pageTitle = 'Editar Sala'
         }
+        document.querySelector(".tabbar").setAttribute("style", "z-index:-1");
     }
 
     saveRoom() {

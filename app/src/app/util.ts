@@ -15,6 +15,7 @@ export const showErrorAlert = (alertCtrl, message) => {
 };
 
 export const logout = (navCtrl) => {
+    document.querySelector(".tabbar").setAttribute("style", "z-index:-1");
     localStorage.clear();
     navCtrl.setRoot(LoginPage);
 };

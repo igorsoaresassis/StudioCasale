@@ -13,7 +13,9 @@
     <ion-row>
         <ion-col col-12>
             <h2>Bem vindo {{ getFirstName(user.userName) }}</h2>
-            <p class="mensagem">Você tem 00 atendimentos serem realizados essa semana</p>
+            <p class="mensagem">Você tem {{valueMes}} atendimentos a serem realizados neste mês.</p>
+            <p class="mensagem">Você tem {{valueSemana}} atendimentos a serem realizados nessa semana.</p>
+            <p class="mensagem">Você tem {{valueDia}} atendimentos a serem realizados hoje.</p>
         </ion-col>
     </ion-row>
 </ion-content>

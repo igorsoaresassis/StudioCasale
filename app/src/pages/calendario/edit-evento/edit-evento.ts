@@ -84,7 +84,7 @@ export class EditEventoPage {
         let loader = this.loadingCtrl.create({ content: 'Carregando...' });
         loader.present();
 
-        document.querySelector(".tabbar").setAttribute("style", "z-index:1");
+        document.querySelector(".tabbar").setAttribute("style", "z-index:-1");
 
         this.salaService
             .list()

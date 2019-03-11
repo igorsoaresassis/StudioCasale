@@ -22,6 +22,7 @@ export class SalaPage {
 
     ionViewWillEnter() {
         this.loadRooms();
+        document.querySelector(".tabbar").setAttribute("style", "z-index:1");
     }
 
     loadRooms() {

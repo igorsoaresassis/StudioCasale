@@ -5,6 +5,9 @@ import {NavController, LoadingController, Events, AlertController} from 'ionic-a
 import {LoginPage} from '../login/login';
 import {logout} from '../../app/util';
 import { Network } from '@ionic-native/network/ngx';
+import { CalendarioService } from '../../domain/calendario/calendario_service';
+import * as moment from "moment";
+
 
 @Component({
     selector: 'page-home',
@@ -19,11 +22,16 @@ export class HomePage {
     };
     public statusConexao;
 
+    public valueMes;
+    public valueSemana;
+    public valueDia;
+
     constructor(
         public navCtrl: NavController,
         public events: Events,
         public loadingCtrl: LoadingController,
         public usuarioService: UsuarioService,
+        public calendarioService: CalendarioService,
         public network: Network,
         public alertCtrl: AlertController
     ) {
@@ -37,6 +45,7 @@ export class HomePage {
 
     ionViewWillEnter() {
       this.statusToken();
+      this.searchEvents();
     }
 
     // ionViewDidEnter() {
@@ -93,5 +102,38 @@ export class HomePage {
       .catch(() => {
           showErrorAlert(this.alertCtrl, 'Falha ao carregar App.');
       })
+    }
+
+    searchEvents() {
+      let loader = this.loadingCtrl.create({
+          content: 'Carregando...'
+      });
+
+      loader.present();
+
+      let dia = moment().format("YYYY-MM-DD");
+      let inicioMes = moment().format("YYYY-MM-01");
+      let fimMes = moment().endOf('month').format("YYYY-MM-DD");
+
+      let inicioSemana = moment().startOf('week').format("YYYY-MM-DD");
+      let fimSemana = moment().endOf('week').format("YYYY-MM-DD");
+
+      this.calendarioService.list(`startDate:${dia}|endDate:${dia}`).then(response => {
+        console.log(response);
+        this.valueDia = response.data.length;
+
+        this.calendarioService.list(`startDate:${inicioMes}|endDate:${fimMes}`).then(response => {
+          console.log(response);
+          this.valueMes = response.data.length;
+
+          this.calendarioService.list(`startDate:${inicioSemana}|endDate:${fimSemana}`).then(response => {
+            console.log(response);
+            this.valueSemana = response.data.length;
+            loader.dismiss();
+          });
+        });
+      });
+
+
     }
 }
