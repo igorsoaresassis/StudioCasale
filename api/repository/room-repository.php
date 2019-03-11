@@ -31,7 +31,14 @@ class RoomRepository extends BaseRepository
             FROM 
                 room r';
 
+        if (!GetLoggedUser()->userAdmin)
+            $sql .= ' INNER JOIN user_room ur ON (r.room_id = ur.room_id) WHERE ur.user_id = :user_id';
+
 		$stm = $conn->prepare($sql);
+
+        if (!GetLoggedUser()->userAdmin)
+            $stm->bindParam(':user_id', GetLoggedUser()->userId);
+
 		$stm->execute();
 		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 

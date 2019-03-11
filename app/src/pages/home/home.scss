@@ -1,24 +1,31 @@
+@import "../../theme/variables";
+
 page-home {
-    p.mensagem {
+    h2 {
+        text-align: center;
+    }
+
+    .info-text {
+        margin: 30px 5px 20px;
+        font-size: 14px;
+    }
+
+    .mensagem {
         font-size: 16px;
-        margin: 0;
-        text-align: left;
-        font-weight: 900;
-        padding: 10px;
-        border: 1px solid;
         display: flex;
-        flex-direction: column;
         background-color: rgba(map-get($colors, primary), 0.1);
         border: 1px solid map-get($colors, primary);
         border-left: 4px solid map-get($colors, primary);
-        margin: 10px 0;
-        padding: 15px;
+        border-right: 4px solid map-get($colors, primary);
+        margin: 20px 0;
+        padding: 20px;
         border-radius: 5px;
         -webkit-border-radius: 5px;
         -moz-border-radius: 5px;
         -ms-border-radius: 5px;
         -o-border-radius: 5px;
     }
+
     #home-image {
         height: 44px;
         margin-left: 10px;

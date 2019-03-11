@@ -1,13 +1,10 @@
-import { UsuarioService } from './../../domain/usuario/usuario_service';
-import { validateToken, showErrorAlert } from './../../app/util';
 import {Component} from '@angular/core';
+import {Network} from '@ionic-native/network/ngx';
 import {NavController, LoadingController, Events, AlertController} from 'ionic-angular';
-import {LoginPage} from '../login/login';
-import {logout} from '../../app/util';
-import { Network } from '@ionic-native/network/ngx';
-import { CalendarioService } from '../../domain/calendario/calendario_service';
+import {UsuarioService} from './../../domain/usuario/usuario_service';
+import {CalendarioService} from '../../domain/calendario/calendario_service';
 import * as moment from "moment";
-
+import {validateToken, showErrorAlert, getLoggedUser, logout} from './../../app/util';
 
 @Component({
     selector: 'page-home',
@@ -15,12 +12,7 @@ import * as moment from "moment";
 })
 export class HomePage {
 
-    public user = {
-        userId: null,
-        userName: null,
-        userEmail: null
-    };
-    public statusConexao;
+    public user = getLoggedUser();
 
     public valueMes;
     public valueSemana;
@@ -35,30 +27,12 @@ export class HomePage {
         public network: Network,
         public alertCtrl: AlertController
     ) {
-        this.user.userId = localStorage.getItem('userId');
-        this.user.userName = localStorage.getItem('userName');
-        this.user.userEmail = localStorage.getItem('userEmail');
-
-        //this.events.publish('calendar', 'true');
-
     }
 
     ionViewWillEnter() {
-      this.statusToken();
-      this.searchEvents();
+        this.statusToken();
+        this.searchEvents();
     }
-
-    // ionViewDidEnter() {
-    //   this.network.onDisconnect().subscribe(() => {
-    //       console.log('network was disconnected :-(');
-    //       this.statusConexao = "desconectado";
-    //   });
-    //   this.network.onConnect().subscribe(() => {
-    //       console.log('network connected!');
-    //       this.statusConexao = "conectado";
-    //       showErrorAlert(this.alertCtrl, 'Falha na Internet, Verifique sua conexão!');
-    //   });
-    // }
 
     getFirstName(name) {
         if (!name) {
@@ -77,63 +51,75 @@ export class HomePage {
             {
                 text: 'Sim',
                 role: 'Sim',
-                handler: () => { logout(this.navCtrl) }
+                handler: () => {
+                    logout(this.navCtrl)
+                }
             }
         ];
 
-        let alert = this.alertCtrl.create({ title: 'Logout', buttons: buttons });
+        let alert = this.alertCtrl.create({title: 'Logout', buttons: buttons});
         alert.setMessage('Tem certeza que deseja sair do sistema?');
         alert.present();
     }
 
     statusToken() {
-      this.usuarioService
-      .list()
-      .then(response => {
-          if (response.hasError) {
+        this.usuarioService
+            .list()
+            .then(response => {
+                if (response.hasError) {
 
-              if (!validateToken(response.errorCode, this.navCtrl)) {
-                logout(this.navCtrl);
-                return;
-              }
+                    if (!validateToken(response.errorCode, this.navCtrl)) {
+                        logout(this.navCtrl);
+                        return;
+                    }
 
-          }
-      })
-      .catch(() => {
-          showErrorAlert(this.alertCtrl, 'Falha ao carregar App.');
-      })
+                }
+            })
+            .catch(() => {
+                showErrorAlert(this.alertCtrl, 'Falha ao carregar App.');
+            })
     }
 
     searchEvents() {
-      let loader = this.loadingCtrl.create({
-          content: 'Carregando...'
-      });
-
-      loader.present();
-
-      let dia = moment().format("YYYY-MM-DD");
-      let inicioMes = moment().format("YYYY-MM-01");
-      let fimMes = moment().endOf('month').format("YYYY-MM-DD");
-
-      let inicioSemana = moment().startOf('week').format("YYYY-MM-DD");
-      let fimSemana = moment().endOf('week').format("YYYY-MM-DD");
-
-      this.calendarioService.list(`startDate:${dia}|endDate:${dia}`).then(response => {
-        console.log(response);
-        this.valueDia = response.data.length;
-
-        this.calendarioService.list(`startDate:${inicioMes}|endDate:${fimMes}`).then(response => {
-          console.log(response);
-          this.valueMes = response.data.length;
-
-          this.calendarioService.list(`startDate:${inicioSemana}|endDate:${fimSemana}`).then(response => {
-            console.log(response);
-            this.valueSemana = response.data.length;
-            loader.dismiss();
-          });
+        let loader = this.loadingCtrl.create({
+            content: 'Carregando...'
         });
-      });
 
+        loader.present();
 
+        const startOfMonth = moment().startOf('month').format('YYYY-MM-DD');
+        const endOfMonth   = moment().endOf('month').format('YYYY-MM-DD');
+
+        const startOfWeek = moment().startOf('week');
+        const endOfWeek = moment().endOf('week');
+
+        const startDay = moment().startOf('day');
+        const endOfDay = moment().endOf('day');
+
+        const filter = `startDate:${ startOfMonth }|endDate:${ endOfMonth }|userId:${ this.user.userId }`;
+
+        this.calendarioService.list(filter).then(response => {
+            const eventsMonth = response.data;
+
+            const eventsWeek = eventsMonth.filter((event) => {
+                return moment(event.eventStartDate).isBetween(startOfWeek, endOfWeek)
+                    || moment(event.eventEndDate).isBetween(startOfWeek, endOfWeek);
+            });
+
+            const eventsDay = eventsMonth.filter((event) => {
+                return moment(event.eventStartDate).isBetween(startDay, endOfDay)
+                    || moment(event.eventEndDate).isBetween(startDay, endOfDay);
+            });
+
+            this.valueMes = eventsMonth.length;
+            this.valueSemana = eventsWeek.length;
+            this.valueDia = eventsDay.length;
+
+            loader.dismiss();
+        });
+    }
+
+    getEventMessage(eventCount) {
+        return eventCount > 1 ? 'atendimentos agendados' : 'atendimento agendado';
     }
 }

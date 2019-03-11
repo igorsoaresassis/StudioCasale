@@ -13,9 +13,10 @@
     <ion-row>
         <ion-col col-12>
             <h2>Bem vindo {{ getFirstName(user.userName) }}</h2>
-            <p class="mensagem">Você tem {{valueMes}} atendimentos a serem realizados neste mês.</p>
-            <p class="mensagem">Você tem {{valueSemana}} atendimentos a serem realizados nessa semana.</p>
-            <p class="mensagem">Você tem {{valueDia}} atendimentos a serem realizados hoje.</p>
+            <p class="info-text">Veja abaixo o resumo de sua agenda:</p>
+            <p class="mensagem"><span>Você possui <b>{{valueDia}}</b> {{ getEventMessage(valueDia) }} para hoje</span></p>
+            <p class="mensagem"><span>Você possui <b>{{valueSemana}}</b> {{ getEventMessage(valueSemana) }} para esta semana</span></p>
+            <p class="mensagem"><span>Você possui <b>{{valueMes}}</b> {{ getEventMessage(valueMes) }} para este mês</span></p>
         </ion-col>
     </ion-row>
 </ion-content>
