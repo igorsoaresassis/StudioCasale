@@ -1,10 +1,11 @@
 import {Component} from '@angular/core';
 import {Network} from '@ionic-native/network/ngx';
-import {NavController, LoadingController, Events, AlertController} from 'ionic-angular';
+import { NavController, LoadingController, Events, AlertController, App } from 'ionic-angular';
 import {UsuarioService} from './../../domain/usuario/usuario_service';
 import {CalendarioService} from '../../domain/calendario/calendario_service';
 import * as moment from "moment";
 import {validateToken, showErrorAlert, getLoggedUser, logout} from './../../app/util';
+import { CalendarioPage } from '../calendario/calendario';
 
 @Component({
     selector: 'page-home',
@@ -20,6 +21,7 @@ export class HomePage {
 
     constructor(
         public navCtrl: NavController,
+        private appCtrl: App,
         public events: Events,
         public loadingCtrl: LoadingController,
         public usuarioService: UsuarioService,
@@ -32,6 +34,8 @@ export class HomePage {
     ionViewWillEnter() {
         this.statusToken();
         this.searchEvents();
+        console.log('Aqui 1');
+
     }
 
     getFirstName(name) {
@@ -66,6 +70,7 @@ export class HomePage {
         this.usuarioService
             .list()
             .then(response => {
+              console.log('Aqui 22');
                 if (response.hasError) {
 
                     if (!validateToken(response.errorCode, this.navCtrl)) {
@@ -97,8 +102,10 @@ export class HomePage {
         const endOfDay = moment().endOf('day');
 
         const filter = `startDate:${ startOfMonth }|endDate:${ endOfMonth }|userId:${ this.user.userId }`;
+        loader.dismiss();
 
         this.calendarioService.list(filter).then(response => {
+          console.log('Aqui 3');
             const eventsMonth = response.data;
 
             const eventsWeek = eventsMonth.filter((event) => {
@@ -121,5 +128,10 @@ export class HomePage {
 
     getEventMessage(eventCount) {
         return eventCount > 1 ? 'atendimentos agendados' : 'atendimento agendado';
+    }
+
+    openCalendar(status) {
+        // this.appCtrl.getRootNav().getActiveChildNav().select(1);
+        // this.appCtrl.getRootNav().getActiveChildNav().getByIndex(1).setRoot(CalendarioPage, status);
     }
 }

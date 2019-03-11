@@ -1,50 +1,44 @@
 @import "../../theme/variables";
-
 page-calendario {
     .scroll-content {
         padding: 0 11px !important;
-
         .grid {
             padding: 0;
         }
     }
-
     .toolbar-title-md {
         text-transform: capitalize;
     }
-
+    .toolbar-title-ios {
+        text-transform: capitalize;
+    }
     .monthview-container {
         monthview {
-            > div {
+            >div {
                 display: flex;
                 flex-direction: column;
                 height: 100%;
-
                 ion-slides {
                     height: unset;
                 }
             }
         }
     }
-
     .monthview-datetable {
         border: none !important;
-
         th {
             text-transform: uppercase;
         }
-
-        th, td {
+        th,
+        td {
             border: none !important;
             color: map-get($colors, dark) !important;
             font-size: 15px !important;
         }
-
         td {
             &.monthview-current {
                 font-weight: bold;
             }
-
             &.monthview-selected {
                 background-color: rgba(map-get($colors, primary), 0.5) !important;
                 border: 1px solid map-get($colors, primary) !important;
@@ -52,33 +46,28 @@ page-calendario {
             }
         }
     }
-
-    .monthview-primary-with-event, .monthview-secondary-with-event {
+    .monthview-primary-with-event,
+    .monthview-secondary-with-event {
         background-color: rgba(map-get($colors, primary), 0.3) !important;
     }
-
     .event-detail-container {
         border-top: 1px solid map-get($colors, grey) !important;
         padding: 5px 0 65px;
         margin: 5px 0 0;
         overflow: scroll;
-
         ion-item {
             margin: 5px 0;
             .item-inner {
                 border-bottom: none !important;
-
                 .label-md {
                     margin: 0;
                 }
             }
         }
     }
-
     .no-events-label {
         text-align: center;
     }
-
     .event-container {
         display: flex;
         flex-direction: column;
@@ -88,21 +77,17 @@ page-calendario {
         margin: 0 10px;
         padding: 5px;
         border-radius: 5px;
-
         .event-title {
             font-weight: bold;
             margin-bottom: 3px;
         }
-
         .event-details {
             font-size: 12px;
             margin: 0 0 2px 5px;
         }
     }
-
     .weekview-header {
         border: none !important;
-
         th {
             line-height: 1.3 !important;
             padding: 5px 8px !important;
@@ -112,32 +97,25 @@ page-calendario {
             border-right: 1px solid rgba(map-get($colors, grey), 0.5) !important;
             background-color: rgba(map-get($colors, grey), 0.1);
         }
-
         .calendar-hour-column {
             border: none;
             background-color: transparent !important;
-
         }
     }
-
     .weekview-allday-table {
         display: none !important;
     }
-
     .weekview-normal-event-container {
         margin-top: 41px;
-
         .scroll-content {
             padding: 0 !important;
         }
     }
-
     .weekview-normal-event-table,
     .dayview-normal-event-table {
         border: none !important;
         margin-bottom: 70px;
     }
-
     .weekview-normal-event-container,
     .dayview-normal-event-container {
         .calendar-hour-column {
@@ -146,26 +124,21 @@ page-calendario {
             padding-right: 5px;
             font-size: 10px;
         }
-
         .calendar-cell {
             border-color: rgba(map-get($colors, grey), 0.5) !important;
             border-bottom: 1px solid rgba(map-get($colors, grey), 0.2) !important;
             border-top: none !important;
-
             .calendar-event-inner {
                 background-color: map-get($colors, primary);
                 border-radius: 5px;
             }
         }
     }
-
     .dayview-allday-table {
         display: none;
     }
-
     .dayview-normal-event-container {
         margin-top: 0;
-
         .scroll-content {
             padding: 0 !important;
         }

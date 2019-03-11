@@ -1,7 +1,10 @@
 <ion-header>
-	<ion-navbar>
-		<ion-title>{{ pageTitle }}</ion-title>
-	</ion-navbar>
+    <ion-navbar>
+        <ion-title>{{ pageTitle }}</ion-title>
+        <ion-buttons end *ngIf="pageTitle === 'Editar Evento'">
+            <button ion-button (click)="removeEventDialog()"><ion-icon name="trash"></ion-icon></button>
+        </ion-buttons>
+    </ion-navbar>
 </ion-header>
 
 <ion-content padding>
@@ -44,7 +47,7 @@
                         </div>
                     </ion-select>
                 </ion-item>
-				<button ion-button full (click)="saveEvent()">Salvar</button>
+                <button ion-button full (click)="saveEvent()">Salvar</button>
             </ion-col>
         </ion-row>
     </ion-grid>

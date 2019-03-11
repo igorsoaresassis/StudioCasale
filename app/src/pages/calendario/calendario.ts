@@ -4,7 +4,7 @@ import {
     NavController,
     LoadingController,
     Events,
-    AlertController, PopoverController, ViewController
+    AlertController, PopoverController, ViewController, NavParams
 } from 'ionic-angular';
 
 import * as moment from "moment";
@@ -50,8 +50,13 @@ export class CalendarioPage {
                 public calendarioService: CalendarioService,
                 public alertCtrl: AlertController,
                 public events: Events,
+                public navParams: NavParams,
                 public popoverCtrl: PopoverController) {
 
+        // let status = this.navParams.data;
+        // if(status){
+        //   this.events.subscribe('calendar:change-mode', (mode) => { this.changeCalendarMode(status) });
+        // }
         this.events.subscribe('calendar:change-mode', (mode) => { this.changeCalendarMode(mode) });
         this.events.subscribe('calendar:load-events', (silent) => { this.loadEvents(true, silent) });
     }
@@ -154,38 +159,54 @@ export class CalendarioPage {
         this.navCtrl.push(EditEventoPage, event);
     }
 
-    excluirEvent(id) {
-        let alert = this.alertCtrl.create({
-            title: 'Excluir Evento!',
-            message: 'Deseja excluir este evento?',
-            buttons: [
-                {
-                    text: 'Não',
-                    role: 'Não'
-                },
-                {
-                    text: 'Sim',
-                    role: 'Sim',
-                    handler: () => {
-                        this.calendarioService
-                            .remove(id)
-                            .then(user => {
-                                console.log(user);
-                                this.navCtrl.setRoot(this.navCtrl.getActive().component);
-                            })
-                            .catch(error => {
-                                let alert = this.alertCtrl.create({
-                                    title: 'Erro não esperado!',
-                                    subTitle: 'Entre em contato com o Igor',
-                                    buttons: ['Ok']
-                                });
-                                alert.present();
-                            })
-                    }
-                }
-            ]
-        });
+    removeEventDialog(id) {
+        const buttons = [
+            {
+                text: 'Não',
+                role: 'Não'
+            },
+            {
+                text: 'Sim',
+                role: 'Sim',
+                handler: () => { this.removeEvent(id) }
+            }
+        ];
+        let alert = this.alertCtrl.create({ title: 'Exclusão de Sala', buttons: buttons });
+        alert.setMessage('Tem certeza que deseja excluir a sala?');
         alert.present();
+    }
+
+    removeEvent(id) {
+      let loader = this.loadingCtrl.create({ content: 'Processando...' });
+        loader.present();
+
+        this.calendarioService
+            .remove(id)
+            .then((response) => {
+                if (response.hasError) {
+                    loader.dismiss();
+                    showErrorAlert(this.alertCtrl, response.msg);
+                    return;
+                }
+
+                const buttons = [
+                    {
+                        text: 'Ok',
+                        handler: () => { this.navCtrl.setRoot(this.navCtrl.getActive().component) }
+                    }
+                ];
+
+                let alert = this.alertCtrl.create({ title: 'Sucesso', buttons: buttons });
+                alert.setMessage(response.msg);
+
+                loader.dismiss();
+                alert.present();
+            })
+            .catch(() => {
+                loader.dismiss();
+                showErrorAlert(this.alertCtrl, 'Falha ao remover sala.');
+            })
+
     }
 
     presentPopover($event) {

@@ -180,4 +180,55 @@ export class EditEventoPage {
                 });
         }
     }
+
+    removeEventDialog() {
+        const buttons = [
+            {
+                text: 'Não',
+                role: 'Não'
+            },
+            {
+                text: 'Sim',
+                role: 'Sim',
+                handler: () => { this.removeEvent() }
+            }
+        ];
+        let alert = this.alertCtrl.create({ title: 'Exclusão de Sala', buttons: buttons });
+        alert.setMessage('Tem certeza que deseja excluir a sala?');
+        alert.present();
+    }
+
+    removeEvent() {
+      let loader = this.loadingCtrl.create({ content: 'Processando...' });
+        loader.present();
+
+        this.calendarioService
+            .remove(this.event.eventId)
+            .then((response) => {
+                if (response.hasError) {
+                    loader.dismiss();
+                    showErrorAlert(this.alertCtrl, response.msg);
+                    return;
+                }
+
+                const buttons = [
+                    {
+                        text: 'Ok',
+                        handler: () => { this.navCtrl.pop(this.navCtrl.getActive().component) }
+                    }
+                ];
+
+                let alert = this.alertCtrl.create({ title: 'Sucesso', buttons: buttons });
+                alert.setMessage(response.msg);
+
+                loader.dismiss();
+                this.events.publish('calendar:load-events', true);
+                alert.present();
+            })
+            .catch(() => {
+                loader.dismiss();
+                showErrorAlert(this.alertCtrl, 'Falha ao remover sala.');
+            })
+
+    }
 }
