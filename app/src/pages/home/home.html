@@ -12,7 +12,7 @@
 <ion-content padding>
     <ion-row>
         <ion-col col-12>
-            <h2>Bem vindo {{ getFirstName(user.userName) }}</h2>
+            <h2>Olá, {{ getFirstName(user.userName) }}</h2>
             <p class="info-text">Veja abaixo o resumo de sua agenda:</p>
             <p class="mensagem" (click)="openCalendar(status = 'day')"><span>Você possui <b>{{valueDia}}</b> {{ getEventMessage(valueDia) }} para hoje</span></p>
             <p class="mensagem" (click)="openCalendar(status = 'week')"><span>Você possui <b>{{valueSemana}}</b> {{ getEventMessage(valueSemana) }} para esta semana</span></p>

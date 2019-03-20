@@ -10,6 +10,9 @@
         </button>
     </ion-fab>
     <ion-list class="main-list">
+        <ion-item *ngIf="userList.length==0">
+            <div class="no-users-label">Nenhum atendente cadastrado</div>
+        </ion-item>
         <ion-card *ngFor="let user of userList" class="list-card">
             <div class="icon">
                 <span>{{ user.userName[0] }}</span>
