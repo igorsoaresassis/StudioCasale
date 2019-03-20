@@ -2,7 +2,7 @@
     <ion-navbar>
         <ion-title>{{ pageTitle }}</ion-title>
         <ion-buttons end *ngIf="pageTitle === 'Editar Evento'">
-            <button ion-button (click)="removeEventDialog()"><ion-icon name="trash"></ion-icon></button>
+            <button ion-button (click)="removeEventDialog()"><ion-icon name="trash"  class="event-remove"></ion-icon></button>
         </ion-buttons>
     </ion-navbar>
 </ion-header>

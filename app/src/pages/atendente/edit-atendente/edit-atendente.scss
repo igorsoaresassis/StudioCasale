@@ -1,10 +1,15 @@
 @import "../../../theme/variables";
-
 page-edit-atendente {
-    .password-info {
-        display: block;
-        color: map-get($colors, danger);
-        margin: -5px 0 5px;
-        font-size: 12px;
+    .password-info-container {
+        margin-top: -5px;
+        .item-inner {
+            border-bottom: none !important;
+        }
+        .password-info {
+            display: block;
+            color: map-get($colors, danger);
+            margin: 0 0 5px;
+            font-size: 12px;
+        }
     }
 }

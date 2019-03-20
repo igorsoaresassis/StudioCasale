@@ -64,7 +64,7 @@ export class CalendarioService {
         let api = `${ this._service.URL_API}controller=event&action=list`;
 
         if (filter) {
-            api += `&key=${ filter }`;
+            api += `&key=${ encodeURIComponent(filter) }`;
         }
 
         return this._http

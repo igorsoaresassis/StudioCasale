@@ -56,35 +56,51 @@ page-calendario {
         margin: 5px 0 0;
         overflow: scroll;
         ion-item {
+            border: none !important;
             margin: 5px 0;
+            position: relative;
             .item-inner {
                 border-bottom: none !important;
-                .label-md {
+                .label-md,
+                .label-ios {
                     margin: 0;
                 }
+            }
+            .event-container {
+                display: flex;
+                flex-direction: column;
+                background-color: rgba(map-get($colors, primary), 0.1);
+                border: 1px solid map-get($colors, primary);
+                border-left: 4px solid map-get($colors, primary);
+                margin: 0 10px;
+                padding: 5px;
+                border-radius: 5px;
+                position: relative;
+                .event-title {
+                    font-weight: bold;
+                    margin-bottom: 3px;
+                }
+                .event-details {
+                    font-size: 12px;
+                    margin: 0 0 2px 5px;
+                }
+            }
+            .event-remove {
+                position: absolute;
+                right: 30px;
+                font-size: 2.4rem;
+                color: rgba(map-get($colors, danger), 0.7);
+                top: 50%;
+                transform: translateY(-50%);
+                -webkit-transform: translateY(-50%);
+                -moz-transform: translateY(-50%);
+                -ms-transform: translateY(-50%);
+                -o-transform: translateY(-50%);
             }
         }
     }
     .no-events-label {
         text-align: center;
-    }
-    .event-container {
-        display: flex;
-        flex-direction: column;
-        background-color: rgba(map-get($colors, primary), 0.1);
-        border: 1px solid map-get($colors, primary);
-        border-left: 4px solid map-get($colors, primary);
-        margin: 0 10px;
-        padding: 5px;
-        border-radius: 5px;
-        .event-title {
-            font-weight: bold;
-            margin-bottom: 3px;
-        }
-        .event-details {
-            font-size: 12px;
-            margin: 0 0 2px 5px;
-        }
     }
     .weekview-header {
         border: none !important;

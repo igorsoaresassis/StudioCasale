@@ -28,7 +28,9 @@
                         <ion-label floating>Senha</ion-label>
                         <ion-input [(ngModel)]="user.userPassword" name="senha" type="password" tabindex="4"></ion-input>
                     </ion-item>
-                    <p *ngIf="user.userId" class="password-info">* Preencha apenas caso deseje alterar a senha</p>
+                    <ion-item class="password-info-container">
+                        <p *ngIf="user.userId" class="password-info">* Preencha apenas caso deseje alterar a senha</p>
+                    </ion-item>
                     <button ion-button full type="submit">Salvar</button>
                 </form>
             </ion-col>

@@ -34,8 +34,6 @@ export class HomePage {
     ionViewWillEnter() {
         this.statusToken();
         this.searchEvents();
-        console.log('Aqui 1');
-
     }
 
     getFirstName(name) {
@@ -70,7 +68,6 @@ export class HomePage {
         this.usuarioService
             .list()
             .then(response => {
-              console.log('Aqui 22');
                 if (response.hasError) {
 
                     if (!validateToken(response.errorCode, this.navCtrl)) {
@@ -102,10 +99,8 @@ export class HomePage {
         const endOfDay = moment().endOf('day');
 
         const filter = `startDate:${ startOfMonth }|endDate:${ endOfMonth }|userId:${ this.user.userId }`;
-        loader.dismiss();
 
         this.calendarioService.list(filter).then(response => {
-          console.log('Aqui 3');
             const eventsMonth = response.data;
 
             const eventsWeek = eventsMonth.filter((event) => {
@@ -123,6 +118,8 @@ export class HomePage {
             this.valueDia = eventsDay.length;
 
             loader.dismiss();
+        }).catch(() => {
+          loader.dismiss();
         });
     }
 

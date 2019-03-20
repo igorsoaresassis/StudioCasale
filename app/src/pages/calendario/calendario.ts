@@ -89,20 +89,21 @@ export class CalendarioPage {
         const filter = `startDate:${ startOfMonth.format('YYYY-MM-DD') }|endDate:${ endOfMonth.format('YYYY-MM-DD')  }`;
 
         this.calendarioService.list(filter).then(response => {
-            console.log(response);
-
             this.eventList = response.data.map((event) => {
-                return {
-                    eventId: event.eventId,
-                    title: event.eventDescription,
-                    startTime: new Date(event.eventStartDate),
-                    endTime: new Date(event.eventEndDate),
-                    allDay: false,
-                    roomId: event.roomId,
-                    roomName: event.roomName,
-                    userId: event.userId,
-                    userName: event.userName
-                }
+              const startDate = moment(event.eventStartDate, 'YYYY-MM-DD HH:mm:ss').toDate();
+              const endDate = moment(event.eventEndDate, 'YYYY-MM-DD HH:mm:ss').toDate();
+              return {
+
+                  eventId: event.eventId,
+                  title: event.eventDescription,
+                  startTime: startDate,
+                  endTime: endDate,
+                  allDay: false,
+                  roomId: event.roomId,
+                  roomName: event.roomName,
+                  userId: event.userId,
+                  userName: event.userName
+              }
             });
 
             this.eventSource = [...this.eventList];
@@ -171,8 +172,8 @@ export class CalendarioPage {
                 handler: () => { this.removeEvent(id) }
             }
         ];
-        let alert = this.alertCtrl.create({ title: 'Exclusão de Sala', buttons: buttons });
-        alert.setMessage('Tem certeza que deseja excluir a sala?');
+        let alert = this.alertCtrl.create({ title: 'Exclusão de Evento', buttons: buttons });
+        alert.setMessage('Tem certeza que deseja excluir o evento?');
         alert.present();
     }
 
@@ -204,7 +205,7 @@ export class CalendarioPage {
             })
             .catch(() => {
                 loader.dismiss();
-                showErrorAlert(this.alertCtrl, 'Falha ao remover sala.');
+                showErrorAlert(this.alertCtrl, 'Falha ao remover evento.');
             })
 
     }

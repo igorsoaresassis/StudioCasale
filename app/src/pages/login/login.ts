@@ -36,6 +36,8 @@ export class LoginPage {
                     localStorage.setItem('userAdmin', response.data.userAdmin);
                     loader.dismiss();
 
+                    this.events.publish('user', response.data.userAdmin);
+
                     this.navCtrl.setRoot(TabsPage);
                     return;
                 }

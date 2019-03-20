@@ -1,12 +1,13 @@
 <ng-template #monthviewEventDetailTemplate let-showEventDetail="showEventDetail" let-selectedDate="selectedDate" let-noEventsLabel="noEventsLabel">
     <ion-list class="event-detail-container" has-bouncing="false" *ngIf="showEventDetail" overflow-scroll="false">
-        <ion-item *ngFor="let event of selectedDate?.events" (click)="editEvent(event)">
-            <div class="event-container">
+        <ion-item class="event-item" *ngFor="let event of selectedDate?.events">
+            <div class="event-container" (click)="editEvent(event)">
                 <span class="event-title">{{event.title}}</span>
                 <span class="event-details"><b>Horário:</b> {{event.startTime|date: 'HH:mm'}} às {{event.endTime|date: 'HH:mm'}}</span>
                 <span class="event-details"><b>Sala:</b> {{event.roomName}}</span>
                 <span class="event-details"><b>Responsável:</b> {{ event.userName }}</span>
             </div>
+            <ion-icon *ngIf="event.userId === loggedUser.userId" (click)="removeEventDialog()" class="event-remove" name="trash"></ion-icon>
         </ion-item>
         <ion-item *ngIf="selectedDate?.events.length==0">
             <div class="no-events-label">Nenhum evento cadastrado</div>
@@ -37,20 +38,7 @@
             <ion-icon name="add"></ion-icon>
         </button>
     </ion-fab>
-    <calendar
-        formatDayHeader="EEEEEE"
-        formatWeekViewDayHeader="EEEEEE d"
-        formatWeekTitle="MMMM yyyy"
-        formatHourColumn="HH:mm"
-        formatDayTitle="dd MMMM - yyyy"
-        queryMode="remote"
-        [eventSource]="eventSource"
-        [calendarMode]="calendar.mode"
-        [currentDate]="calendar.currentDate"
-        [monthviewEventDetailTemplate]="monthviewEventDetailTemplate"
-        (onEventSelected)="editEvent($event)"
-        (onTitleChanged)="onViewTitleChanged($event)"
-        (onRangeChanged)="onRangeChanged($event)"
-        step="30">
+    <calendar formatDayHeader="EEEEEE" formatWeekViewDayHeader="EEEEEE d" formatWeekTitle="MMMM yyyy" formatHourColumn="HH:mm" formatDayTitle="dd MMMM - yyyy" queryMode="remote" [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate"
+        [monthviewEventDetailTemplate]="monthviewEventDetailTemplate" (onEventSelected)="editEvent($event)" (onTitleChanged)="onViewTitleChanged($event)" (onRangeChanged)="onRangeChanged($event)" step="30">
     </calendar>
 </ion-content>

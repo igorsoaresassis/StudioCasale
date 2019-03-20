@@ -193,8 +193,8 @@ export class EditEventoPage {
                 handler: () => { this.removeEvent() }
             }
         ];
-        let alert = this.alertCtrl.create({ title: 'Exclusão de Sala', buttons: buttons });
-        alert.setMessage('Tem certeza que deseja excluir a sala?');
+        let alert = this.alertCtrl.create({ title: 'Exclusão de Evento', buttons: buttons });
+        alert.setMessage('Tem certeza que deseja excluir o evento?');
         alert.present();
     }
 
@@ -227,7 +227,7 @@ export class EditEventoPage {
             })
             .catch(() => {
                 loader.dismiss();
-                showErrorAlert(this.alertCtrl, 'Falha ao remover sala.');
+                showErrorAlert(this.alertCtrl, 'Falha ao remover evento.');
             })
 
     }
