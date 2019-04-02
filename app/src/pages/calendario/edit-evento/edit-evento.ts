@@ -231,4 +231,9 @@ export class EditEventoPage {
             })
 
     }
+
+    onStartTimeChange() {
+        const startMoment = moment(this.event.startTime);
+        this.event.endTime = startMoment.add(1, 'h').format()
+    }
 }

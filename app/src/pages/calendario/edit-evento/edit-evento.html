@@ -17,11 +17,11 @@
                 </ion-item>
                 <ion-item>
                     <ion-label floating>Data de Início</ion-label>
-                    <ion-datetime floating [(ngModel)]="event.startTime" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY"></ion-datetime>
+                    <ion-datetime floating [(ngModel)]="event.startTime" (ionChange)="onStartTimeChange" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY"></ion-datetime>
                 </ion-item>
                 <ion-item>
                     <ion-label floating>Hora de Início</ion-label>
-                    <ion-datetime floating [(ngModel)]="event.startTime" displayFormat="HH:mm" pickerFormat="HH mm"></ion-datetime>
+                    <ion-datetime floating [(ngModel)]="event.startTime" (ionChange)="onStartTimeChange" displayFormat="HH:mm" pickerFormat="HH mm"></ion-datetime>
                 </ion-item>
                 <ion-item>
                     <ion-label floating>Data de Fim</ion-label>
