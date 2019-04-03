@@ -42,8 +42,7 @@ export class LoginPage {
 
                     this.events.publish('user', response.data.userAdmin);
 
-                    this.navCtrl.setRoot(this.navCtrl.getActive().component)
-                    // this.navCtrl.setRoot(MyApp);
+                    this.navCtrl.setRoot(MyApp);
                     return;
                 }
 

@@ -33,6 +33,7 @@ export class HomePage {
 
     ionViewWillEnter() {
         this.searchEvents();
+        this.content.resize();
     }
 
     getFirstName(name) {
