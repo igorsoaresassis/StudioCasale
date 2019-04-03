@@ -1,5 +1,5 @@
+import { MyApp } from './app.component';
 import {ERROR_CODES} from "./constants";
-import {LoginPage} from "../pages/login/login";
 
 export const showAlert = (alertCtrl, message, title = null, buttons = null) => {
     buttons = buttons || [{ text: "Ok" }];
@@ -17,7 +17,7 @@ export const showErrorAlert = (alertCtrl, message) => {
 export const logout = (navCtrl) => {
     document.querySelector(".tabbar").setAttribute("style", "z-index:-1");
     localStorage.clear();
-    navCtrl.setRoot(LoginPage);
+    navCtrl.setRoot(MyApp);
 };
 
 export const validateToken = (errorCode, navCtrl) => {

@@ -32,7 +32,6 @@ export class HomePage {
     }
 
     ionViewWillEnter() {
-        this.statusToken();
         this.searchEvents();
     }
 
@@ -62,24 +61,6 @@ export class HomePage {
         let alert = this.alertCtrl.create({title: 'Logout', buttons: buttons});
         alert.setMessage('Tem certeza que deseja sair do sistema?');
         alert.present();
-    }
-
-    statusToken() {
-        this.usuarioService
-            .list()
-            .then(response => {
-                if (response.hasError) {
-
-                    if (!validateToken(response.errorCode, this.navCtrl)) {
-                        logout(this.navCtrl);
-                        return;
-                    }
-
-                }
-            })
-            .catch(() => {
-                showErrorAlert(this.alertCtrl, 'Falha ao carregar App.');
-            })
     }
 
     searchEvents() {
@@ -128,7 +109,7 @@ export class HomePage {
     }
 
     openCalendar(status) {
-        // this.appCtrl.getRootNav().getActiveChildNav().select(1);
+        this.appCtrl.getRootNav().getActiveChildNav().select(1);
         // this.appCtrl.getRootNav().getActiveChildNav().getByIndex(1).setRoot(CalendarioPage, status);
     }
 }

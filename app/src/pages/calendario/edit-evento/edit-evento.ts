@@ -18,6 +18,9 @@ export class EditEventoPage {
     public userSelectOptions;
     public roomList = [];
     public userList = [];
+    public replay = false;
+    public qtd;
+    public cont = 0;
 
     public event = {
         eventId: null,
@@ -160,6 +163,7 @@ export class EditEventoPage {
                     showErrorAlert(this.alertCtrl, 'Falha ao atualizar evento.');
                 });
         } else {
+          if(!this.qtd) {
             this.calendarioService
                 .insert(description, startDate, endDate, roomId, userId)
                 .then(response => {
@@ -178,6 +182,63 @@ export class EditEventoPage {
                     loader.dismiss();
                     showErrorAlert(this.alertCtrl, 'Falha ao inserir evento.');
                 });
+          } else {
+            for (let i = 0; i <= this.qtd; i++) {
+
+              let dataInicio = new Date(startDate);
+              dataInicio.setDate(dataInicio.getDate() + (7 * i));
+
+              let dInicio = String(dataInicio.getDate());
+              let mInicio = String(dataInicio.getMonth() + 1);
+              let diaInicio = dInicio.padStart(2, '0');
+              let mesInicio = mInicio.padStart(2, '0');
+              let anoInicio = dataInicio.getFullYear();
+              let horaInicio = dataInicio.getHours();
+              let mmInicio = String(dataInicio.getMinutes());
+              let minutoInicio = mmInicio.padStart(2, '0');
+
+              let dataInicioCompleta = String(anoInicio + '-' + mesInicio + '-' + diaInicio + ' ' + horaInicio + ':' + minutoInicio);
+
+              const dataFinal = new Date(endDate);
+              dataFinal.setDate(dataFinal.getDate() + (7 * i));
+
+              let dFim = String(dataFinal.getDate());
+              let mFim = String(dataFinal.getMonth() + 1);
+              let diaFim = dFim.padStart(2, '0');
+              let mesFim = mFim.padStart(2, '0');
+              let anoFim = dataFinal.getFullYear();
+              let horaFim = dataFinal.getHours();
+              let mmFim = String(dataFinal.getMinutes());
+              let minutoFim = mmFim.padStart(2, '0');
+
+              let dataFimCompleta = String(anoFim + '-' + mesFim + '-' + diaFim + ' ' + horaFim + ':' + minutoFim);
+
+              this.calendarioService
+                  .insert(description, dataInicioCompleta, dataFimCompleta, roomId, userId)
+                  .then(response => {
+                      if (response.hasError) {
+                          loader.dismiss();
+                          showErrorAlert(this.alertCtrl, response.msg);
+                          return;
+                      }
+                      if(response.msg === "Evento inserido com sucesso") {
+                        this.event.eventId = response.data.eventId;
+                        this.cont++;
+                      }
+                      let valor = parseInt(this.qtd) + 1;
+
+                      if(this.cont === valor) {
+                        loader.dismiss();
+                        this.events.publish('calendar:load-events', true);
+                        showAlert(this.alertCtrl, response.msg)
+                      }
+                      this.events.publish('calendar:load-events', true);
+                  }).catch(() => {
+                      loader.dismiss();
+                      showErrorAlert(this.alertCtrl, 'Falha ao inserir evento.');
+                  });
+              }
+          }
         }
     }
 
@@ -196,6 +257,11 @@ export class EditEventoPage {
         let alert = this.alertCtrl.create({ title: 'Exclusão de Evento', buttons: buttons });
         alert.setMessage('Tem certeza que deseja excluir o evento?');
         alert.present();
+    }
+
+    onStartTimeChange() {
+        const startMoment = moment(this.event.startTime);
+        this.event.endTime = startMoment.add(1, 'h').format()
     }
 
     removeEvent() {
@@ -230,5 +296,12 @@ export class EditEventoPage {
                 showErrorAlert(this.alertCtrl, 'Falha ao remover evento.');
             })
 
+    }
+    repetir() {
+      if(this.replay === false){
+        this.replay = true;
+      } else {
+        this.replay = false;
+      }
     }
 }

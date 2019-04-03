@@ -38,8 +38,6 @@ export class LoginService {
 
                     user = JSON.parse(dado.data)
 
-                    this.events.publish('user', user.data.userAdmin);
-
                     localStorage.setItem('token', user.data.jwtToken);
                 }
                 return user;

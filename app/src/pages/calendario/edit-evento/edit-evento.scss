@@ -3,4 +3,13 @@ page-edit-evento {
         font-size: 2.4rem;
         color: rgba(map-get($colors, danger), 0.7);
     }
+    .repetirEvento ion-checkbox.checkbox {
+        margin: 10px !important;
+    }
+    .repetirEvento .item-inner {
+        border-bottom: none !important;
+    }
+    .repetirEvento ion-label {
+        margin: 0 !important;
+    }
 }

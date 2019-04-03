@@ -1,13 +1,16 @@
 import {LoginService} from './../../domain/login/login_service';
-import {Component} from '@angular/core';
-import {NavController, NavParams, AlertController, App, LoadingController, Events} from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {NavController, NavParams, AlertController, App, LoadingController, Events, Content} from 'ionic-angular';
 import {TabsPage} from '../tabs/tabs';
+import { MyApp } from '../../app/app.component';
 
 @Component({
     selector: 'page-login',
     templateUrl: 'login.html',
 })
 export class LoginPage {
+
+  @ViewChild(Content) content: Content;
 
     public email: string;
     public password: string;
@@ -20,6 +23,7 @@ export class LoginPage {
         public alertCtrl: AlertController,
         public loadingCtrl: LoadingController,
     ) {
+      localStorage.clear();
     }
 
     login() {
@@ -38,7 +42,8 @@ export class LoginPage {
 
                     this.events.publish('user', response.data.userAdmin);
 
-                    this.navCtrl.setRoot(TabsPage);
+                    this.navCtrl.setRoot(this.navCtrl.getActive().component)
+                    // this.navCtrl.setRoot(MyApp);
                     return;
                 }
 

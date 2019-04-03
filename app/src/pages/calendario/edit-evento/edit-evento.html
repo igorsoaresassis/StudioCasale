@@ -17,19 +17,19 @@
                 </ion-item>
                 <ion-item>
                     <ion-label floating>Data de Início</ion-label>
-                    <ion-datetime floating [(ngModel)]="event.startTime" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY"></ion-datetime>
+                    <ion-datetime floating [(ngModel)]="event.startTime"  cancelText="Cancelar" doneText="Confirmar" (ionChange)="onStartTimeChange()" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY"></ion-datetime>
                 </ion-item>
                 <ion-item>
                     <ion-label floating>Hora de Início</ion-label>
-                    <ion-datetime floating [(ngModel)]="event.startTime" displayFormat="HH:mm" pickerFormat="HH mm"></ion-datetime>
+                    <ion-datetime floating [(ngModel)]="event.startTime" minuteValues="00,15,30,45" cancelText="Cancelar" doneText="Confirmar" (ionChange)="onStartTimeChange()" displayFormat="HH:mm" pickerFormat="HH mm"></ion-datetime>
                 </ion-item>
                 <ion-item>
                     <ion-label floating>Data de Fim</ion-label>
-                    <ion-datetime floating [(ngModel)]="event.endTime" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY"></ion-datetime>
+                    <ion-datetime floating [(ngModel)]="event.endTime" cancelText="Cancelar" doneText="Confirmar" displayFormat="DD/MM/YYYY" pickerFormat="DD MMM YYYY"></ion-datetime>
                 </ion-item>
                 <ion-item>
                     <ion-label floating>Hora de Fim</ion-label>
-                    <ion-datetime floating [(ngModel)]="event.endTime" displayFormat="HH:mm" pickerFormat="HH mm"></ion-datetime>
+                    <ion-datetime floating [(ngModel)]="event.endTime" minuteValues="00,15,30,45" cancelText="Cancelar" doneText="Confirmar" displayFormat="HH:mm" pickerFormat="HH mm"></ion-datetime>
                 </ion-item>
                 <ion-item *ngIf="loggedUser.userAdmin">
                     <ion-label floating>Selecione o atendente</ion-label>
@@ -47,6 +47,16 @@
                         </div>
                     </ion-select>
                 </ion-item>
+                <div *ngIf="pageTitle !== 'Editar Evento'">
+                    <ion-item class="repetirEvento">
+                        <ion-label>Deseja replicar este Evento?</ion-label>
+                        <ion-checkbox checked="false" color="primary" (click)="repetir()"></ion-checkbox>
+                    </ion-item>
+                    <ion-item *ngIf="replay === true">
+                        <ion-label floating>Quantas vezes?</ion-label>
+                        <ion-input type="number" max="10" floating [(ngModel)]="qtd"></ion-input>
+                    </ion-item>
+                </div>
                 <button ion-button full (click)="saveEvent()">Salvar</button>
             </ion-col>
         </ion-row>
